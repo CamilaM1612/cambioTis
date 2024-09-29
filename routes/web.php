@@ -7,10 +7,8 @@ use App\Http\Controllers\Auth\LoginController;
 // Ruta para mostrar el formulario de registro
 Route::get('/register', [UsuarioController::class, 'create'])->name('register');
 Route::post('/register', [UsuarioController::class, 'store'])->name('usuarios.store');
-// Ruta para mostrar la lista de usuarios registrados
 Route::get('/listaRegistrados', [UsuarioController::class, 'lista'])->name('listaRegistrados');
 
-// Ruta para actualizar usuarios
 Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
 
 // Ruta para manejar la eliminación

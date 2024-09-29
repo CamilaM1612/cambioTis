@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    margin-left: 60px; /* Reducir margen izquierdo */
+    margin-top: 60px;  /* Reducir margen superior */
+    transition: margin-left 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+main {
+    padding: 15px; /* Reducir padding */
+}
+
+header {
+    width: 100%;
+    height: 60px; /* Reducir altura del header */
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    z-index: 200;
+}
+
+.icon__menu {
+    width: 40px; /* Reducir ancho del ícono */
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(8px); /* Ajustar posición del ícono */
+}
+
+.icon__menu i {
+    font-size: 18px; /* Reducir tamaño de fuente del ícono */
+    cursor: pointer;
+    position: absolute;
+}
+
+.menu__side {
+    width: 60px; /* Reducir ancho del menú */
+    height: 100%;
+    background: #1783db;
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: white;
+    font-size: 16px; /* Reducir tamaño de la fuente */
+    z-index: 300;
+    overflow: hidden;
+    overflow-y: scroll;
+    border-right: 15px solid #1783db; /* Reducir borde */
+    transition: all 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+/* Ocultar scroll para chrome, safari y opera */
+.menu__side::-webkit-scrollbar {
+    display: none;
+}
+
+/* Ocultar scroll para IE, Edge y Firefox */
+.menu__side {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.name__page {
+    padding: 15px 20px; /* Reducir padding */
+    display: flex;
+    align-items: center;
+    margin-top: 8px; /* Reducir margen superior */
+}
+
+.name__page i {
+    width: 16px; /* Reducir tamaño del ícono */
+    margin-right: 15px; /* Reducir margen derecho */
+}
+
+.options__menu {
+    padding: 15px 20px; /* Reducir padding */
+    position: absolute;
+    top: 60px; /* Ajustar posición */
+}
+
+.options__menu a {
+    color: #ffffffb2;
+    cursor: default;
+    display: block;
+    position: relative;
+    transition: color 300ms;
+}
+
+.options__menu a:hover {
+    color: white;
+}
+
+.options__menu .option {
+    padding: 15px 0px; /* Reducir padding */
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.options__menu .option i {
+    width: 16px; /* Reducir tamaño del ícono */
+    margin-right: 15px; /* Reducir margen derecho */
+    cursor: pointer;
+}
+
+.options__menu .option h4 {
+    font-weight: 200;
+    font-size: 14px; /* Reducir tamaño de fuente */
+    cursor: pointer;
+}
+
+a.selected {
+    color: #fff;
+}
+
+.selected:before {
+    content: '';
+    width: 2px; /* Reducir grosor de la línea */
+    height: 70%; /* Ajustar altura */
+    background: white;
+    position: absolute;
+    top: 15%;
+    left: -25px; /* Ajustar posición */
+}
+
+/* Clases para usar en JavaScript */
+
+.body_move {
+    margin-left: 200px; /* Ajustar margen */
+}
+
+.menu__side_move {
+    width: 200px; /* Ajustar ancho del menú extendido */
+}
+
+@media screen and (max-width: 760px) {
+    .body_move {
+        margin-left: 0px;
+    }
+
+    .menu__side_move {
+        width: 60px; /* Reducir ancho del menú en dispositivos móviles */
+        left: -60px; /* Ajustar posición */
+    }
+}

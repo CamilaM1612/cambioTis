@@ -1,17 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
+@extends('componentes.menu')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>Usuarios Registrados</title>
-</head>
-<header>
-    @include('componentes.menu')
-</header>
-<body>
+@section('content')
+    <a href="/register">Registra</a>
     <div class="container mt-4">
         <h2 class="text-center">Lista de Usuarios Registrados</h2>
         <div class="table-responsive">
@@ -77,14 +67,13 @@
                                             <div class="mb-3">
                                                 <label for="email{{ $usuario->id }}" class="form-label">Correo
                                                     Electrónico</label>
-                                                <input type="email" class="form-control"
-                                                    id="email{{ $usuario->id }}" name="email"
-                                                    value="{{ $usuario->email }}" required>
+                                                <input type="email" class="form-control" id="email{{ $usuario->id }}"
+                                                    name="email" value="{{ $usuario->email }}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="role_id{{ $usuario->id }}" class="form-label">Rol</label>
-                                                <select class="form-select" id="role_id{{ $usuario->id }}"
-                                                    name="role_id" required>
+                                                <select class="form-select" id="role_id{{ $usuario->id }}" name="role_id"
+                                                    required>
                                                     @foreach ($roles as $rol)
                                                         <option value="{{ $rol->id }}"
                                                             {{ $rol->id == $usuario->role_id ? 'selected' : '' }}>
@@ -93,10 +82,8 @@
                                                 </select>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="estado{{ $usuario->id }}"
-                                                    class="form-label">Estado</label>
-                                                <select class="form-select" id="estado{{ $usuario->id }}"
-                                                    name="estado">
+                                                <label for="estado{{ $usuario->id }}" class="form-label">Estado</label>
+                                                <select class="form-select" id="estado{{ $usuario->id }}" name="estado">
                                                     <option value="1" {{ $usuario->estado ? 'selected' : '' }}>
                                                         Activo</option>
                                                     <option value="0" {{ !$usuario->estado ? 'selected' : '' }}>
@@ -114,10 +101,4 @@
             </table>
         </div>
     </div>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-</body>
-
-</html>
+@endsection
