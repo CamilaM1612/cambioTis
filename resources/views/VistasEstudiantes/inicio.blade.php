@@ -7,7 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    {{-- @include('componentes.menu') --}}
-    <h1>Hola estudiante</h1>
+    hola student
 </body>
 </html>

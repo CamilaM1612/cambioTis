@@ -13,7 +13,7 @@ class UsuarioController extends Controller
     public function create()
     {
         $roles = Rol::all();
-        return view('registro', compact('roles')); // Asegúrate de tener una vista llamada 'register.blade.php'
+        return view('registro', compact('roles'));
     }
 
    

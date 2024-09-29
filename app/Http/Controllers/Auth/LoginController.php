@@ -2,26 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use App\Models\Usuario;
 
 class LoginController extends Controller
 {
     public function showLoginForm()
     {
-        return view('login'); 
-    }
-
-    public function adminAcceso()
-    {
-        return view('admin.inicioAdmin');
-    }
-
-    public function studentAcceso()
-    {
-        return view('student.inicioStudent'); 
+        return view('login'); // Asegúrate de tener una vista llamada 'login.blade.php'
     }
 
     public function login(Request $request)
@@ -31,20 +21,29 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
+        // Intentar autenticar el usuario
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            // Obtener el usuario autenticado
             $user = Auth::user();
-    
-            if ($user->rol->name === 'Administrador') {
-                return redirect()->route('ruta.admin');
-            } elseif ($user->rol->name === 'Estudiante') {
-                return redirect()->route('ruta.estudiante');
+
+            // Verificar el rol usando la relación rol y el campo name
+            if ($user->rol && $user->rol->name === 'Administrador') {
+                return redirect()->route('admin.dashboard');
+            } elseif ($user->rol && $user->rol->name === 'Estudiante') {
+                return redirect()->route('student.dashboard');
             }
+
+            // Redirigir a la página principal si no coincide el rol
+            return redirect('/')->with('error', 'Rol no permitido.');
         }
+
+        // Si falla la autenticación
+        return back()->withErrors(['email' => 'Credenciales incorrectas.']);
     }
-    
+
     public function logout(Request $request)
     {
-        Auth::logout(); 
-       return view('login'); 
+        Auth::logout();
+        return redirect('/');
     }
 }

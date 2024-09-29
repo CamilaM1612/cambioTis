@@ -6,15 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+@include('componentes.menu')
 <body>
-
-        {{-- @include('componentes.menu') --}}
-        
-        <div class="container mt-4">
-            <h2>Contenido de la Vista administradora</h2>
-
-        </div>
-
     
+    hola admin
 </body>
 </html>

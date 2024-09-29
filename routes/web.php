@@ -4,29 +4,31 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\Auth\LoginController;
 
-Route::get('/menu', function () {
-    return view('componentes.menu');
-});
+// Ruta para mostrar el formulario de registro
+Route::get('/register', [UsuarioController::class, 'create'])->name('register');
+Route::post('/register', [UsuarioController::class, 'store'])->name('usuarios.store');
+// Ruta para mostrar la lista de usuarios registrados
+Route::get('/listaRegistrados', [UsuarioController::class, 'lista'])->name('listaRegistrados');
 
-// Mostrar el formulario de login
+// Ruta para actualizar usuarios
+Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
+
+// Ruta para manejar la eliminación
+Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
+
+// Mostrar el formulario de login en la raíz
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login.form');
 Route::post('/', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Rutas para administradores
-Route::group(['middleware' => ['auth', 'role:Administrador']], function () {
-    Route::get('/admin/acceso', [LoginController::class, 'adminAcceso'])->name('ruta.admin');
-    Route::get('/listaRegistrados', [UsuarioController::class, 'lista'])->name('listaRegistrados');
-    Route::get('/register', [UsuarioController::class, 'create'])->name('register');
-    Route::post('/register', [UsuarioController::class, 'store']);
-    //CRUD USUARIO
-    Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
-    Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return view('VistasAdmin.inicio'); 
+    })->name('admin.dashboard');
 });
 
-
-// Rutas para estudiantes
-Route::group(['middleware' => ['auth', 'role:Estudiante']], function () {
-    Route::get('/student/acceso', [LoginController::class, 'studentAcceso'])->name('ruta.estudiante');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/student/dashboard', function () {
+        return view('VistasEstudiantes.inicio'); 
+    })->name('student.dashboard');
 });
