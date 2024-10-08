@@ -9,11 +9,13 @@ use App\Models\Usuario;
 
 class LoginController extends Controller
 {
+    // Muestra el formulario de inicio de sesión
     public function showLoginForm()
     {
         return view('login'); // Asegúrate de tener una vista llamada 'login.blade.php'
     }
 
+    // Maneja la lógica de inicio de sesión
     public function login(Request $request)
     {
         $request->validate([
@@ -31,6 +33,8 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             } elseif ($user->rol && $user->rol->name === 'Estudiante') {
                 return redirect()->route('student.dashboard');
+            } elseif ($user->rol && $user->rol->name === 'Docente') {
+                return redirect()->route('docente.dashboard');
             }
 
             // Redirigir a la página principal si no coincide el rol
@@ -41,9 +45,10 @@ class LoginController extends Controller
         return back()->withErrors(['email' => 'Credenciales incorrectas.']);
     }
 
+    // Maneja el cierre de sesión
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect('/');
+        return redirect('/'); // Redirige a la página principal después de cerrar sesión
     }
 }

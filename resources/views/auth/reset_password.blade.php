@@ -3,28 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
+    <title>Restablecer Contraseña</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/menu.css') }}"> <!-- Asegúrate de que la ruta sea correcta -->
     <style>
         body {
-            background-color: var(--background-color);
+            background-color: #E1F5E5; /* Verde pantano pastel */
         }
         .card {
             border: none;
-            box-shadow: var(--shadow);
-            margin-top: 20px; /* Añadir margen superior para separación */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         .card-title {
-            color: var(--text-color); /* Utilizar la variable para el color del título */
+            color: #2E7D32; /* Verde más oscuro */
         }
         .btn-primary {
-            background-color: var(--primary-color);
+            background-color: #4CAF50; /* Verde para el botón */
             border: none;
         }
         .btn-primary:hover {
-            background-color: #4BBEBD; /* Color más oscuro al pasar el ratón */
+            background-color: #388E3C; /* Color más oscuro al pasar el ratón */
         }
         .alert {
             background-color: #FFEBEE; /* Color de fondo de la alerta */
@@ -37,27 +35,28 @@
     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
         <div class="card" style="width: 400px;">
             <div class="card-body">
-                <h5 class="card-title text-center">Iniciar Sesión</h5>
-                @if($errors->any())
-                    <div class="alert alert-danger">
-                        {{ $errors->first() }}
+                <h5 class="card-title text-center">Restablecer Contraseña</h5>
+                @if(session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
                     </div>
                 @endif
-                <form method="POST" action="{{ route('login') }}">
+                <form method="POST" action="{{ route('password.update') }}">
                     @csrf
                     <div class="mb-3">
                         <label for="email" class="form-label">Correo Electrónico</label>
-                        <input id="email" class="form-control" type="email" name="email" required autofocus aria-describedby="emailHelp">
+                        <input id="email" class="form-control" type="email" name="email" required>
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Contraseña</label>
-                        <input id="password" class="form-control" type="password" name="password" required aria-describedby="passwordHelp">
+                        <label for="password" class="form-label">Nueva Contraseña</label>
+                        <input id="password" class="form-control" type="password" name="password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                    <div class="mb-3">
+                        <label for="password_confirmation" class="form-label">Confirmar Nueva Contraseña</label>
+                        <input id="password_confirmation" class="form-control" type="password" name="password_confirmation" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Restablecer Contraseña</button>
                 </form>
-                <div class="mt-3 text-center">
-                    <a href="{{ route('password.request') }}" class="link-secondary">¿Olvidaste tu contraseña?</a>
-                </div>
             </div>
         </div>
     </div>

@@ -1,3 +1,4 @@
+<!-- resources/views/VistasDocentes/inicio.blade.php -->
 @extends('componentes.menu')<!-- Adjust according to your layout file -->
 
 @section('content')
@@ -5,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard Estudiante</div>
+                <div class="card-header">Dashboard Docente</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,7 +15,7 @@
                         </div>
                     @endif
 
-                    Bienvenido al panel de estudiante!
+                    Bienvenido al panel de docente!
                 </div>
             </div>
         </div>

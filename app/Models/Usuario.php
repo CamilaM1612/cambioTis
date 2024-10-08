@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable; // Importar Authenticatable
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Passwords\CanResetPassword; // Asegúrate de importar CanResetPassword
 
 class Usuario extends Authenticatable // Extiende de Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, CanResetPassword; // Agrega CanResetPassword aquí
 
     protected $fillable = [
         'name',

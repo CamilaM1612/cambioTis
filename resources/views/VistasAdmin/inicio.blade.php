@@ -1,7 +1,7 @@
 @extends('componentes.menu')
 
 @section('content')
-<h1>Mi Portafolio</h1>
+<h1>Mi Portafolio Administrador</h1>
 <p>Aquí podrás ver todos mis trabajos.</p>
 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatibus quis consequuntur unde quasi voluptas facere ex nulla qui, laborum ea asperiores incidunt illo tempora dolor voluptates aut? Odit, obcaecati delectus? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi quaerat, molestiae accusantium ipsam dolores distinctio architecto dicta enim nesciunt natus necessitatibus, omnis reprehenderit explicabo nobis iure provident. At, minima aliquid!
 Quos ex autem neque blanditiis reprehenderit laborum nobis sit rerum nihil, qui suscipit libero! Reprehenderit enim expedita, fugiat nobis, recusandae tempore quasi aperiam temporibus, delectus eum voluptas debitis voluptatibus vero.
