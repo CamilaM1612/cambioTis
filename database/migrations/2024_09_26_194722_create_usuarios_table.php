@@ -15,14 +15,14 @@ class CreateUsuariosTable extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Campo de nombre
-            $table->string('email')->unique(); // Correo electrónico (único)
-            $table->string('password'); // Contraseña
-            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade'); // Clave foránea
-            $table->string('phone', 15)->nullable(); // Número de teléfono (opcional)
-            $table->date('birthdate')->nullable(); // Fecha de nacimiento
+            $table->string('name');
+            $table->string('email')->unique(); 
+            $table->string('password'); 
+            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade'); 
+            $table->string('phone', 15)->nullable(); 
+            $table->date('birthdate')->nullable(); 
             $table->boolean('estado')->default(true);
-            $table->timestamps(); // Timestamps de creación y actualización
+            $table->timestamps(); 
         });        
     }
 

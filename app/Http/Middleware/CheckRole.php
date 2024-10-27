@@ -10,18 +10,10 @@ class CheckRole
 {
     public function handle(Request $request, Closure $next, $role)
     {
-        // Verificar si el usuario está autenticado
-        if (!Auth::check()) {
-            return redirect()->route('login'); // Redirigir a la página de login si no está autenticado
+        if (Auth::check() && in_array(Auth::user()->role_id, $role)) {
+            return $next($request);
         }
 
-        // Verificar si el usuario tiene el rol requerido
-        $userRole = Auth::user()->role; // Asegúrate de que esto sea correcto
-
-        if (!$userRole || $userRole->name !== $role) {
-            return redirect('/')->with('error', 'No tienes acceso a esta página.');
-        }
-
-        return $next($request);
+        return redirect('/')->with('error', 'No tienes acceso a esta sección.');
     }
 }

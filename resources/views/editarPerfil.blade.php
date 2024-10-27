@@ -1,4 +1,4 @@
-@extends('componentes.menu')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -22,10 +22,7 @@
             <input type="text" name="phone" class="form-control" value="{{ old('phone', $usuario->phone) }}">
         </div>
         
-        <div class="form-group">
-            <label for="birthdate">Fecha de Nacimiento</label>
-            <input type="date" name="birthdate" class="form-control" value="{{ old('birthdate', $usuario->birthdate) }}">
-        </div>
+        
 
         <button type="submit" class="btn btn-success">Actualizar</button>
     </form>

@@ -166,7 +166,8 @@ footer {
         padding: 20px;
     }
     
-    .header-link, .cta-button {
+    .header-link,
+    .cta-button {
         padding: 10px 20px;
         font-size: 16px;
     }
@@ -186,3 +187,84 @@ footer {
         font-size: 14px;
     }
 }
+
+/* Estilo del botón hamburguesa */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 2000;
+}
+
+.hamburger span {
+    height: 3px;
+    width: 25px;
+    background-color: var(--text-color);
+    margin: 3px 0;
+    transition: all 0.3s ease;
+}
+
+/* Estilo para el menú de navegación */
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    padding: 10px 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+/* Mostrar el menú en pantallas pequeñas */
+@media (max-width: 768px) {
+    #nav-links {
+        position: absolute;
+        top: 60px; /* Ajusta según la altura de tu header */
+        left: 0;
+        width: 100%;
+        background-color: var(--background-color);
+        box-shadow: var(--shadow);
+        display: none; /* Ocultar por defecto */
+    }
+
+    #nav-links.d-block {
+        display: block; /* Mostrar cuando esté activo */
+    }
+}
+
+.sidebar {
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+.sidebar-heading {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.nav-link.active {
+    font-weight: bold;
+    color: #007bff; /* Color del enlace activo */
+}
+
+.nav-link:hover {
+    color: #0056b3; /* Color del enlace al pasar el ratón */
+}
+

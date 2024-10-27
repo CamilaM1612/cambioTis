@@ -108,11 +108,11 @@ return [
     */
 
     'markdown' => [
-        'theme' => 'default',
-
-        'paths' => [
-            resource_path('views/vendor/mail'),
-        ],
+    'theme' => 'default',
+    'paths' => [
+        resource_path('views/vendor/mail'),
+        resource_path('views/emails'), // Añade esta línea
     ],
+],
 
 ];

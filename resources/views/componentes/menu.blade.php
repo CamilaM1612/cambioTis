@@ -1,9 +1,5 @@
-Responsive Dashboard Layout
-Preview
-Code
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -202,7 +198,7 @@ Code
                     <h4>Inicio</h4>
                 </div>
             </a>
-            <a href="/listaRegistrados">
+            <a href="/lista">
                 <div class="option">
                     <i class="bi bi-file-earmark"></i>
                     <h4>Registrados</h4>

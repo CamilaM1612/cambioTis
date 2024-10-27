@@ -1,7 +1,6 @@
-@extends('componentes.menu')
+@extends('layouts.app')
 
 @section('content')
-    <a href="/register">Registra</a>
     <div class="container mt-4">
         <h2 class="text-center">Lista de Usuarios Registrados</h2>
         <div class="table-responsive">

@@ -40,5 +40,11 @@
     <footer>
         <p>&copy; 2024 ScoreGeist. Todos los derechos reservados.</p>
     </footer>
+    @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
 </body>
 </html>

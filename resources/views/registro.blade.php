@@ -1,15 +1,15 @@
-@extends('componentes.menu')
+@extends('layouts.app')
 
 @section('content')
 
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-    <div class="card" style="width: 800px;">
+    <div class="card shadow-lg w-100" style="max-width: 600px;">
         <div class="card-body">
-            <h5 class="card-title text-center">Registro</h5>
-            <form method="POST" action="{{ route('register') }}">
+            <h5 class="card-title text-center mb-4" style="font-size: 1.75rem;">Registro</h5>
+            <!-- Cambiamos el action para que apunte a la nueva ruta -->
+            <form method="POST" action="{{ route('usuarios.store') }}">
                 @csrf
                 <div class="row">
-                    <!-- Columna izquierda -->
                     <div class="col-md-6 mb-3">
                         <label for="name" class="form-label">Nombre</label>
                         <div class="input-group">
@@ -63,17 +63,13 @@
                         <small class="form-text text-muted">Debe contener entre 8 y 15 dígitos</small>
                     </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label for="birthdate" class="form-label">Fecha de Nacimiento</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-calendar"></i></span>
-                            <input id="birthdate" class="form-control" type="date" name="birthdate" required>
-                        </div>
-                    </div>
+                    
                 </div>
                 
-                <button type="submit" class="btn btn-primary w-100">
+                <!-- El botón que redirige a la página 'usuarios' -->
+                <button type="submit" class="btn btn-primary w-100 mt-4">
                     <i class="bi bi-person-plus"></i> Registrar
+
                 </button>
             </form>
         </div>

@@ -15,10 +15,18 @@ class CreateGruposTable extends Migration
 {
     Schema::create('grupos', function (Blueprint $table) {
         $table->id();
-        $table->string('nombre');
+        $table->string('nombre', 100);
         $table->text('descripcion')->nullable();
+        $table->unsignedBigInteger('docente_id'); 
         $table->timestamps();
+    
+        // Definir la clave foránea
+        $table->foreign('docente_id')
+              ->references('id')
+              ->on('usuarios')
+              ->onDelete('cascade');
     });
+    
 }
 
     /**

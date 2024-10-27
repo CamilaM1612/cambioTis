@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitar Restablecimiento de Contraseña - ScoreGeist</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/menu.css') }}"> <!-- Tu CSS aquí -->
+    <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
 </head>
 <body>
     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">

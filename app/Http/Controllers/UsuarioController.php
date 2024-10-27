@@ -18,13 +18,12 @@ class UsuarioController extends Controller
         return view('registro', compact('roles'));
     }
 
+    // Este método ya no se usará directamente en las rutas, se usará desde UserController
     public function lista()
-    {
-        $usuarios = Usuario::with('rol')->get(); 
-        $roles = Rol::all(); // Asegúrate de obtener todos los roles aquí
-        return view('lista', compact('usuarios', 'roles')); // Pasa tanto usuarios como roles
-    }
-
+{
+    $usuarios = Usuario::all();
+    return view('usuarios.lista', compact('usuarios'));
+}
     public function store(Request $request)
     {
         $request->validate([
@@ -56,24 +55,22 @@ class UsuarioController extends Controller
         }
 
         // Redirigir o devolver una respuesta
-        return redirect()->route('listaRegistrados')->with('success', 'Usuario registrado con éxito!');
+        return redirect()->route('usuarios.index')->with('success', 'Usuario registrado con éxito!');
     }
 
-    // Método para mostrar el perfil del usuario
+    // Métodos de perfil
     public function showProfile()
     {
-        $usuario = auth()->user(); // Obtener el usuario autenticado
-        return view('perfil', compact('usuario')); // Retornar la vista del perfil
+        $usuario = auth()->user(); 
+        return view('perfil', compact('usuario'));
     }
 
-    // Método para mostrar el formulario de edición del perfil
     public function editProfile()
     {
-        $usuario = auth()->user(); // Obtener el usuario autenticado
-        return view('editarPerfil', compact('usuario')); // Retornar la vista de edición
+        $usuario = auth()->user(); 
+        return view('editarPerfil', compact('usuario'));
     }
 
-    // Método para actualizar el perfil
     public function updateProfile(Request $request)
     {
         $request->validate([
@@ -83,14 +80,14 @@ class UsuarioController extends Controller
             'birthdate' => 'nullable|date',
         ]);
 
-        $usuario = auth()->user(); // Obtener el usuario autenticado
+        $usuario = auth()->user(); 
         $usuario->name = $request->name;
         $usuario->email = $request->email;
         $usuario->phone = $request->phone;
         $usuario->birthdate = $request->birthdate;
-        $usuario->save(); // Guardar los cambios
+        $usuario->save(); 
 
-        return redirect()->route('perfil.show')->with('success', 'Perfil actualizado con éxito!'); // Redirigir al perfil
+        return redirect()->route('perfil.show')->with('success', 'Perfil actualizado con éxito!');
     }
 
     public function update(Request $request, $id)
@@ -101,15 +98,15 @@ class UsuarioController extends Controller
             'role_id' => 'required|exists:roles,id',
             'estado' => 'required|boolean',
         ]);
-    
+
         $usuario = Usuario::findOrFail($id);
         $usuario->name = $request->name;
         $usuario->email = $request->email;
         $usuario->role_id = $request->role_id;
         $usuario->estado = $request->estado;
         $usuario->save();
-    
-        return redirect()->route('listaRegistrados')->with('success', 'Usuario actualizado con éxito!');
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado con éxito!');
     }
     
     public function destroy($id)
@@ -117,6 +114,8 @@ class UsuarioController extends Controller
         $usuario = Usuario::findOrFail($id);
         $usuario->delete();
 
-        return redirect()->route('listaRegistrados')->with('success', 'Usuario eliminado con éxito!');
+        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado con éxito!');
     }
+
+    
 }
