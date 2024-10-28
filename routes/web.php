@@ -11,7 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ContenidoController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\AvisoController;
-use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\RecursoController;
 
 
@@ -41,7 +41,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->midd
 // Rutas de dashboard por roles
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/estudiante/dashboard', [EstudianteController::class, 'dashboard'])->name('estudiante.dashboard');
+    Route::get('/estudiante/dashboard', [InscripcionController::class, 'dashboard'])->name('estudiante.dashboard');
     Route::get('/docente/dashboard', [DocenteController::class, 'dashboard'])->name('docente.dashboard');
 });
 
@@ -71,9 +71,9 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'checkrole:estudiante'])->group(function () {
     Route::get('/grupos/create', [GrupoController::class, 'create'])->name('grupos.create');
     Route::post('/grupos', [GrupoController::class, 'store'])->name('grupos.store');
-    Route::get('/student/projects', [EstudianteController::class, 'projects'])->name('student.projects');
-    Route::get('/student/projects/{id}', [EstudianteController::class, 'showProject'])->name('student.showProject');
-    Route::post('/student/projects/{id}/submit', [EstudianteController::class, 'submitProject'])->name('student.submitProject');
+    Route::get('/student/projects', [InscripcionController::class, 'projects'])->name('student.projects');
+    Route::get('/student/projects/{id}', [InscripcionController::class, 'showProject'])->name('student.showProject');
+    Route::post('/student/projects/{id}/submit', [InscripcionController::class, 'submitProject'])->name('student.submitProject');
 });
 
 // Rutas para docentes
@@ -86,10 +86,10 @@ Route::middleware(['auth', 'checkrole:docente'])->group(function () {
 
 // Rutas para estudiantes
 Route::middleware(['auth', 'checkrole:estudiante'])->group(function () {
-    Route::get('/estudiantes', [EstudianteController::class, 'index'])->name('estudiante.index');
-    Route::get('/estudiantes/{id}/edit', [EstudianteController::class, 'edit'])->name('estudiante.edit');
-    Route::put('/estudiantes/{id}', [EstudianteController::class, 'update'])->name('estudiante.update');
-    Route::delete('/estudiantes/{id}', [EstudianteController::class, 'destroy'])->name('estudiante.destroy');
+    Route::get('/estudiantes', [InscripcionController::class, 'index'])->name('estudiante.index');
+    Route::get('/estudiantes/{id}/edit', [InscripcionController::class, 'edit'])->name('estudiante.edit');
+    Route::put('/estudiantes/{id}', [InscripcionController::class, 'update'])->name('estudiante.update');
+    Route::delete('/estudiantes/{id}', [InscripcionController::class, 'destroy'])->name('estudiante.destroy');
 });
 
 // Rutas para administradores
@@ -127,4 +127,10 @@ Route::get('/grupos', [GrupoController::class, 'index'])->name('grupos.index');
 Route::middleware('auth')->group(function () {
     Route::post('/grupos', [GrupoController::class, 'store'])->name('grupos.store');
     Route::post('/grupo/agregar-estudiante', [GrupoController::class, 'agregarEstudiante'])->name('grupo.agregarEstudiante');
+});
+Route::post('/grupos/registrar', [InscripcionController::class, 'registrar'])->name('grupos.registrar');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/estudiante/dashboard', [InscripcionController::class, 'dashboard'])->name('estudiante.dashboard');
+    Route::post('/estudiante/registrar', [InscripcionController::class, 'registrar'])->name('estudiante.registrar');
 });

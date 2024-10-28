@@ -8,15 +8,15 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\GrupoUsuario;
 use App\Models\User;
 use App\Models\Usuario;
-
+use Illuminate\Support\Str;
 class GrupoController extends Controller
 {
 
     public function index()
     {
-        $grupos = Grupo::with('usuarios')->get(); 
+        $grupos = Grupo::with('usuarios')->get();
         $usuarios = Usuario::whereHas('rol', function ($query) {
-            $query->where('name', 'estudiante'); 
+            $query->where('name', 'estudiante');
         })->get();
 
         return view('VistasDocentes.crearGrupo', compact('grupos', 'usuarios'));
@@ -25,27 +25,27 @@ class GrupoController extends Controller
 
     public function store(Request $request)
     {
-        // Verificar si el usuario está autenticado
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Debes iniciar sesión para crear un grupo.');
         }
 
-        // Validar los datos del formulario
         $request->validate([
             'nombre' => 'required|string|max:100',
             'descripcion' => 'nullable|string',
         ]);
 
-        // Crear el grupo y almacenar el ID del docente que crea el grupo
+        $codigo = Str::random(6); 
+
         Grupo::create([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
-            'docente_id' => Auth::user()->id, // Obtener el ID del usuario autenticado
+            'codigo' => $codigo,
+            'docente_id' => Auth::user()->id, 
         ]);
 
-        // Redirigir a la página de grupos o donde sea necesario
         return redirect()->route('grupos.index')->with('success', 'Grupo creado exitosamente.');
     }
+
 
     public function agregarEstudiante(Request $request)
     {

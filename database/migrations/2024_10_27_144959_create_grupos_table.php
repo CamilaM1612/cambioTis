@@ -17,16 +17,16 @@ class CreateGruposTable extends Migration
         $table->id();
         $table->string('nombre', 100);
         $table->text('descripcion')->nullable();
-        $table->unsignedBigInteger('docente_id'); 
+        $table->string('codigo', 6)->unique(); // Se asegura que el código sea único
+        $table->unsignedBigInteger('docente_id');
         $table->timestamps();
-    
+
         // Definir la clave foránea
         $table->foreign('docente_id')
-              ->references('id')
-              ->on('usuarios')
-              ->onDelete('cascade');
+            ->references('id')
+            ->on('usuarios')
+            ->onDelete('cascade');
     });
-    
 }
 
     /**

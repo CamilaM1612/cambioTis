@@ -62,7 +62,6 @@ class Usuario extends Authenticatable
         return $this->hasMany(Grupo::class, 'docente_id');
     }
 
-    // Relación muchos a muchos con grupos (si el usuario es estudiante)
     public function gruposAsignados()
     {
         return $this->belongsToMany(Grupo::class, 'grupo_usuario', 'usuario_id', 'grupo_id');

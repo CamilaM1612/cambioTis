@@ -44,6 +44,7 @@
             <div id="informacion{{$grupo->id}}" class="accordion-collapse collapse" data-bs-parent="#infoGrupo">
                 <div class="accordion-body">
                     {{$grupo->descripcion}}
+                    <p><b>Codigo grupo:</b> {{$grupo->codigo}}</p> 
                     <form action="{{ route('grupo.agregarEstudiante') }}" method="POST" class="d-flex align-items-center mt-3">
                         @csrf
                         <input type="hidden" name="grupo_id" value="{{ $grupo->id }}">

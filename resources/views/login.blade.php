@@ -54,7 +54,7 @@
                         <input id="password" class="form-control" type="password" name="password" required aria-describedby="passwordHelp">
                     </div>
                     <div class="m-3 text-center">
-                    <a class="text-center" href="/recuperarPassword">¿Olvidaste tu contraseña?</a>
+                    
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
                 </form>
