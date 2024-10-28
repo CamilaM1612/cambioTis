@@ -12,6 +12,8 @@ use App\Http\Controllers\ContenidoController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\AvisoController;
 use App\Http\Controllers\InscripcionController;
+use App\Http\Controllers\MateriaController;
+use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\RecursoController;
 
 
@@ -41,16 +43,16 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->midd
 // Rutas de dashboard por roles
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/estudiante/dashboard', [InscripcionController::class, 'dashboard'])->name('estudiante.dashboard');
+
     Route::get('/docente/dashboard', [DocenteController::class, 'dashboard'])->name('docente.dashboard');
 });
 
 // Rutas específicas para docentes
-Route::middleware(['auth', 'checkrole:docente'])->group(function () {
-    Route::get('/docente/grupos', [GrupoController::class, 'index'])->name('grupos.index');
-    Route::get('/docente/grupos/crear', [GrupoController::class, 'create'])->name('grupos.create');
-    Route::post('/docente/grupos', [GrupoController::class, 'store'])->name('grupos.store');
-});
+// Route::middleware(['auth', 'checkrole:docente'])->group(function () {
+//     Route::get('/docente/grupos', [GrupoController::class, 'index'])->name('grupos.index');
+//     Route::get('/docente/grupos/crear', [GrupoController::class, 'create'])->name('grupos.create');
+//     Route::post('/docente/grupos', [GrupoController::class, 'store'])->name('grupos.store');
+// });
 
 // Rutas para el restablecimiento de contraseña
 Route::middleware('guest')->group(function () {
@@ -131,6 +133,9 @@ Route::middleware('auth')->group(function () {
 Route::post('/grupos/registrar', [InscripcionController::class, 'registrar'])->name('grupos.registrar');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/estudiante/dashboard', [InscripcionController::class, 'dashboard'])->name('estudiante.dashboard');
+    Route::get('/estudiante/dashboard', [MateriaController::class, 'dashboard'])->name('estudiante.dashboard');
+    Route::get('/estudiante/inscripcion', [InscripcionController::class, 'inscripcion'])->name('estudiante.inscripcion');
     Route::post('/estudiante/registrar', [InscripcionController::class, 'registrar'])->name('estudiante.registrar');
+    Route::get('/grupo/{id}', [MateriaController::class, 'mostrar'])->name('grupo.mostrar');
+    Route::post('/store/{grupo}', [EquipoController::class, 'store'])->name('equipos.store');
 });

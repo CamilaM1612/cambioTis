@@ -4,17 +4,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Estudiante;
 use App\Models\Grupo;
 use Illuminate\Support\Facades\Auth;
 
 class InscripcionController extends Controller
 {
-    public function dashboard()
+    public function inscripcion()
     {
         $grupos = Grupo::all();
         $usuario = Auth::user();
-        return view('VistasEstudiantes.dashboard', compact('grupos', 'usuario'));
+        return view('VistasEstudiantes.inscripcion', compact('grupos', 'usuario'));
     }
 
 

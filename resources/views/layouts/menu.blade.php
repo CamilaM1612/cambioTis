@@ -256,25 +256,24 @@
                     </div>
                 </a>
             @elseif(auth()->user()->rol->name === 'Estudiante')
-                <a href="{{ route('estudiante.dashboard') }}">
+
+            <a href="{{ route('estudiante.dashboard') }}">
+                <div class="option">
+                    <i class="bi bi-house"></i>
+                    <h4>Inicio</h4>
+                </div>
+            </a>
+                <a href="{{ route('estudiante.inscripcion') }}">
                     <div class="option">
                         <i class="bi bi-house"></i>
-                        <h4>Inicio</h4>
+                        <h4>Inscripcion a grupos</h4>
                     </div>
                 </a>
-
-                <a href="{{ route('contenido.index') }}" class="selected">
-                    <div class="option">
-                        <i class="bi bi-book"></i>
-                        <h4>Contenido de la materia</h4>
-                    </div>
-                </a>
-
 
                 <a href="{{ route('tareas.index') }}" class="selected">
                     <div class="option">
                         <i class="bi bi-book"></i>
-                        <h4>Proyectos entregados</h4>
+                        <h4>crear</h4>
                     </div>
                 </a>
             @endif

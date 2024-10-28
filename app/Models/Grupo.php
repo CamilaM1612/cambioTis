@@ -22,10 +22,9 @@ class Grupo extends Model
     {
         return $this->belongsToMany(Usuario::class, 'grupo_usuario');
     }
-
-    // Relación muchos a muchos con usuarios (los estudiantes asignados al grupo)
-    // public function estudiantes()
-    // {
-    //     return $this->belongsToMany(Usuario::class, 'grupo_usuario', 'grupo_id', 'usuario_id');
-    // }
+    public function equipos()
+    {
+        return $this->hasMany(Equipo::class);
+    }
+    
 }

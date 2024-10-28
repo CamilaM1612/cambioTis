@@ -15,7 +15,6 @@ class LoginController extends Controller
         return view('login'); // Asegúrate de tener una vista llamada 'login.blade.php'
     }
 
-    // Maneja la lógica de inicio de sesión
     public function login(Request $request)
     {
         $request->validate([
@@ -45,7 +44,6 @@ class LoginController extends Controller
         return back()->withErrors(['email' => 'Credenciales incorrectas.']);
     }
 
-    // Maneja el cierre de sesión
     public function logout(Request $request)
     {
         Auth::logout();
