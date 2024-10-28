@@ -53,6 +53,9 @@
                         <label for="password" class="form-label">Contraseña</label>
                         <input id="password" class="form-control" type="password" name="password" required aria-describedby="passwordHelp">
                     </div>
+                    <div class="m-3 text-center">
+                    <a class="text-center" href="/recuperarPassword">¿Olvidaste tu contraseña?</a>
+                    </div>
                     <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
                 </form>
                 <div class="mt-3 text-center">
@@ -66,4 +69,4 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
-</html>
+</html>  

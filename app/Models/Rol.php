@@ -20,3 +20,4 @@ class Rol extends Model
         return $this->hasMany(Usuario::class, 'role_id'); // Relación uno a muchos
     }
 }
+

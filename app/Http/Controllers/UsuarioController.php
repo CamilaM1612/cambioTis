@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 
 class UsuarioController extends Controller
 {
-    // Método para mostrar el formulario de registro
+
     public function create()
     {
         $roles = Rol::all();
@@ -114,7 +114,6 @@ class UsuarioController extends Controller
     {
         $usuario = Usuario::findOrFail($id);
         $usuario->delete();
-
         return redirect()->route('listaRegistrados')->with('success', 'Usuario eliminado con éxito!');
     }
 }

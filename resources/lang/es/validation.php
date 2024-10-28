@@ -147,6 +147,12 @@ return [
         ],
     ],
 
+    'custom' => [
+    'email' => [
+        'unique' => 'El correo electrónico ya ha sido registrado.',
+    ],
+],
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Attributes
