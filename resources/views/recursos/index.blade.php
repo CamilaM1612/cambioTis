@@ -1,5 +1,5 @@
 <!-- resources/views/recursos/index.blade.php -->
-@extends('layouts.appD')
+@extends('layouts.menu')
 
 @section('content')
     <h1>Subir Recursos</h1>

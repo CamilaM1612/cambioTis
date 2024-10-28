@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.menu')
 
 @section('content')
     <h1 class="text-center">Bienvenido al Dashboard de Administración</h1>

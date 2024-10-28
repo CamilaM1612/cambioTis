@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard</title>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
+
     <style>
         :root {
             --primary-color: #5CCFCF;
@@ -155,7 +156,7 @@
                 width: 100%;
                 left: -100%;
             }
-            
+
             .menu__side.menu__side_move {
                 left: 0;
             }
@@ -168,7 +169,7 @@
         <div class="icon__menu">
             <i class="bi bi-list" id="btn_open"></i>
         </div>
-        
+
         <div class="dropdown">
             <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-person-circle"></i>
@@ -190,59 +191,94 @@
             <i class="bi bi-flower1"></i>
             <h4>Score</h4>
         </div>
-        
+
         <div class="options__menu">
-            <a href="{{ route('docente.dashboard') }}">
-                <div class="option">
-                    <i class="bi bi-house"></i>
-                    <h4>Inicio</h4>
-                </div>
-            </a>
-            @if (auth()->user()->hasRole('admin'))
-            <a href="{{ route('admin.dashboard') }}">
-                <div class="option">
-                    <i class="bi bi-house"></i>
-                    <h4>Panel Admin</h4>
-                </div>
-            </a>
-            <!-- Agrega más opciones de admin aquí -->
-        @endif
-            <a href="{{ route('contenido.index') }}" class="selected"> 
-                <div class="option">
-                    <i class="bi bi-book"></i> 
-                    <h4>Contenido de la materia</h4>
-                </div>
-            </a>
 
-            <a href="{{ route('recursos.index') }}" class="selected"> 
-                <div class="option">
-                    <i class="bi bi-book"></i> 
-                    <h4>Subir Material</h4>
-                </div>
-            </a>
-            <a href="{{ route('tareas.index') }}" class="selected"> 
-                <div class="option">
-                    <i class="bi bi-book"></i> 
-                    <h4>Proyectos entregados</h4>
-                </div>
-            </a>
+            @if (auth()->user()->rol->name === 'Administrador')
+                <a href="{{ route('admin.dashboard') }}">
+                    <!-- Asegúrate de que 'dashboard' sea el nombre correcto de la ruta -->
+                    <div class="option">
+                        <i class="bi bi-house"></i> <!-- Icono de inicio -->
+                        <h4>Inicio</h4>
+                    </div>
+                </a>
 
-            <a href="{{ route('grupos.index') }}" class="selected"> 
-                <div class="option">
-                    <i class="bi bi-book"></i> 
-                    <h4>Grupos Formados</h4>
-                </div>
-            </a>
+                <a href="{{ route('listaRegistrados') }}" class="selected">
+                    <div class="option">
+                        <i class="bi bi-people"></i>
+                        <h4>Usuarios</h4>
+                    </div>
+                </a>
+                {{-- <a href="{{ route('register') }}">
+                    <div class="option">
+                        <i class="bi bi-person-plus"></i>
+                        <h4>Registrar</h4>
+                    </div>
+                </a> --}}
+            @elseif (auth()->user()->rol->name === 'Docente')
+                <a href="{{ route('docente.dashboard') }}">
+                    <div class="option">
+                        <i class="bi bi-house"></i>
+                        <h4>Inicio</h4>
+                    </div>
+                </a>
+                <a href="{{ route('contenido.index') }}" class="selected">
+                    <div class="option">
+                        <i class="bi bi-book"></i>
+                        <h4>Contenido de la materia</h4>
+                    </div>
+                </a>
 
-            <a href="{{ route('avisos.create') }}" class="selected"> 
-                <div class="option">
-                    <i class="bi bi-book"></i> 
-                    <h4>Publicar Avisos</h4>
-                </div>
-            </a>
+                <a href="{{ route('recursos.index') }}" class="selected">
+                    <div class="option">
+                        <i class="bi bi-book"></i>
+                        <h4>Subir Material</h4>
+                    </div>
+                </a>
+                <a href="{{ route('tareas.index') }}" class="selected">
+                    <div class="option">
+                        <i class="bi bi-book"></i>
+                        <h4>Proyectos entregados</h4>
+                    </div>
+                </a>
+
+                <a href="{{ route('grupos.index') }}" class="selected">
+                    <div class="option">
+                        <i class="bi bi-book"></i>
+                        <h4>Grupos Formados</h4>
+                    </div>
+                </a>
+
+                <a href="{{ route('avisos.create') }}" class="selected">
+                    <div class="option">
+                        <i class="bi bi-book"></i>
+                        <h4>Publicar Avisos</h4>
+                    </div>
+                </a>
+            @elseif(auth()->user()->rol->name === 'Estudiante')
+                <a href="{{ route('estudiante.dashboard') }}">
+                    <div class="option">
+                        <i class="bi bi-house"></i>
+                        <h4>Inicio</h4>
+                    </div>
+                </a>
+
+                <a href="{{ route('contenido.index') }}" class="selected">
+                    <div class="option">
+                        <i class="bi bi-book"></i>
+                        <h4>Contenido de la materia</h4>
+                    </div>
+                </a>
 
 
-                    
+                <a href="{{ route('tareas.index') }}" class="selected">
+                    <div class="option">
+                        <i class="bi bi-book"></i>
+                        <h4>Proyectos entregados</h4>
+                    </div>
+                </a>
+            @endif
+
         </div>
     </div>
 
@@ -292,4 +328,5 @@
         });
     </script>
 </body>
+
 </html>

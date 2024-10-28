@@ -14,17 +14,15 @@ use App\Http\Controllers\AvisoController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\RecursoController;
 
-// Ruta para mostrar el formulario de registro
-Route::get('/register', [UsuarioController::class, 'create'])->name('register');
-Route::post('/register', [UsuarioController::class, 'store'])->name('usuarios.store');
 
-// Rutas protegidas por middleware de autenticación y rol
-Route::middleware(['auth', 'checkrole:Administrador'])->group(function () {
-    Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
+    Route::get('/register', [UsuarioController::class, 'create'])->name('register');
+    Route::post('/register', [UsuarioController::class, 'store'])->name('usuarios.store');
+    // Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
     Route::get('/listaRegistrados', [UsuarioController::class, 'lista'])->name('listaRegistrados');
     Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
     Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
-});
+
+
 
 // Ruta principal
 Route::get('/principal', function () {

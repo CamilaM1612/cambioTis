@@ -15,15 +15,16 @@ class UsuarioController extends Controller
     public function create()
     {
         $roles = Rol::all();
-        return view('registro', compact('roles'));
+        return view('VistasAdmin.registro', compact('roles'));
     }
 
-    // Este método ya no se usará directamente en las rutas, se usará desde UserController
     public function lista()
-{
-    $usuarios = Usuario::all();
-    return view('usuarios.lista', compact('usuarios'));
-}
+    {
+        $usuarios = Usuario::all();
+        $roles = Rol::all();
+        return view('VistasAdmin.lista', compact('usuarios','roles'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -55,19 +56,19 @@ class UsuarioController extends Controller
         }
 
         // Redirigir o devolver una respuesta
-        return redirect()->route('usuarios.index')->with('success', 'Usuario registrado con éxito!');
+        return redirect()->route('listaRegistrados')->with('success', 'Usuario registrado con éxito!');
     }
 
     // Métodos de perfil
     public function showProfile()
     {
-        $usuario = auth()->user(); 
+        $usuario = auth()->user();
         return view('perfil', compact('usuario'));
     }
 
     public function editProfile()
     {
-        $usuario = auth()->user(); 
+        $usuario = auth()->user();
         return view('editarPerfil', compact('usuario'));
     }
 
@@ -80,12 +81,12 @@ class UsuarioController extends Controller
             'birthdate' => 'nullable|date',
         ]);
 
-        $usuario = auth()->user(); 
+        $usuario = auth()->user();
         $usuario->name = $request->name;
         $usuario->email = $request->email;
         $usuario->phone = $request->phone;
         $usuario->birthdate = $request->birthdate;
-        $usuario->save(); 
+        $usuario->save();
 
         return redirect()->route('perfil.show')->with('success', 'Perfil actualizado con éxito!');
     }
@@ -94,7 +95,7 @@ class UsuarioController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:usuarios,email,'.$id,
+            'email' => 'required|string|email|max:255|unique:usuarios,email,' . $id,
             'role_id' => 'required|exists:roles,id',
             'estado' => 'required|boolean',
         ]);
@@ -106,16 +107,14 @@ class UsuarioController extends Controller
         $usuario->estado = $request->estado;
         $usuario->save();
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado con éxito!');
+        return redirect()->route('listaRegistrados')->with('success', 'Usuario actualizado con éxito!');
     }
-    
+
     public function destroy($id)
     {
         $usuario = Usuario::findOrFail($id);
         $usuario->delete();
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado con éxito!');
+        return redirect()->route('listaRegistrados')->with('success', 'Usuario eliminado con éxito!');
     }
-
-    
 }

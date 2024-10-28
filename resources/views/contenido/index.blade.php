@@ -1,4 +1,4 @@
-@extends('layouts.appD')
+@extends('layouts.menu')
 
 @section('content')
     <h1>Contenido de la Materia</h1>

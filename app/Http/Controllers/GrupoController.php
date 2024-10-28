@@ -14,12 +14,12 @@ class GrupoController extends Controller
 
     public function index()
     {
-        $grupos = Grupo::with('usuarios')->get(); // Carga grupos junto con sus usuarios
+        $grupos = Grupo::with('usuarios')->get(); 
         $usuarios = Usuario::whereHas('rol', function ($query) {
-            $query->where('name', 'estudiante'); // Asegúrate de que el rol se llame 'estudiante'
+            $query->where('name', 'estudiante'); 
         })->get();
 
-        return view('grupos.index', compact('grupos', 'usuarios'));
+        return view('VistasDocentes.crearGrupo', compact('grupos', 'usuarios'));
     }
 
 

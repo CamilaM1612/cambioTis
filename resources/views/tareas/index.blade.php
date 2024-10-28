@@ -1,5 +1,5 @@
 <!-- resources/views/tareas/index.blade.php -->
-@extends('layouts.appD')
+@extends('layouts.menu')
 
 @section('content')
     <h1>Subir Tareas</h1>

@@ -199,31 +199,31 @@
                 </div>
             </a>
 
-            <a href="{{ route('contenido.index') }}" class="selected"> <!-- Cambiado a "Contenido de la materia" -->
+            <a href="{{ route('contenido.index') }}" class="selected"> 
                 <div class="option">
-                    <i class="bi bi-book"></i> <!-- Icono de contenido de materia -->
+                    <i class="bi bi-book"></i> 
                     <h4>Contenido de la materia</h4>
                 </div>
             </a>
 
             
-            <a href="{{ route('tareas.index') }}" class="selected"> <!-- Cambiado a "Contenido de la materia" -->
+            <a href="{{ route('tareas.index') }}" class="selected"> 
                 <div class="option">
-                    <i class="bi bi-book"></i> <!-- Icono de contenido de materia -->
+                    <i class="bi bi-book"></i> 
                     <h4>Proyectos entregados</h4>
                 </div>
             </a>
 
             <a href="{{ Auth::user()->grupo ? route('grupos.show', Auth::user()->grupo->id) : route('grupos.create') }}" class="selected">
     <div class="option">
-        <i class="bi bi-book"></i> <!-- Icono de contenido de materia -->
+        <i class="bi bi-book"></i> 
         <h4>Mi Grupo</h4>
     </div>
 </a>
 
-            <a href="{{ route('avisos.create') }}" class="selected"> <!-- Cambiado a "Contenido de la materia" -->
+            <a href="{{ route('avisos.create') }}" class="selected"> 
                 <div class="option">
-                    <i class="bi bi-book"></i> <!-- Icono de contenido de materia -->
+                    <i class="bi bi-book"></i> 
                     <h4>Publicar Avisos</h4>
                 </div>
             </a>

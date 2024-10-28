@@ -1,5 +1,5 @@
 <!-- resources/views/grupos/index.blade.php -->
-@extends('layouts.appD')
+@extends('layouts.menu')
 
 @section('content')
     <h1>Grupos de Estudiantes</h1>
@@ -71,5 +71,6 @@
         </div>
         
     </div>
+    
     @endforeach
 @endsection

@@ -38,7 +38,10 @@ class Usuario extends Authenticatable
     {
         return $this->belongsTo(Rol::class, 'role_id'); // Asegúrate de que 'role_id' se corresponda con tu base de datos
     }
-
+    public function hasRole($roleName)
+    {
+        return $this->role && $this->role->name === $roleName;
+    }
     protected $hidden = [
         'password',
         'remember_token',
