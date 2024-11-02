@@ -1,6 +1,12 @@
 @extends('layouts.menu')
 
 @section('content')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/estudiante/dashboard">Página principal</a></li>
+        <li class="breadcrumb-item"><a href="/estudiante/inscripcion">Inscripcion</a></li>
+    </ol>
+</nav>
     <div class="container">
 
         <h2>Grupos Disponibles</h2>

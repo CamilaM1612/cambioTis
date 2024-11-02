@@ -22,9 +22,17 @@ class Grupo extends Model
     {
         return $this->belongsToMany(Usuario::class, 'grupo_usuario');
     }
+
+    //relacion con equipos
     public function equipos()
     {
         return $this->hasMany(Equipo::class);
+    }
+    
+    //relacion con avisos
+    public function avisos()
+    {
+        return $this->hasMany(Aviso::class);
     }
     
 }

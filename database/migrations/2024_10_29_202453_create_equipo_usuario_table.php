@@ -15,9 +15,12 @@ class CreateEquipoUsuarioTable extends Migration
     {
         Schema::create('equipo_usuario', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('equipo_id')->constrained('equipos')->onDelete('cascade');
+            $table->foreignId('usuario_id')->constrained('usuarios')->onDelete('cascade');
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.

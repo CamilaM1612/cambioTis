@@ -20,19 +20,25 @@ class Equipo extends Model
         'creador_id'
     ];
 
-    // Relación con el modelo Grupo
     public function grupo()
     {
         return $this->belongsTo(Grupo::class);
     }
-// En el modelo Equipo
-public function creador()
-{
-    return $this->belongsTo(Usuario::class, 'creador_id');
-}
+
+    public function creador()
+    {
+        return $this->belongsTo(Usuario::class, 'creador_id');
+    }
 
     public function miembros()
     {
-        return $this->belongsToMany(Usuario::class, 'equipo_user', 'equipo_id', 'user_id');
+        return $this->belongsToMany(Usuario::class, 'equipo_usuario', 'equipo_id', 'usuario_id');
     }
+    
+    // Relacion con Sprint
+    public function sprints()
+    {
+        return $this->hasMany(Sprint::class); // Un equipo puede tener varios sprints
+    }
+
 }

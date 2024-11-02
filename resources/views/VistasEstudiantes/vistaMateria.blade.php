@@ -44,25 +44,14 @@
         </form>
     </div>
     @foreach ($grupo->equipos as $equipo)
+        
         <div class="col-md-12 mb-3">
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title">{{ $equipo->nombre_empresa }}</h3>
                     <p class="card-text m-0"><strong>Correo:</strong> {{ $equipo->correo_empresa }}</p>
-                    <p class="card-text"><strong>Link de Drive:</strong> <a href="{{ $equipo->link_drive }}"
-                            target="_blank">Acceder</a></p>
-
-                    <h3>Miembros</h3>
-                    <form action="">
-                        <select class="form-select" aria-label="Seleccionar estudiante">
-                            <option selected>Selecciona un estudiante</option>
-                            @foreach ($usuariosEstudiantes as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
-                        <button type="submit" class="btn btn-primary mt-2">Agregar miembro</button>
-                    </form>
-
+                    <p class="card-text"><strong>Link de Drive:</strong> <a href="{{ $equipo->link_drive }}" target="_blank">Acceder</a></p>
+        
                     <h4 class="mt-4">Lista de Miembros</h4>
                     <table class="table table-bordered">
                         <thead>
@@ -73,16 +62,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Mostrar solo al creador -->
-                            <tr>
-                                <td>1</td>
-                                <td>{{ $equipo->creador->name }}</td>
-                                <td>{{ $equipo->creador->email }}</td>
-                            </tr>
+                            
+                            @foreach ($equipo->miembros as $index => $miembro)
+                                <tr>
+                                    <td>{{ $index + 2 }}</td>
+                                    <td>{{ $miembro->name }}</td>
+                                    <td>{{ $miembro->email }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
+        
+                    <!-- Formulario para añadir nuevo miembro -->
+                    <form action="{{ route('equipos.agregarMiembro', ['equipo' => $equipo->id]) }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <select class="form-select" name="usuario_id" required>
+                                <option selected disabled>Selecciona un estudiante</option>
+                                @foreach ($usuariosEstudiantes as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Agregar miembro</button>
+                    </form>
                 </div>
             </div>
         </div>
+        
     @endforeach
 @endsection

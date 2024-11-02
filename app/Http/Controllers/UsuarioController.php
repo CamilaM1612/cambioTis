@@ -12,12 +12,6 @@ use Illuminate\Support\Facades\Mail;
 class UsuarioController extends Controller
 {
 
-    public function create()
-    {
-        $roles = Rol::all();
-        return view('VistasAdmin.registro', compact('roles'));
-    }
-
     public function lista()
     {
         $usuarios = Usuario::all();

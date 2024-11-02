@@ -66,9 +66,31 @@ class Usuario extends Authenticatable
     {
         return $this->belongsToMany(Grupo::class, 'grupo_usuario', 'usuario_id', 'grupo_id');
     }
-
-    public function equipo()
+    public function equipos()
     {
-        return $this->belongsTo(Equipo::class);
+        return $this->belongsToMany(Equipo::class, 'equipo_usuario', 'usuario_id', 'equipo_id');
+    }
+
+    // Relación con las tareas
+    public function tareas()
+    {
+        return $this->hasMany(Tarea::class);
+    }
+
+    //relacion con avisos
+    public function avisosCreados()
+    {
+        return $this->hasMany(Aviso::class, 'docente_id');
+    }
+
+    public function calcularProgresoPorSprint($sprintId)
+    {
+        $totalTareas = $this->tareas()->where('sprint_id', $sprintId)->count();
+        if ($totalTareas === 0) {
+            return 0; // Si no hay tareas en el sprint, el progreso es 0%
+        }
+
+        $tareasCompletadas = $this->tareas()->where('sprint_id', $sprintId)->where('estado', 'Completado')->count();
+        return ($tareasCompletadas / $totalTareas) * 100;
     }
 }

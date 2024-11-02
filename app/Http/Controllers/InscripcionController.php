@@ -15,7 +15,7 @@ class InscripcionController extends Controller
         $usuario = Auth::user();
         return view('VistasEstudiantes.inscripcion', compact('grupos', 'usuario'));
     }
-
+    
 
     public function registrar(Request $request)
     {
@@ -23,19 +23,14 @@ class InscripcionController extends Controller
             'codigo' => 'required|string',
         ]);
 
-        // Busca el grupo por código
         $grupo = Grupo::where('codigo', $request->codigo)->first();
 
         if (!$grupo) {
             return redirect()->back()->with('error', 'Código de grupo inválido.');
         }
-
-        // Verifica si el estudiante ya está registrado en el grupo
         if (Auth::user()->gruposAsignados()->where('grupo_id', $grupo->id)->exists()) {
             return redirect()->back()->with('error', 'Ya estás registrado en este grupo.');
         }
-
-        // Asocia al estudiante con el grupo
         Auth::user()->gruposAsignados()->attach($grupo->id);
 
         return redirect()->route('estudiante.dashboard')->with('success', 'Te has registrado exitosamente en el grupo.');

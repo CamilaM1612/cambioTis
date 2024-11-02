@@ -209,12 +209,6 @@
                         <h4>Usuarios</h4>
                     </div>
                 </a>
-                {{-- <a href="{{ route('register') }}">
-                    <div class="option">
-                        <i class="bi bi-person-plus"></i>
-                        <h4>Registrar</h4>
-                    </div>
-                </a> --}}
             @elseif (auth()->user()->rol->name === 'Docente')
                 <a href="{{ route('docente.dashboard') }}">
                     <div class="option">
@@ -235,23 +229,24 @@
                         <h4>Subir Material</h4>
                     </div>
                 </a>
-                <a href="{{ route('tareas.index') }}" class="selected">
+                <a href="{{ route('grupos.lista') }}" class="selected">
                     <div class="option">
                         <i class="bi bi-book"></i>
-                        <h4>Proyectos entregados</h4>
+                        <h4>Lista de equipos</h4>
                     </div>
                 </a>
+                
 
                 <a href="{{ route('grupos.index') }}" class="selected">
                     <div class="option">
-                        <i class="bi bi-book"></i>
-                        <h4>Grupos Formados</h4>
+                        <i class="bi bi-people"></i>
+                        <h4>Grupos</h4>
                     </div>
                 </a>
 
                 <a href="{{ route('avisos.create') }}" class="selected">
                     <div class="option">
-                        <i class="bi bi-book"></i>
+                        <i class="bi bi-bell"></i>
                         <h4>Publicar Avisos</h4>
                     </div>
                 </a>
@@ -266,14 +261,21 @@
                 <a href="{{ route('estudiante.inscripcion') }}">
                     <div class="option">
                         <i class="bi bi-house"></i>
-                        <h4>Inscripcion a grupos</h4>
+                        <h4>Inscripcion</h4>
                     </div>
                 </a>
 
-                <a href="{{ route('tareas.index') }}" class="selected">
+                <a href="">
+                    <div class="option">
+                        <i class="bi bi-house"></i>
+                        <h4>Mis materias</h4>
+                    </div>
+                </a>
+
+                <a href="{{ route('usuario.equipos') }}" class="selected">
                     <div class="option">
                         <i class="bi bi-book"></i>
-                        <h4>crear</h4>
+                        <h4>Mis Equipos</h4>
                     </div>
                 </a>
             @endif
