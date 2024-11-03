@@ -6,18 +6,19 @@
         <li class="breadcrumb-item"><a href="/docente/dashboard">Página principal</a></li>
         <li class="breadcrumb-item"><a href="/grupos">Grupos</a></li>
         <li class="breadcrumb-item"><a href="{{ route('grupo.avisos', $grupo->id) }}">{{ $grupo->nombre }}</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('grupo.avisos', $grupo->id) }}"> Novedades</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('grupo.equipos', $grupo->id) }}"> Equipos</a></li>
     </ol>
 </nav>
-<div class="container">
-    <h1>Novedades de {{ $grupo->nombre }}</h1>
+<h3>Equipos en {{ $grupo->nombre }}</h3>
     <ul class="list-group">
-        @forelse ($grupo->avisos as $aviso)
-            <li class="list-group-item">{{ $aviso->titulo }} - {{ $aviso->contenido }}</li>
-        @empty
-            <li class="list-group-item">No hay novedades.</li>
-        @endforelse
+        @foreach($grupo->equipos as $equipo)
+            <li class="list-group-item">
+        
+                <a href="{{ route('grupo.equipo.informacion', $equipo->id) }}">
+                    {{ $equipo->nombre_empresa }}
+                </a>
+            </li>
+        @endforeach
     </ul>
-</div>
 @include('layouts.barraBaja')
 @endsection

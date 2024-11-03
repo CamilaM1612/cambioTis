@@ -21,18 +21,6 @@ class Usuario extends Authenticatable
         'role_id', // Asegúrate de que 'role_id' se corresponda con tu base de datos
     ];
 
-    // Relación con Proyectos
-    public function projects()
-    {
-        return $this->hasMany(Project::class); // Suponiendo que cada usuario puede tener múltiples proyectos
-    }
-
-    // Relación con Resultados
-    public function results()
-    {
-        return $this->hasMany(Result::class); // Suponiendo que cada usuario puede tener múltiples resultados
-    }
-
     // Relación con Rol
     public function rol()
     {
@@ -51,10 +39,7 @@ class Usuario extends Authenticatable
     {
         $this->notify(new CustomResetPasswordNotification($token));
     }
-    public function recursos()
-    {
-        return $this->hasMany(Recurso::class, 'usuario_id');
-    }
+    
 
     // Relación uno a muchos con grupos (si el usuario es docente)
     public function grupos()
@@ -92,5 +77,10 @@ class Usuario extends Authenticatable
 
         $tareasCompletadas = $this->tareas()->where('sprint_id', $sprintId)->where('estado', 'Completado')->count();
         return ($tareasCompletadas / $totalTareas) * 100;
+    }
+
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class, 'docente_id');
     }
 }

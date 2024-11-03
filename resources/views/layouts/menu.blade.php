@@ -216,34 +216,20 @@
                         <h4>Inicio</h4>
                     </div>
                 </a>
-                <a href="{{ route('contenido.index') }}" class="selected">
-                    <div class="option">
-                        <i class="bi bi-book"></i>
-                        <h4>Contenido de la materia</h4>
-                    </div>
-                </a>
-
-                <a href="{{ route('recursos.index') }}" class="selected">
-                    <div class="option">
-                        <i class="bi bi-book"></i>
-                        <h4>Subir Material</h4>
-                    </div>
-                </a>
-                <a href="{{ route('grupos.lista') }}" class="selected">
-                    <div class="option">
-                        <i class="bi bi-book"></i>
-                        <h4>Lista de equipos</h4>
-                    </div>
-                </a>
                 
-
                 <a href="{{ route('grupos.index') }}" class="selected">
                     <div class="option">
                         <i class="bi bi-people"></i>
                         <h4>Grupos</h4>
                     </div>
                 </a>
-
+                <a href="" class="selected">
+                    <div class="option">
+                        <i class="bi bi-cloud-upload"></i>
+                        <h4>Contenido subido</h4>
+                    </div>
+                </a>
+                
                 <a href="{{ route('avisos.create') }}" class="selected">
                     <div class="option">
                         <i class="bi bi-bell"></i>

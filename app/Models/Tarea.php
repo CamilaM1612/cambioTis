@@ -33,5 +33,10 @@ class Tarea extends Model
     {
         return $this->belongsTo(Usuario::class);
     }
+
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class);
+    }
 }
 

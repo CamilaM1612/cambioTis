@@ -1,6 +1,12 @@
 @extends('layouts.menu')
 
 @section('content')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/docente/dashboard">Página principal</a></li>
+        <li class="breadcrumb-item"><a href="/grupos">Grupos</a></li>
+    </ol>
+</nav>
     <h1>Grupos</h1>
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarGrupo">
         <i class="bi bi-plus-circle"></i> Añadir grupo

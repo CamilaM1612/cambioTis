@@ -23,7 +23,20 @@ class ContenidoGrupoController extends Controller
         $grupo = Grupo::with('equipos')->findOrFail($id);
         return view('VistasDocentes.VistaGrupo.actividades', compact('grupo'));
     } 
+    // public function material($id)
+    // {
+    //     $grupo = Grupo::with('equipos')->findOrFail($id);
+    //     return view('VistasDocentes.VistaGrupo.actividades', compact('grupo'));
+    // }
+
     public function equipos($id)
+    {
+        $grupo = Grupo::with('equipos')->findOrFail($id);
+        $grupo = Grupo::with(['equipos.miembros', 'equipos.sprints'])->findOrFail($id);
+        return view('VistasDocentes.VistaGrupo.listaEquipos', compact('grupo'));
+    
+    }
+    public function equipoDetalle($id)
     {
         $grupo = Grupo::with('equipos')->findOrFail($id);
         $grupo = Grupo::with(['equipos.miembros', 'equipos.sprints'])->findOrFail($id);

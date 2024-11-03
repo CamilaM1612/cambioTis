@@ -110,17 +110,16 @@ class GrupoController extends Controller
         return redirect()->back()->with('success', 'Estudiante eliminado del grupo exitosamente.');
     }
 
-    
 
-    public function getGruposWithEquiposAndSprints()
-    {
-        $docenteId = Auth::id();
 
-        // Obtener grupos con equipos, sprints y miembros
-        $grupos = Grupo::where('docente_id', $docenteId)
-            ->with(['equipos.sprints', 'equipos.miembros']) // Incluir la relación de miembros
-            ->get();
+    // public function getGruposWithEquiposAndSprints()
+    // {
+    //     $docenteId = Auth::id();
 
-        return view('VistasDocentes.listaEquipos', compact('grupos'));
-    }
+    //     $grupos = Grupo::where('docente_id', $docenteId)
+    //         ->with(['equipos.sprints', 'equipos.miembros'])
+    //         ->get();
+
+    //     return view('VistasDocentes.listaEquipos', compact('grupos'));
+    // }
 }

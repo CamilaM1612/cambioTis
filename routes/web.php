@@ -5,18 +5,14 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\PasswordResetController;
-use App\Http\Controllers\AdminController;
-
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ContenidoController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\AvisoController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\EquipoController;
-use App\Http\Controllers\RecursoController;
 use App\Http\Controllers\SprintController;
 use App\Http\Controllers\ContenidoGrupoController;
+use App\Http\Controllers\ComentarioController;
 
 //-----------------------GENERAL---------------------------------------
 // Login y logout
@@ -27,14 +23,27 @@ Route::get('/', function () {
     return view('principal');
 })->name('principal');
 
+// Rutas para el restablecimiento de contraseña
+Route::middleware('guest')->group(function () {
+    Route::get('password/reset', [PasswordResetController::class, 'showResetRequestForm'])->name('password.request');
+    Route::post('password/email', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('password/reset/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
+    Route::post('password/reset', [PasswordResetController::class, 'reset'])->name('password.update');
+});
+
 Route::middleware(['auth'])->group(function () {
+
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
+
     //VISTA DE PERFIL
     Route::get('/perfil', [UsuarioController::class, 'showProfile'])->name('perfil.show');
     Route::get('/perfil/editar', [UsuarioController::class, 'editProfile'])->name('perfil.edit');
     Route::put('/perfil', [UsuarioController::class, 'updateProfile'])->name('perfil.update');
 
     //-----------------------VISTAS ADMINITRADORES---------------------------------------
+    Route::get('/administrador/inicio', function () {
+        return view('VistasAdmin.inicio');
+    })->name('admin.dashboard');
     //CRUD Usuario
     Route::post('/register', [UsuarioController::class, 'store'])->name('usuarios.store');
     Route::get('/listaRegistrados', [UsuarioController::class, 'lista'])->name('listaRegistrados');
@@ -71,7 +80,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/grupo/{id}/material', [ContenidoGrupoController::class, 'material'])->name('grupo.material');
     Route::get('/grupo/{id}/tareas', [ContenidoGrupoController::class, 'tareas'])->name('grupo.tareas');
     Route::get('/grupo/{id}/equipos', [ContenidoGrupoController::class, 'equipos'])->name('grupo.equipos');
-    
+    Route::get('/grupo/{id}/equipo/informacion', [ContenidoGrupoController::class, 'equipoDetalle'])->name('grupo.equipo.informacion');
+
+    //CRUD de comentarios
+    Route::post('/sprint/{sprintId}/comentarios', [ComentarioController::class, 'storeSprintComentario'])->name('comentarios.storeSprint');
+    Route::delete('/sprint/comentario/{comentarioId}', [ComentarioController::class, 'destroySprintComentario'])->name('comentario.sprint.destroy');
+    Route::post('/tarea/{tareaId}/comentarios', [ComentarioController::class, 'storeTareaComentario'])->name('comentarios.storeTarea');
+    Route::delete('/tarea/comentario/{comentarioId}', [ComentarioController::class, 'destroyTareaComentario'])->name('comentario.tarea.destroy');
+
+
     //-----------------------VISTAS ESTUDIANTES---------------------------------------
 
 
@@ -80,66 +97,11 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-
-
-
-// Rutas de dashboard por roles
-Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-});
-
-// Rutas específicas para docentes
-// Route::middleware(['auth', 'checkrole:docente'])->group(function () {
-//     Route::get('/docente/grupos', [GrupoController::class, 'index'])->name('grupos.index');
-//     Route::get('/docente/grupos/crear', [GrupoController::class, 'create'])->name('grupos.create');
-//     Route::post('/docente/grupos', [GrupoController::class, 'store'])->name('grupos.store');
-// });
-
-// Rutas para el restablecimiento de contraseña
-Route::middleware('guest')->group(function () {
-    Route::get('password/reset', [PasswordResetController::class, 'showResetRequestForm'])->name('password.request');
-    Route::post('password/email', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
-    Route::get('password/reset/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
-    Route::post('password/reset', [PasswordResetController::class, 'reset'])->name('password.update');
-});
-
-// Rutas para el perfil de usuario
-
-
-// Rutas para estudiantes
-// Route::middleware(['auth', 'checkrole:estudiante'])->group(function () {
-//     Route::get('/grupos/create', [GrupoController::class, 'create'])->name('grupos.create');
-//     Route::post('/grupos', [GrupoController::class, 'store'])->name('grupos.store');
-//     Route::get('/student/projects', [InscripcionController::class, 'projects'])->name('student.projects');
-//     Route::get('/student/projects/{id}', [InscripcionController::class, 'showProject'])->name('student.showProject');
-//     Route::post('/student/projects/{id}/submit', [InscripcionController::class, 'submitProject'])->name('student.submitProject');
-// });
-
-
-// Rutas para estudiantes
-Route::middleware(['auth', 'checkrole:estudiante'])->group(function () {
-    Route::get('/estudiantes', [InscripcionController::class, 'index'])->name('estudiante.index');
-    Route::get('/estudiantes/{id}/edit', [InscripcionController::class, 'edit'])->name('estudiante.edit');
-    Route::put('/estudiantes/{id}', [InscripcionController::class, 'update'])->name('estudiante.update');
-    Route::delete('/estudiantes/{id}', [InscripcionController::class, 'destroy'])->name('estudiante.destroy');
-});
-
-// Rutas para administradores
-Route::middleware(['auth', 'checkrole:administrador'])->group(function () {
-    Route::get('/administradores', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/administradores/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
-    Route::put('/administradores/{id}', [AdminController::class, 'update'])->name('admin.update');
-    Route::delete('/administradores/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
-});
-
-// Rutas de contenido
-Route::get('/contenido', [ContenidoController::class, 'index'])->name('contenido.index');
-
-// Rutas para recursos
-Route::middleware(['auth'])->group(function () {
-    Route::get('/recursos', [RecursoController::class, 'index'])->name('recursos.index');
-    Route::post('/recursos', [RecursoController::class, 'store'])->name('recursos.store');
-});
+//  Route::middleware(['auth', 'checkrole:docente'])->group(function () {
+//      Route::get('/docente/grupos', [GrupoController::class, 'index'])->name('grupos.index');
+//      Route::get('/docente/grupos/crear', [GrupoController::class, 'create'])->name('grupos.create');
+//      Route::post('/docente/grupos', [GrupoController::class, 'store'])->name('grupos.store');
+//  });
 
 
 
@@ -151,7 +113,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/estudiante/registrar', [InscripcionController::class, 'registrar'])->name('estudiante.registrar');
     Route::get('/grupo/{id}', [MateriaController::class, 'mostrar'])->name('grupo.mostrar');
     Route::get('/grupo/menu/{id}', [MateriaController::class, 'materia'])->name('grupo.menu');
-    
+
     Route::post('/store/{grupo}', [EquipoController::class, 'store'])->name('equipos.store');
     Route::post('/equipos/{equipo}/agregar-miembro', [EquipoController::class, 'agregarMiembro'])->name('equipos.agregarMiembro');
     Route::get('/mis-equipos', [EquipoController::class, 'misEquipos'])->name('usuario.equipos');
@@ -165,9 +127,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/tareas', [TareaController::class, 'store'])->name('tareas.store');
     Route::put('/tareas/{tarea}', [TareaController::class, 'update'])->name('tareas.update');
     Route::delete('/tareas/{tarea}', [TareaController::class, 'destroy'])->name('tareas.destroy');
-    
+
     //lista para docentes
 
 
 });
-Route::get('/grupos/lista', [GrupoController::class, 'getGruposWithEquiposAndSprints'])->name('grupos.lista');
+// Route::get('/grupos/lista', [GrupoController::class, 'getGruposWithEquiposAndSprints'])->name('grupos.lista');
