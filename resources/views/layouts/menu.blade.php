@@ -139,6 +139,38 @@
             font-size: 1rem;
             font-weight: 500;
         }
+/* Estilos para el contenedor del colapso */
+.custom-card-body {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    padding: 0;
+}
+
+/* Estilo del mensaje cuando no hay grupos */
+.empty-message {
+    color: rgba(255, 255, 255, 0.7); /* Color de texto */
+    font-size: 1rem;
+    padding: 12px;
+    text-align: center;
+}
+
+/* Estilo de los enlaces de grupo */
+.group-link {
+    display: block;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.7); /* Mismo color de texto que en .options__menu a */
+    text-decoration: none;
+    transition: all var(--transition-speed);
+    border-radius: 8px;
+}
+
+/* Efecto hover en los enlaces de grupo */
+.group-link:hover {
+    color: rgba(255, 255, 255, 1); /* Acentuar color de texto en hover */
+    background-color: rgba(255, 255, 255, 0.1); /* Ligero fondo en hover */
+}
 
         main {
             padding: calc(var(--header-height) + 20px) 20px 20px;
@@ -238,32 +270,55 @@
                 </a>
             @elseif(auth()->user()->rol->name === 'Estudiante')
 
-            <a href="{{ route('estudiante.dashboard') }}">
+            <a href="{{ route('estudiante.dashboard') }}" class="selected">
                 <div class="option">
                     <i class="bi bi-house"></i>
                     <h4>Inicio</h4>
                 </div>
             </a>
-                <a href="{{ route('estudiante.inscripcion') }}">
-                    <div class="option">
-                        <i class="bi bi-house"></i>
-                        <h4>Inscripcion</h4>
-                    </div>
-                </a>
-
-                <a href="">
-                    <div class="option">
-                        <i class="bi bi-house"></i>
-                        <h4>Mis materias</h4>
-                    </div>
-                </a>
-
-                <a href="{{ route('usuario.equipos') }}" class="selected">
-                    <div class="option">
-                        <i class="bi bi-book"></i>
-                        <h4>Mis Equipos</h4>
-                    </div>
-                </a>
+            
+            <a href="{{ route('estudiante.inscripcion') }}" class="selected">
+                <div class="option">
+                    <i class="bi bi-pencil-fill"></i> <!-- Cambiado a un icono de lápiz -->
+                    <h4>Inscripción</h4>
+                </div>
+            </a>
+            <a href="#" class="selected" data-bs-toggle="collapse" data-bs-target="#collapseMaterias" aria-expanded="false" aria-controls="collapseMaterias">
+                <div class="option">
+                    <i class="bi bi-book-fill"></i> <!-- Icono de libro -->
+                    <h4>Mis Materias</h4>
+                </div>
+            </a>
+            
+            <div class="collapse" id="collapseMaterias">
+                <div class="card-body custom-card-body">
+                    @if ($gruposInscritos->isEmpty())
+                        <p class="empty-message">No estás inscrito en ningún grupo.</p>
+                    @else
+                        @foreach ($gruposInscritos as $grupo)
+                            <a href="{{ route('grupo.mostrar', $grupo->id) }}" class="group-link">
+                                <i class="bi bi-bookmark-fill"></i> {{ $grupo->nombre }}
+                            </a>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
+            
+            
+            <a href="{{ route('usuario.equipos') }}" class="selected">
+                <div class="option">
+                    <i class="bi bi-people-fill"></i>
+                    <h4>Mis Equipos</h4>
+                </div>
+            </a>
+            
+            <a href="{{ route('tareas.misTareasPorSprint') }}" class="selected">
+                <div class="option">
+                    <i class="bi bi-list-task"></i>
+                    <h4>Mis Tareas</h4>
+                </div>
+            </a>
+            
             @endif
 
         </div>

@@ -119,11 +119,68 @@
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0">{{ $tarea->titulo }}</h5>
                                 <div>
-                                    <button class="btn btn-warning btn-sm me-2" data-bs-toggle="modal"
-                                        data-bs-target="#editModal{{ $tarea->id }}">
-                                        <i class="bi bi-pencil"></i>
+                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarTareaModal-{{ $tarea->id }}">
+                                        <i class="bi bi-pencil-square"></i>
                                     </button>
-
+                                    
+                                    <div class="modal fade" id="editarTareaModal-{{ $tarea->id }}" tabindex="-1" aria-labelledby="editarTareaLabel-{{ $tarea->id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editarTareaLabel-{{ $tarea->id }}">Editar Tarea</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form action="{{ route('tareas.update', $tarea->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                    
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label for="titulo" class="form-label">Título de la Tarea</label>
+                                                            <input type="text" class="form-control" name="titulo" value="{{ $tarea->titulo }}" required>
+                                                        </div>
+                                    
+                                                        <div class="mb-3">
+                                                            <label for="descripcion" class="form-label">Descripción</label>
+                                                            <textarea class="form-control" name="descripcion">{{ $tarea->descripcion }}</textarea>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="usuario_id" class="form-label">Miembro Encargado</label>
+                                                            <select class="form-select" name="usuario_id">
+                                                                <option value="">Seleccionar miembro</option>
+                                                                @foreach ($equipo->miembros as $miembro)
+                                                                    <option value="{{ $miembro->id }}" {{ $tarea->usuario_id == $miembro->id ? 'selected' : '' }}>
+                                                                        {{ $miembro->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="estado" class="form-label">Estado</label>
+                                                            <select class="form-select" name="estado" required>
+                                                                <option value="Pendiente" {{ $tarea->estado == 'Pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                                                <option value="En Proceso" {{ $tarea->estado == 'En Proceso' ? 'selected' : '' }}>En Proceso</option>
+                                                                <option value="Completado" {{ $tarea->estado == 'Completado' ? 'selected' : '' }}>Completado</option>
+                                                                <option value="Bloqueado" {{ $tarea->estado == 'Bloqueado' ? 'selected' : '' }}>Bloqueado</option>
+                                                                <option value="Revisar" {{ $tarea->estado == 'Revisar' ? 'selected' : '' }}>Revisar</option>
+                                                            </select>
+                                                        </div>
+                                    
+                                                        <div class="mb-3">
+                                                            <label for="prioridad" class="form-label">Prioridad</label>
+                                                            <select class="form-select" name="prioridad" required>
+                                                                <option value="Alta" {{ $tarea->prioridad == 'Alta' ? 'selected' : '' }}>Alta</option>
+                                                                <option value="Media" {{ $tarea->prioridad == 'Media' ? 'selected' : '' }}>Media</option>
+                                                                <option value="Baja" {{ $tarea->prioridad == 'Baja' ? 'selected' : '' }}>Baja</option>
+                                                            </select>
+                                                        </div>
+                                    
+                                                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <form action="{{ route('tareas.destroy', $tarea->id) }}" method="POST"
                                         class="d-inline">
                                         @csrf
@@ -163,82 +220,8 @@
                             </div>
                         </div>
 
-                        <div class="modal fade" id="editModal{{ $tarea->id }}" tabindex="-1"
-                            aria-labelledby="editModalLabel{{ $tarea->id }}" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="editModalLabel{{ $tarea->id }}">Editar Tarea
-                                        </h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <form action="{{ route('tareas.update', $tarea->id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-
-                                        <div class="modal-body">
-                                            <div class="mb-3">
-                                                <label for="titulo" class="form-label">Título de la Tarea</label>
-                                                <input type="text" class="form-control" name="titulo"
-                                                    value="{{ $tarea->titulo }}" required>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="descripcion" class="form-label">Descripción</label>
-                                                <textarea class="form-control" name="descripcion" required>{{ $tarea->descripcion }}</textarea>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="usuario_id" class="form-label">Miembro Encargado</label>
-                                                <select class="form-select" name="usuario_id">
-                                                    <option value="">Seleccionar miembro</option>
-                                                    @foreach ($equipo->miembros as $miembro)
-                                                        <option value="{{ $miembro->id }}"
-                                                            {{ $tarea->usuario_id == $miembro->id ? 'selected' : '' }}>
-                                                            {{ $miembro->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="estado" class="form-label">Estado</label>
-                                                <select class="form-select" name="estado" required>
-                                                    <option value="Pendiente"
-                                                        {{ $tarea->estado == 'Pendiente' ? 'selected' : '' }}>Pendiente
-                                                    </option>
-                                                    <option value="En Proceso"
-                                                        {{ $tarea->estado == 'En Proceso' ? 'selected' : '' }}>En Proceso
-                                                    </option>
-                                                    <option value="Completado"
-                                                        {{ $tarea->estado == 'Completado' ? 'selected' : '' }}>Completado
-                                                    </option>
-                                                    <option value="Bloqueado"
-                                                        {{ $tarea->estado == 'Bloqueado' ? 'selected' : '' }}>Bloqueado
-                                                    </option>
-                                                    <option value="Revisar"
-                                                        {{ $tarea->estado == 'Revisar' ? 'selected' : '' }}>Revisar
-                                                    </option>
-                                                </select>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="prioridad" class="form-label">Prioridad</label>
-                                                <select class="form-select" name="prioridad" required>
-                                                    <option value="Alta"
-                                                        {{ $tarea->prioridad == 'Alta' ? 'selected' : '' }}>Alta</option>
-                                                    <option value="Media"
-                                                        {{ $tarea->prioridad == 'Media' ? 'selected' : '' }}>Media</option>
-                                                    <option value="Baja"
-                                                        {{ $tarea->prioridad == 'Baja' ? 'selected' : '' }}>Baja</option>
-                                                </select>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                                        </div>
-
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                        
+                        
                     @endforeach
                 </div>
             </div>
@@ -380,4 +363,4 @@
         </div>
     </div>
 @endsection
-<!-- Modal de edición -->
+

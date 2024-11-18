@@ -34,5 +34,10 @@ class Grupo extends Model
     {
         return $this->hasMany(Aviso::class);
     }
+
+    public function evaluaciones()
+    {
+        return $this->hasMany(Evaluacion::class);
+    }
     
 }

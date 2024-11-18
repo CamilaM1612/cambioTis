@@ -9,19 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class MateriaController extends Controller
 {
-    public function dashboard()
-    {
-        $grupos = Grupo::all();
-        $usuario = Auth::user();
-        return view('VistasEstudiantes.dashboard', compact('grupos', 'usuario'));
-    }
 
-    // En MateriaController
-public function materia($id)
-{
-    $grupo = Grupo::findOrFail($id); // Asegúrate de que el modelo `Grupo` esté relacionado con tus materias
-    return view('VistasEstudiantes.materia', compact('grupo'));
-}
+
+    public function materia($id)
+    {
+        $grupo = Grupo::findOrFail($id);
+        return view('VistasEstudiantes.materia', compact('grupo'));
+    }
 
     public function mostrar($id)
     {
@@ -37,16 +31,17 @@ public function materia($id)
             $query->where('usuario_id', $usuario->id);
         })->exists();
         $usuarioTieneEquipo = $usuarioTieneEquipo || $usuarioEsMiembro;
-        $usuariosEstudiantes = Usuario::where('role_id', 2)->get();
+        $usuariosEstudiantes = Usuario::whereHas('rol', function ($query) {
+            $query->where('name', 'Estudiante'); 
+        })->get();
+
         $usuariosEnEquipo = $grupo->equipos()->with('miembros')->get()->flatMap(function ($equipo) {
-            return $equipo->miembros; 
+            return $equipo->miembros;
         });
 
         $usuariosEstudiantes = $usuariosEstudiantes->diff($usuariosEnEquipo);
-        // $usuariosEstudiantes = $usuariosEstudiantes->reject(function ($user) use ($grupo) {
-        //     return $grupo->equipos->contains('creador_id', $user->id);
-        // });
 
-        return view('VistasEstudiantes.vistaMateria', compact('grupo', 'usuario', 'usuarioTieneEquipo', 'usuariosEstudiantes'));
+
+        return view('VistasEstudiantes.misMaterias', compact('grupo', 'usuario', 'usuarioTieneEquipo', 'usuariosEstudiantes'));
     }
 }

@@ -28,7 +28,6 @@ class Tarea extends Model
         return $this->belongsTo(Sprint::class);
     }
 
-    // Relacion con el modelo Usuario
     public function usuario()
     {
         return $this->belongsTo(Usuario::class);

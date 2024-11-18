@@ -28,28 +28,31 @@ class TareaController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    // Validar los datos del formulario
-    $validatedData = $request->validate([
-        'titulo' => 'required|string|max:255',
-        'descripcion' => 'nullable|string',
-        'usuario_id' => 'nullable|exists:usuarios,id',
-        'estado' => 'required|in:Pendiente,En Proceso,Completado,Bloqueado,Revisar',
-        'prioridad' => 'required|in:Alta,Media,Baja',
-        'fecha_inicio' => 'nullable|date',
-        'fecha_entrega' => 'nullable|date',
-        'sprint_id' => 'required|exists:sprints,id', // Asegúrate de que se pase el ID del sprint
-    ]);
+    {
+        // Validar los datos del formulario
+        $validatedData = $request->validate([
+            'titulo' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'usuario_id' => 'nullable|exists:usuarios,id',
+            'estado' => 'required|in:Pendiente,En Proceso,Completado,Bloqueado,Revisar',
+            'prioridad' => 'required|in:Alta,Media,Baja',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_entrega' => 'nullable|date',
+            'sprint_id' => 'required|exists:sprints,id',
+        ]);
 
-    // Buscar la tarea y actualizarla
-    $tarea = Tarea::findOrFail($id);
-    $tarea->update($validatedData);
+        $tarea = Tarea::findOrFail($id);
+        $tarea->update($validatedData);
 
-    $usuario = Usuario::find($tarea->usuario_id);
-    $progreso = $usuario->calcularProgresoPorSprint($tarea->sprint_id);
+        if ($tarea->usuario_id) { // Asegúrate de que el usuario esté asignado
+            $usuario = Usuario::find($tarea->usuario_id);
+            $progreso = $usuario->calcularProgresoPorSprint($tarea->sprint_id);
+            return redirect()->back()->with('success', 'Tarea actualizada exitosamente. Progreso: ' . round($progreso) . '%');
+        }
 
-    return redirect()->back()->with('success', 'Tarea actualizada exitosamente. Progreso: ' . round($progreso) . '%');
-}
+        return redirect()->back()->with('success', 'Tarea actualizada exitosamente.');
+    }
+
 
     public function destroy($id)
     {

@@ -38,10 +38,11 @@
             <div>Material</div>
         </a>
         <!-- Tareas -->
-        <a href="" class="text-center text-decoration-none">
+        <a href="{{ route('grupo.evaluaciones', $grupo->id )}}" class="text-center text-decoration-none">
             <i class="bi bi-list-check" style="font-size: 1.1rem;"></i>
-            <div>Tareas</div>
+            <div>Autoevaluaciones</div>
         </a>
+        
     
         <a href="{{ route('grupo.equipos', $grupo->id) }}" class="text-center text-decoration-none">
             <i class="bi bi-person-lines-fill" style="font-size: 1.1rem;"></i>
