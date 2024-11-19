@@ -16,8 +16,7 @@ use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\EvaluacionController;
 use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\misTareasController;
-use App\Http\Controllers\MenuController;
-
+use App\Http\Controllers\AutoEvaluacionController;
 
 
 //-----------------------GENERAL---------------------------------------
@@ -128,13 +127,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mis-tareas/sprints', [misTareasController::class, 'misTareasPorSprint'])->name('tareas.misTareasPorSprint');
     Route::put('/mis-tareas/{id}', [misTareasController::class, 'edit'])->name('tareas.edit');
 
-    
+
     //Vista para crear equipo
     Route::get('/equipo/crear/{grupo}', [EquipoController::class, 'crear'])->name('equipo.crear');
     Route::post('/store/{grupo}', [EquipoController::class, 'store'])->name('equipos.store');
     Route::put('/equipo/{id}/editar', [EquipoController::class, 'update'])->name('equipo.update');
     Route::delete('/equipo/{id}', [EquipoController::class, 'destroy'])->name('equipo.eliminar');
     Route::post('/equipos/{equipo}/agregar-miembro', [EquipoController::class, 'agregarMiembro'])->name('equipos.agregarMiembro');
+
+
+
+
+    Route::get('/autoevaluaciones', [AutoEvaluacionController::class, 'index'])->name('autoevaluaciones.index');
+    
 });
 
 
@@ -147,7 +152,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/grupo/menu/{id}', [MateriaController::class, 'materia'])->name('grupo.menu');
 
 
-    
+
     Route::get('/mis-equipos', [EquipoController::class, 'misEquipos'])->name('usuario.equipos');
     Route::post('/sprints', [SprintController::class, 'store'])->name('sprints.store');
     Route::put('/sprints/{id}', [SprintController::class, 'update'])->name('sprints.update');

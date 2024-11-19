@@ -10,85 +10,17 @@
         </ol>
     </nav>
     <h1>{{ $sprint->nombre }}</h1>
+    @if ($sprintFinalizado || $sprint->tareas->where('usuario_id', Auth::id())->every(fn($tarea) => $tarea->estado === 'Completado'))
+    <a href="{{ route('autoevaluaciones.index', $sprint->id) }}" class="btn btn-success">
+        Realizar Autoevaluación
+    </a>
+@endif
+
+
     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
         data-bs-target="#crearTareaModal{{ $sprint->id }}">
         Crear Tarea
     </button>
-
-    <div class="modal fade" id="crearTareaModal{{ $sprint->id }}" tabindex="-1" aria-labelledby="crearTareaModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="crearTareaModalLabel">Nueva tarea para: {{ $sprint->nombre }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('tareas.store') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="sprint_id" value="{{ $sprint->id }}">
-
-
-                        <div class="mb-3">
-                            <label for="titulo" class="form-label">Título de la
-                                Tarea</label>
-                            <input type="text" class="form-control" name="titulo" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <textarea class="form-control" name="descripcion"></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="usuario_id" class="form-label">Asignar a</label>
-                            <select class="form-control" name="usuario_id">
-                                <option value="">Seleccionar miembro</option>
-
-                                @foreach ($equipo->miembros as $miembro)
-                                    <option value="{{ $miembro->id }}">{{ $miembro->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <select class="form-select" name="estado">
-                                <option value="Pendiente">Pendiente</option>
-                                <option value="En Proceso">En Proceso</option>
-                                <option value="Completado">Completado</option>
-                                <option value="Bloqueado">Bloqueado</option>
-                                <option value="Revisar">Revisar</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="prioridad" class="form-label">Prioridad</label>
-                            <select class="form-select" name="prioridad">
-                                <option value="Alta">Alta</option>
-                                <option value="Media">Media</option>
-                                <option value="Baja">Baja</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="fecha_inicio" class="form-label">Fecha de
-                                Inicio</label>
-                            <input type="date" class="form-control" name="fecha_inicio">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="fecha_entrega" class="form-label">Fecha de
-                                Entrega</label>
-                            <input type="date" class="form-control" name="fecha_entrega">
-                        </div>
-                        <button type="submit" class="btn btn-success">Crear tarea</button>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="container">
         <h1>Tareas del Sprint: {{ $sprint->nombre }}</h1>
@@ -100,11 +32,6 @@
                 </div>
                 <div class="card-body">
                     <h4>Progreso</h4>
-                    {{-- <div class="progress mb-2" role="progressbar" style="height: 20px; border-radius:0px" aria-valuenow="{{ $miembro->calcularProgreso() }}" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar progress-bar-striped bg-success" style="width: {{ $miembro->calcularProgreso() }}%">
-                        {{ round($miembro->calcularProgreso()) }}%
-                    </div>
-                </div> --}}
                     <div class="progress" role="progressbar" style="height: 20px; border-radius:0px"
                         aria-valuenow="{{ $miembro->calcularProgresoPorSprint($sprint->id) }}" aria-valuemin="0"
                         aria-valuemax="100">
@@ -359,6 +286,81 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="crearTareaModal{{ $sprint->id }}" tabindex="-1" aria-labelledby="crearTareaModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crearTareaModalLabel">Nueva tarea para: {{ $sprint->nombre }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('tareas.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="sprint_id" value="{{ $sprint->id }}">
+
+
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Título de la
+                                Tarea</label>
+                            <input type="text" class="form-control" name="titulo" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" name="descripcion"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="usuario_id" class="form-label">Asignar a</label>
+                            <select class="form-control" name="usuario_id">
+                                <option value="">Seleccionar miembro</option>
+
+                                @foreach ($equipo->miembros as $miembro)
+                                    <option value="{{ $miembro->id }}">{{ $miembro->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="estado" class="form-label">Estado</label>
+                            <select class="form-select" name="estado">
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="En Proceso">En Proceso</option>
+                                <option value="Completado">Completado</option>
+                                <option value="Bloqueado">Bloqueado</option>
+                                <option value="Revisar">Revisar</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="prioridad" class="form-label">Prioridad</label>
+                            <select class="form-select" name="prioridad">
+                                <option value="Alta">Alta</option>
+                                <option value="Media">Media</option>
+                                <option value="Baja">Baja</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fecha_inicio" class="form-label">Fecha de
+                                Inicio</label>
+                            <input type="date" class="form-control" name="fecha_inicio">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fecha_entrega" class="form-label">Fecha de
+                                Entrega</label>
+                            <input type="date" class="form-control" name="fecha_entrega">
+                        </div>
+                        <button type="submit" class="btn btn-success">Crear tarea</button>
+
+                    </form>
+                </div>
             </div>
         </div>
     </div>

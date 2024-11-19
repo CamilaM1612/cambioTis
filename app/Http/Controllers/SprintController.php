@@ -60,14 +60,20 @@ class SprintController extends Controller
         return redirect()->back()->with('success', 'Sprint eliminado con éxito.');
     }
 
-   
+
+
+
     public function show($id)
     {
         $sprint = Sprint::with(['equipo.miembros', 'tareas.usuario'])->findOrFail($id);
+
         $equipo = $sprint->equipo;
         $miembros = $equipo->miembros;
-        $tareasSinAsignar = $sprint->tareas->whereNull('usuario_id');
+        $tareasSinAsignar = $sprint->tareas->whereNull('usuario_id')->sortBy('created_at');
 
-        return view('VistasEstudiantes.sprint', compact('sprint', 'equipo', 'miembros', 'tareasSinAsignar'));
+        // Calcular si el sprint ya finalizó
+        $sprintFinalizado = now()->greaterThan($sprint->fecha_fin);
+
+        return view('VistasEstudiantes.sprint', compact('sprint', 'equipo', 'miembros', 'tareasSinAsignar', 'sprintFinalizado'));
     }
 }
