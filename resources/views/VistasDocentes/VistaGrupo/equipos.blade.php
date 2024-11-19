@@ -87,6 +87,21 @@
                                     <p class="mb-1"> <strong>Fecha de fin:</strong> {{ $sprint->fecha_fin }}</p>
                                 </div>
                                 <div class="col-md-6">
+                                    
+                                        <h4>Nota</h4>
+                                        <form action="{{ route('sprint.nota.update', $sprint->id) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <div class="input-group mb-3">
+                                                <input type="number" name="nota" class="form-control" 
+                                                       placeholder="Asigna una nota (0-100)" 
+                                                       value="{{ $sprint->nota }}" 
+                                                       min="0" max="100" step="0.01" required>
+                                                <button type="submit" class="btn btn-success">
+                                                    <i class="bi bi-save"></i> Guardar
+                                                </button>
+                                            </div>
+                                        </form>
                                     <h4>Comentarios</h4>
                                     @foreach ($sprint->comentarios as $comentario)
                                         <p>{{ $comentario->contenido }} - <small>Por

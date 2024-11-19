@@ -93,6 +93,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/sprint/comentario/{comentarioId}', [ComentarioController::class, 'destroySprintComentario'])->name('comentario.sprint.destroy');
     Route::post('/tarea/{tareaId}/comentarios', [ComentarioController::class, 'storeTareaComentario'])->name('comentarios.storeTarea');
     Route::delete('/tarea/comentario/{comentarioId}', [ComentarioController::class, 'destroyTareaComentario'])->name('comentario.tarea.destroy');
+    Route::patch('/sprint/{id}/nota', [SprintController::class, 'updateNota'])->name('sprint.nota.update');
 
 
     // CRUP autoevaluaciones

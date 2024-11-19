@@ -76,4 +76,18 @@ class SprintController extends Controller
 
         return view('VistasEstudiantes.sprint', compact('sprint', 'equipo', 'miembros', 'tareasSinAsignar', 'sprintFinalizado'));
     }
+
+    public function updateNota(Request $request, $id)
+{
+    $request->validate([
+        'nota' => 'required|numeric|min:0|max:100',
+    ]);
+
+    $sprint = Sprint::findOrFail($id);
+    $sprint->nota = $request->input('nota');
+    $sprint->save();
+
+    return redirect()->back()->with('success', 'Nota actualizada correctamente.');
+}
+
 }

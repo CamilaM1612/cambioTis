@@ -102,7 +102,29 @@
                                 <div class="col d-flex justify-content-end">
                                     <span class="mb-1"><strong>Fecha de Fin:</strong> {{ $sprint->fecha_fin }}</span>
                                 </div>
+                                @if (\Carbon\Carbon::now()->greaterThanOrEqualTo($sprint->fecha_fin))
+                                    <span class="badge bg-danger ms-2">Sprint terminado</span>
+                                @else
+                                    <span class="badge bg-success ms-2">En curso</span>
+                                @endif
                             </div>
+
+
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div>
+                                    @if ($sprint->nota !== null)
+                                        <p class="mb-0"><strong>Nota: </strong>{{ $sprint->nota }} / 100</p>
+                                    @else
+                                        <p class="mb-0"><strong>Nota: </strong>Por calificar</p>
+                                    @endif
+                                </div>
+                                <span class="badge {{ $sprint->nota !== null ? 'bg-success' : 'bg-warning text-dark' }}">
+                                    {{ $sprint->nota !== null ? 'Calificado' : 'Pendiente' }}
+                                </span>
+                            </div>
+                            
+
+
                             @foreach ($sprint->comentarios as $comentario)
                                 <div class="card mb-2">
                                     <div class="card-body">
@@ -181,7 +203,8 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="crearSprintModalLabel">Crear Sprint para
                                 {{ $equipo->nombre_empresa }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form action="{{ route('sprints.store') }}" method="POST">
