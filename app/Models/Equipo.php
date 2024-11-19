@@ -17,7 +17,8 @@ class Equipo extends Model
         'min_personas',
         'max_personas',
         'grupo_id',
-        'creador_id'
+        'creador_id',
+        'nota'
     ];
 
     public function grupo()
@@ -40,5 +41,10 @@ class Equipo extends Model
     {
         return $this->hasMany(Sprint::class); // Un equipo puede tener varios sprints
     }
-
+    public function recalcularNota()
+    {
+        $notaPromedio = $this->sprints()->whereNotNull('nota')->avg('nota');
+        $this->nota = $notaPromedio;
+        $this->save();
+    }
 }

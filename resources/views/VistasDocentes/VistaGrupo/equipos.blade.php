@@ -21,7 +21,7 @@
         @else
             @foreach ($grupo->equipos as $equipo)
                 <h2>{{ $equipo->nombre_empresa }}</h2>
-
+                <h4>Nota final: {{ $equipo->nota}}</h4>
                 <div class="row d-flex justify-content-around mb-3">
                     <div class="col-md-6 border p-3">
                         <h6>Miembros:</h6>

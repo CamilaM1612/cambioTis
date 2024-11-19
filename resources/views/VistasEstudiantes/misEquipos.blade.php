@@ -32,6 +32,7 @@
     @foreach ($equipos as $equipo)
         <div class="equipo-item border rounded p-4 mb-3">
             <h3>{{ $equipo->nombre_empresa }}</h3>
+            <h4>Nota final: {{ $equipo->nota}}</h4>
             <div class="row informacion-equipo">
                 <div class="datos-equipo">
                     <p><strong>Correo electrónico:</strong> {{ $equipo->correo_empresa }}</p>
@@ -96,12 +97,18 @@
                             <p class="mb-1 "><strong>Objetivo:</strong> {{ $sprint->objetivo }}</p>
                             <div class="row">
                                 <div class="col d-flex justify-content-start">
-                                    <span class="mb-1"><strong>Fecha de Inicio:</strong>
-                                        {{ $sprint->fecha_inicio }}</span>
+                                    <span class="mb-1">
+                                        <strong>Fecha de Inicio:</strong>
+                                        {{ \Carbon\Carbon::parse($sprint->fecha_inicio)->translatedFormat('l, d \d\e F \d\e Y') }}
+                                    </span>
                                 </div>
                                 <div class="col d-flex justify-content-end">
-                                    <span class="mb-1"><strong>Fecha de Fin:</strong> {{ $sprint->fecha_fin }}</span>
+                                    <span class="mb-1">
+                                        <strong>Fecha de Fin:</strong>
+                                        {{ \Carbon\Carbon::parse($sprint->fecha_fin)->translatedFormat('l, d \d\e F \d\e Y') }}
+                                    </span>
                                 </div>
+                                
                                 @if (\Carbon\Carbon::now()->greaterThanOrEqualTo($sprint->fecha_fin))
                                     <span class="badge bg-danger ms-2">Sprint terminado</span>
                                 @else

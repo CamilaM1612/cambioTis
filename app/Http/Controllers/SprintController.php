@@ -9,9 +9,7 @@ class SprintController extends Controller
 {
     public function store(Request $request)
     {
-        // Validar los datos del formulario
         $request->validate([
-
             'nombre' => 'required|string|max:255',
             'objetivo' => 'nullable|string',
             'fecha_inicio' => 'required|date',
@@ -20,8 +18,7 @@ class SprintController extends Controller
         ]);
 
         // Crear un nuevo sprint
-        Sprint::create([
-
+        $sprint = Sprint::create([
             'nombre' => $request->nombre,
             'objetivo' => $request->objetivo,
             'fecha_inicio' => $request->fecha_inicio,
@@ -29,7 +26,8 @@ class SprintController extends Controller
             'equipo_id' => $request->equipo_id,
         ]);
 
-        // Redirigir o devolver una respuesta
+        $sprint->equipo->recalcularNota();
+
         return redirect()->back()->with('success', 'Sprint creado con éxito.');
     }
 
@@ -50,16 +48,22 @@ class SprintController extends Controller
             'fecha_fin' => $request->fecha_fin,
         ]);
 
+        $sprint->equipo->recalcularNota();
+
         return redirect()->back()->with('success', 'Sprint actualizado correctamente.');
     }
+
     public function destroy($id)
     {
         $sprint = Sprint::findOrFail($id);
+        $equipo = $sprint->equipo;
+
         $sprint->delete();
+
+        $equipo->recalcularNota();
 
         return redirect()->back()->with('success', 'Sprint eliminado con éxito.');
     }
-
 
 
 
@@ -71,23 +75,23 @@ class SprintController extends Controller
         $miembros = $equipo->miembros;
         $tareasSinAsignar = $sprint->tareas->whereNull('usuario_id')->sortBy('created_at');
 
-        // Calcular si el sprint ya finalizó
         $sprintFinalizado = now()->greaterThan($sprint->fecha_fin);
 
         return view('VistasEstudiantes.sprint', compact('sprint', 'equipo', 'miembros', 'tareasSinAsignar', 'sprintFinalizado'));
     }
 
     public function updateNota(Request $request, $id)
-{
-    $request->validate([
-        'nota' => 'required|numeric|min:0|max:100',
-    ]);
+    {
+        $request->validate([
+            'nota' => 'required|numeric|min:0|max:100',
+        ]);
 
-    $sprint = Sprint::findOrFail($id);
-    $sprint->nota = $request->input('nota');
-    $sprint->save();
+        $sprint = Sprint::findOrFail($id);
+        $sprint->nota = $request->input('nota');
+        $sprint->save();
 
-    return redirect()->back()->with('success', 'Nota actualizada correctamente.');
-}
+        $sprint->equipo->recalcularNota();
 
+        return redirect()->back()->with('success', 'Nota actualizada correctamente.');
+    }
 }
