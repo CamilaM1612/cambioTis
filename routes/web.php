@@ -17,7 +17,7 @@ use App\Http\Controllers\EvaluacionController;
 use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\misTareasController;
 use App\Http\Controllers\AutoEvaluacionController;
-
+use App\Http\Controllers\HistoriaUsuarioController;
 
 //-----------------------GENERAL---------------------------------------
 // Login y logout
@@ -136,8 +136,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/equipo/{id}', [EquipoController::class, 'destroy'])->name('equipo.eliminar');
     Route::post('/equipos/{equipo}/agregar-miembro', [EquipoController::class, 'agregarMiembro'])->name('equipos.agregarMiembro');
 
-
-
+//CRUD historias de usuario
+Route::get('/historias/{equipo_id}', [HistoriaUsuarioController::class, 'show'])->name('historias.show');
+Route::post('/historias/store/{equipo_id}', [HistoriaUsuarioController::class, 'store'])->name('historias.store');
+Route::delete('/historias/{id}', [HistoriaUsuarioController::class, 'destroy'])->name('historias.destroy');
+Route::put('historias/{id}', [HistoriaUsuarioController::class, 'update'])->name('historias.update');
 
     Route::get('/autoevaluaciones', [AutoEvaluacionController::class, 'index'])->name('autoevaluaciones.index');
     

@@ -32,7 +32,10 @@
     @foreach ($equipos as $equipo)
         <div class="equipo-item border rounded p-4 mb-3">
             <h3>{{ $equipo->nombre_empresa }}</h3>
-            <h4>Nota final: {{ $equipo->nota}}</h4>
+            {{-- <h4>Nota final: {{ $equipo->nota}}</h4> --}}
+            <a href="{{ route('historias.show', ['equipo_id' => $equipo->id]) }}" >
+                <button class="btn btn-primary mb-3">Historias de usuarios</button>
+            </a>
             <div class="row informacion-equipo">
                 <div class="datos-equipo">
                     <p><strong>Correo electrónico:</strong> {{ $equipo->correo_empresa }}</p>

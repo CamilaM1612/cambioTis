@@ -47,4 +47,8 @@ class Equipo extends Model
         $this->nota = $notaPromedio;
         $this->save();
     }
+    public function historias()
+    {
+        return $this->hasMany(HistoriaUsuario::class);
+    }
 }
