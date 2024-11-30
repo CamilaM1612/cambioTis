@@ -16,33 +16,38 @@ class LoginController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        // Intentar autenticar el usuario
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            // Obtener el usuario autenticado
-            $user = Auth::user();
+    $user = Usuario::where('email', $request->email)->first();
 
-            // Verificar el rol usando la relación rol y el campo name
-            if ($user->rol && $user->rol->name === 'Administrador') {
-                return redirect()->route('admin.dashboard');
-            } elseif ($user->rol && $user->rol->name === 'Estudiante') {
-                return redirect()->route('estudiante.dashboard');
-            } elseif ($user->rol && $user->rol->name === 'Docente') {
-                return redirect()->route('docente.dashboard');
-            }
-
-            // Redirigir a la página principal si no coincide el rol
-            return redirect('/')->with('error', 'Rol no permitido.');
-        }
-
-        // Si falla la autenticación
-        return back()->withErrors(['email' => 'Credenciales incorrectas.']);
+    if (!$user) {
+        return back()->withErrors(['email' => 'El email no está registrado.']);
     }
+
+    if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        return back()->withErrors(['password' => 'La contraseña es incorrecta.']);
+    }
+
+
+    $user = Auth::user();
+
+    if ($user->rol && $user->rol->name === 'Administrador') {
+        return redirect()->route('admin.dashboard');
+    } elseif ($user->rol && $user->rol->name === 'Estudiante') {
+        return redirect()->route('estudiante.dashboard');
+    } elseif ($user->rol && $user->rol->name === 'Docente') {
+        return redirect()->route('docente.dashboard');
+    }
+
+
+    Auth::logout(); 
+    return redirect('/')->withErrors(['rol' => 'Rol no permitido.']);
+}
+
 
     public function logout(Request $request)
     {
