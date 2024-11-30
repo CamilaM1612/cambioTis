@@ -135,6 +135,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/equipo/{id}/editar', [EquipoController::class, 'update'])->name('equipo.update');
     Route::delete('/equipo/{id}', [EquipoController::class, 'destroy'])->name('equipo.eliminar');
     Route::post('/equipos/{equipo}/agregar-miembro', [EquipoController::class, 'agregarMiembro'])->name('equipos.agregarMiembro');
+    Route::post('/equipos/{equipo}/eliminar-miembro', [EquipoController::class, 'eliminarMiembro'])->name('equipos.eliminarMiembro');
+    Route::post('/equipos/{equipo}/asignar-rol', [EquipoController::class, 'asignarRol'])->name('equipos.asignarRol');
+
 
 //CRUD historias de usuario
 Route::get('/historias/{equipo_id}', [HistoriaUsuarioController::class, 'show'])->name('historias.show');

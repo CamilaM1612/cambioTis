@@ -15,11 +15,13 @@ class CreateSprintsTable extends Migration
     {
         Schema::create('sprints', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre'); // Nombre del sprint
-            $table->text('objetivo')->nullable(); // Objetivo del sprint
-            $table->date('fecha_inicio'); // Fecha de inicio
-            $table->date('fecha_fin'); // Fecha de fin
-            $table->foreignId('equipo_id')->constrained('equipos'); // Referencia al equipo
+            $table->string('nombre'); 
+            $table->text('objetivo')->nullable(); 
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin'); 
+            $table->foreignId('equipo_id')
+                ->constrained('equipos')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

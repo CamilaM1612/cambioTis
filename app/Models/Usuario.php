@@ -50,11 +50,14 @@ class Usuario extends Authenticatable
         return $this->belongsToMany(Grupo::class, 'grupo_usuario', 'usuario_id', 'grupo_id');
     }
 
+   
     public function equipos()
     {
-        return $this->belongsToMany(Equipo::class, 'equipo_usuario', 'usuario_id', 'equipo_id');
+        return $this->belongsToMany(Equipo::class, 'equipo_usuario', 'usuario_id', 'equipo_id')
+                    ->withPivot('rol')
+                    ->withTimestamps();
     }
-
+    
     public function tareas()
     {
         return $this->hasMany(Tarea::class);

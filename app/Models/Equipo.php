@@ -31,15 +31,17 @@ class Equipo extends Model
         return $this->belongsTo(Usuario::class, 'creador_id');
     }
 
+
     public function miembros()
     {
-        return $this->belongsToMany(Usuario::class, 'equipo_usuario', 'equipo_id', 'usuario_id');
+        return $this->belongsToMany(Usuario::class, 'equipo_usuario', 'equipo_id', 'usuario_id')
+            ->withPivot('rol')
+            ->withTimestamps();
     }
-    
-    // Relacion con Sprint
+
     public function sprints()
     {
-        return $this->hasMany(Sprint::class); // Un equipo puede tener varios sprints
+        return $this->hasMany(Sprint::class);
     }
     public function recalcularNota()
     {

@@ -17,10 +17,11 @@ class CreateEquipoUsuarioTable extends Migration
             $table->id();
             $table->foreignId('equipo_id')->constrained('equipos')->onDelete('cascade');
             $table->foreignId('usuario_id')->constrained('usuarios')->onDelete('cascade');
+            $table->string('rol')->default('development'); // Por defecto "development"
             $table->timestamps();
         });
     }
-    
+
 
     /**
      * Reverse the migrations.
