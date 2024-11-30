@@ -25,14 +25,13 @@
                         </div>
                         
                         <div class="info-item">
-                          
                             <div style="display: flex; align-items: center; gap: 10px;">
                                 <i class="bi bi-telephone"></i>
-                                <h6 style="margin: 0;">Teléfono: </h6>
-                                <p style="margin: 0;">{{ $usuario->phone }}</p>
+                                <h6 style="margin: 0;">Teléfono:</h6>
+                                <p style="margin: 0;">{{ $usuario->phone ? $usuario->phone : 'No registrado' }}</p>
                             </div>
-                            
                         </div>
+                        
                         
                         
                     </div>
