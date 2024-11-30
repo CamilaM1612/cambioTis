@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\equipo;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Grupo;
+use Illuminate\Validation\Rule;
+
 
 class EquipoController extends Controller
 {
@@ -23,15 +25,24 @@ class EquipoController extends Controller
     public function store(Request $request, $grupoId)
     {
         $request->validate([
-            'nombre_empresa' => 'required|string|max:255',
+            'nombre_empresa' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('equipos', 'nombre_empresa')->where(function ($query) {
+                    $query->whereRaw('LOWER(nombre_empresa) = LOWER(?)', [request('nombre_empresa')]);
+                }),
+            ],
             'correo_empresa' => 'required|email|max:255',
             'link_drive' => 'required|url',
+        ],[
+            'nombre_empresa.unique' => 'El nombre de la empresa ya está registrado.',
         ]);
 
         $equipo = Equipo::create([
             'grupo_id' => $grupoId,
             'creador_id' => Auth::id(),
-            'nombre_empresa' => $request->nombre_empresa,
+            'nombre_empresa' => 'required|string|max:255|unique:equipos,nombre_empresa',
             'correo_empresa' => $request->correo_empresa,
             'link_drive' => $request->link_drive,
             // 'min_personas' => 3,
@@ -41,31 +52,31 @@ class EquipoController extends Controller
         return redirect()->route('equipo.crear', $grupoId)->with('success', 'Equipo creado exitosamente.');
     }
     public function update(Request $request, $id)
-{
-    $request->validate([
-        'nombre_empresa' => 'required|string|max:255',
-        'correo_empresa' => 'required|email|max:255',
-        'link_drive' => 'required|url',
-    ]);
+    {
+        $request->validate([
+            'nombre_empresa' => 'required|string|max:255',
+            'correo_empresa' => 'required|email|max:255',
+            'link_drive' => 'required|url',
+        ]);
 
-    $equipo = Equipo::findOrFail($id);
-    $equipo->nombre_empresa = $request->nombre_empresa;
-    $equipo->correo_empresa = $request->correo_empresa;
-    $equipo->link_drive = $request->link_drive;
-    $equipo->save();
+        $equipo = Equipo::findOrFail($id);
+        $equipo->nombre_empresa = $request->nombre_empresa;
+        $equipo->correo_empresa = $request->correo_empresa;
+        $equipo->link_drive = $request->link_drive;
+        $equipo->save();
 
-    return redirect()->route('equipo.crear', $equipo->grupo_id)->with('success', 'Equipo actualizado exitosamente.');
-}
+        return redirect()->route('equipo.crear', $equipo->grupo_id)->with('success', 'Equipo actualizado exitosamente.');
+    }
 
-    
+
     public function destroy($id)
     {
         $equipo = Equipo::findOrFail($id);
         $equipo->delete();
-    
+
         return redirect()->route('equipo.crear', $equipo->grupo_id)->with('success', 'Equipo eliminado exitosamente.');
     }
-    
+
     public function agregarMiembro(Request $request, $equipoId)
     {
         $equipo = Equipo::findOrFail($equipoId);

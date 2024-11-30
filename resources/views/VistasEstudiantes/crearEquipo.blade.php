@@ -10,11 +10,16 @@
         <li class="breadcrumb-item">Crear equipo</li>
     </ol>
 </nav>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearEquipo">
+    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#crearEquipo">
     Crear Equipo
      </button>
 
-
+     @if($errors->has('nombre_empresa'))
+     <div class="alert alert-danger p-1 text-center" role="alert">
+         <span>{{ $errors->first('nombre_empresa') }}</span>
+     </div>
+ @endif
+ 
     <div class="modal fade m-3" id="crearEquipo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="crearEquipoLabel" aria-hidden="true">
         <form method="POST" action="{{ route('equipos.store', $grupo->id) }}">
@@ -26,6 +31,7 @@
                             <label for="nombre_empresa" class="form-label">Nombre de la Empresa:</label>
                             <input type="text" name="nombre_empresa" id="nombre_empresa" class="form-control"
                                 placeholder="Ejemplo S.A." required>
+                               
                         </div>
 
                         <div class="mb-3">
