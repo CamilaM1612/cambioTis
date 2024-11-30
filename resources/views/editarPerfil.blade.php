@@ -23,28 +23,27 @@
                 <input type="text" name="phone" class="form-control" value="{{ old('phone', $usuario->phone) }}">
             </div>
 
-            @if($usuario->rol->name == 'Estudiante')
-            <div class="form-group">
-                <label for="carrera">Carrera</label>
-                <select class="form-select" id="carrera{{ $usuario->id }}" name="carrera">
-                    <option value="ingenieria_informatica"
-                        {{ $usuario->carrera == 'ingenieria_informatica' ? 'selected' : '' }}>
-                        Ingeniería Informática
-                    </option>
-                    <option value="ingenieria_en_sistemas"
-                        {{ $usuario->carrera == 'ingenieria_en_sistemas' ? 'selected' : '' }}>
-                        Ingeniería en Sistemas
-                    </option>
-                    <!-- Agregar más opciones según sea necesario -->
-                </select>
-            </div>
+            {{-- @if ($usuario->rol->name == 'Estudiante')
+                <div class="form-group">
+                    <label for="carrera">Carrera</label>
+                    <select class="form-select" id="carrera{{ $usuario->id }}" name="carrera">
+                        <option value="ingenieria_informatica"
+                            {{ $usuario->carrera == 'ingenieria_informatica' ? 'selected' : '' }}>
+                            Ingeniería Informática
+                        </option>
+                        <option value="ingenieria_en_sistemas"
+                            {{ $usuario->carrera == 'ingenieria_en_sistemas' ? 'selected' : '' }}>
+                            Ingeniería en Sistemas
+                        </option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="codigoSIS">Código SIS</label>
-                <input type="text" name="codigoSIS" class="form-control"
-                    value="{{ old('codigoSIS', $usuario->codigoSIS) }}">
-            </div>
-@endif
+                <div class="form-group">
+                    <label for="codigoSIS">Código SIS</label>
+                    <input type="text" name="codigoSIS" class="form-control"
+                        value="{{ old('codigoSIS', $usuario->codigoSIS) }}">
+                </div>
+            @endif --}}
             <button type="submit" class="btn btn-success">Actualizar</button>
         </form>
 
