@@ -4,12 +4,10 @@
     <div class="container mt-4">
         <h2 class="text-center">Lista de Usuarios Registrados</h2>
 
-        <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#registroUsuario">
             <i class="bi bi-person-plus"></i>Añadir usuario
         </button>
 
-        <!-- Modal -->
         <div class="modal fade" id="registroUsuario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="registroUsuarioLabel" aria-hidden="true">
             <form method="POST" action="{{ route('usuarios.store') }}">
@@ -73,6 +71,29 @@
                                             pattern="[0-9]{8,15}" placeholder="Ingrese un número válido" required>
                                     </div>
                                     <small class="form-text text-muted">Debe contener entre 8 y 15 dígitos</small>
+                                </div>
+
+                                <!-- Carrera -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="carrera" class="form-label">Seleccionar Carrera</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-book"></i></span>
+                                        <select id="carrera" name="carrera" class="form-select" required>
+                                            <option value="ingenieria_informatica">Ingeniería Informática</option>
+                                            <option value="ingenieria_en_sistemas">Ingeniería en Sistemas</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Código SIS -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="codigoSIS" class="form-label">Código SIS</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-file-earmark-text"></i></span>
+                                        <input id="codigoSIS" class="form-control" type="text" name="codigoSIS"
+                                            maxlength="11" required>
+                                    </div>
+                                    <small class="form-text text-muted">Máximo 11 caracteres</small>
                                 </div>
                             </div>
                         </div>
@@ -168,14 +189,48 @@
                                                 <label for="estado{{ $usuario->id }}" class="form-label">Estado</label>
                                                 <select class="form-select" id="estado{{ $usuario->id }}"
                                                     name="estado">
-                                                    <option value="1" {{ $usuario->estado ? 'selected' : '' }}>
-                                                        Activo</option>
+                                                    <option value="1" {{ $usuario->estado ? 'selected' : '' }}>Activo
+                                                    </option>
                                                     <option value="0" {{ !$usuario->estado ? 'selected' : '' }}>
                                                         Desactivado</option>
                                                 </select>
                                             </div>
+                                            <div class="mb-3">
+                                                <label for="phone{{ $usuario->id }}" class="form-label">Número de
+                                                    Teléfono</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                                    <input id="phone{{ $usuario->id }}" class="form-control"
+                                                        type="tel" name="phone" pattern="[0-9]{8,15}"
+                                                        value="{{ $usuario->phone }}" required>
+                                                </div>
+                                            </div>
+                                            <!-- Nuevo campo para la carrera -->
+                                            <div class="mb-3">
+                                                <label for="carrera{{ $usuario->id }}"
+                                                    class="form-label">Carrera</label>
+                                                <select class="form-select" id="carrera{{ $usuario->id }}"
+                                                    name="carrera" required>
+                                                    <option value="ingenieria_informatica"
+                                                        {{ $usuario->carrera == 'ingenieria_informatica' ? 'selected' : '' }}>
+                                                        Ingeniería Informática</option>
+                                                    <option value="ingenieria_en_sistemas"
+                                                        {{ $usuario->carrera == 'ingenieria_en_sistemas' ? 'selected' : '' }}>
+                                                        Ingeniería en Sistemas</option>
+                                                       
+                                                </select>
+                                            </div>
+                                            <!-- Nuevo campo para el código SIS -->
+                                            <div class="mb-3">
+                                                <label for="codigo_sis{{ $usuario->id }}" class="form-label">Código
+                                                    SIS</label>
+                                                <input type="text" class="form-control"
+                                                    id="codigoSIS{{ $usuario->id }}" name="codigoSIS"
+                                                    value="{{ $usuario->codigoSIS }}" required>
+                                            </div>
                                             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                                         </form>
+
                                     </div>
                                 </div>
                             </div>

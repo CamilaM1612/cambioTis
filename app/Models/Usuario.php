@@ -19,6 +19,9 @@ class Usuario extends Authenticatable
         'email',
         'password',
         'role_id',
+        'phone',
+        'carrera',
+        'codigoSIS'
     ];
 
     public function rol()
