@@ -54,9 +54,18 @@ class EquipoController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre_empresa' => 'required|string|max:255',
+            'nombre_empresa' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('equipos', 'nombre_empresa')->where(function ($query) {
+                    $query->whereRaw('LOWER(nombre_empresa) = LOWER(?)', [request('nombre_empresa')]);
+                }),
+            ],
             'correo_empresa' => 'required|email|max:255',
             'link_drive' => 'required|url',
+        ],[
+            'nombre_empresa.unique' => 'El nombre de la empresa ya está registrado.',
         ]);
 
         $equipo = Equipo::findOrFail($id);
