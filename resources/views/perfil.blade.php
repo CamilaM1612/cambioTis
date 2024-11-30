@@ -15,19 +15,23 @@
                     
                     <div class="profile-info">
                         <div class="info-item">
-                            <i class="bi bi-envelope"></i>
-                            <div>
-                                <h6>Correo Electrónico</h6>
-                                <p>{{ $usuario->email }}</p>
+                            
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <i class="bi bi-envelope"></i>
+                                <h6 style="margin: 0;">Correo Electrónico: </h6>
+                                <p style="margin: 0;">{{ $usuario->email }}</p>
                             </div>
+                            
                         </div>
                         
                         <div class="info-item">
-                            <i class="bi bi-telephone"></i>
-                            <div>
-                                <h6>Teléfono</h6>
-                                <p>{{ $usuario->phone }}</p>
+                          
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <i class="bi bi-telephone"></i>
+                                <h6 style="margin: 0;">Teléfono: </h6>
+                                <p style="margin: 0;">{{ $usuario->phone }}</p>
                             </div>
+                            
                         </div>
                         
                         
