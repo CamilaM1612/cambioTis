@@ -73,12 +73,12 @@
                                     <small class="form-text text-muted">Debe contener entre 8 y 15 dígitos</small>
                                 </div>
 
-                                <!-- Carrera -->
-                                <div class="col-md-6 mb-3">
+                                <!-- Carrera (ocultada por defecto) -->
+                                <div class="col-md-6 mb-3" id="carrera-group" style="display: none;">
                                     <label for="carrera" class="form-label">Seleccionar Carrera</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-book"></i></span>
-                                        <select id="carrera" name="carrera" class="form-select" required>
+                                        <select id="carrera" name="carrera" class="form-select">
                                             <option value="ingenieria_informatica">Ingeniería Informática</option>
                                             <option value="ingenieria_en_sistemas">Ingeniería en Sistemas</option>
                                         </select>
@@ -86,19 +86,19 @@
                                 </div>
 
                                 <!-- Código SIS -->
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-6 mb-3" id="codigoSIS-group" style="display: none;">
                                     <label for="codigoSIS" class="form-label">Código SIS</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-file-earmark-text"></i></span>
                                         <input id="codigoSIS" class="form-control" type="text" name="codigoSIS"
-                                            maxlength="11" required>
+                                            maxlength="11">
                                     </div>
                                     <small class="form-text text-muted">Máximo 11 caracteres</small>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary"> <i class="bi bi-person-plus"></i>
                                 Registrar</button>
                         </div>
@@ -150,94 +150,94 @@
                             </td>
                         </tr>
                         <div class="modal fade" id="editModal{{ $usuario->id }}" tabindex="-1"
-                            aria-labelledby="editModalLabel{{ $usuario->id }}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="editModalLabel{{ $usuario->id }}">Editar Usuario
-                                        </h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="mb-3">
-                                                <label for="name{{ $usuario->id }}" class="form-label">Nombre</label>
-                                                <input type="text" class="form-control" id="name{{ $usuario->id }}"
-                                                    name="name" value="{{ $usuario->name }}" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="email{{ $usuario->id }}" class="form-label">Correo
-                                                    Electrónico</label>
-                                                <input type="email" class="form-control" id="email{{ $usuario->id }}"
-                                                    name="email" value="{{ $usuario->email }}" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="role_id{{ $usuario->id }}" class="form-label">Rol</label>
-                                                <select class="form-select" id="role_id{{ $usuario->id }}"
-                                                    name="role_id" required>
-                                                    @foreach ($roles as $rol)
-                                                        <option value="{{ $rol->id }}"
-                                                            {{ $rol->id == $usuario->role_id ? 'selected' : '' }}>
-                                                            {{ $rol->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="estado{{ $usuario->id }}" class="form-label">Estado</label>
-                                                <select class="form-select" id="estado{{ $usuario->id }}"
-                                                    name="estado">
-                                                    <option value="1" {{ $usuario->estado ? 'selected' : '' }}>Activo
-                                                    </option>
-                                                    <option value="0" {{ !$usuario->estado ? 'selected' : '' }}>
-                                                        Desactivado</option>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="phone{{ $usuario->id }}" class="form-label">Número de
-                                                    Teléfono</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-                                                    <input id="phone{{ $usuario->id }}" class="form-control"
-                                                        type="tel" name="phone" pattern="[0-9]{8,15}"
-                                                        value="{{ $usuario->phone }}" required>
-                                                </div>
-                                            </div>
-                                            <!-- Nuevo campo para la carrera -->
-                                            <div class="mb-3">
-                                                <label for="carrera{{ $usuario->id }}"
-                                                    class="form-label">Carrera</label>
-                                                <select class="form-select" id="carrera{{ $usuario->id }}"
-                                                    name="carrera" required>
-                                                    <option value="ingenieria_informatica"
-                                                        {{ $usuario->carrera == 'ingenieria_informatica' ? 'selected' : '' }}>
-                                                        Ingeniería Informática</option>
-                                                    <option value="ingenieria_en_sistemas"
-                                                        {{ $usuario->carrera == 'ingenieria_en_sistemas' ? 'selected' : '' }}>
-                                                        Ingeniería en Sistemas</option>
-                                                       
-                                                </select>
-                                            </div>
-                                            <!-- Nuevo campo para el código SIS -->
-                                            <div class="mb-3">
-                                                <label for="codigo_sis{{ $usuario->id }}" class="form-label">Código
-                                                    SIS</label>
-                                                <input type="text" class="form-control"
-                                                    id="codigoSIS{{ $usuario->id }}" name="codigoSIS"
-                                                    value="{{ $usuario->codigoSIS }}" required>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                                        </form>
-
-                                    </div>
-                                </div>
-                            </div>
+    aria-labelledby="editModalLabel{{ $usuario->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel{{ $usuario->id }}">Editar Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3">
+                        <label for="name{{ $usuario->id }}" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="name{{ $usuario->id }}"
+                            name="name" value="{{ $usuario->name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email{{ $usuario->id }}" class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="email{{ $usuario->id }}"
+                            name="email" value="{{ $usuario->email }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="role_id{{ $usuario->id }}" class="form-label">Rol</label>
+                        <input type="text" class="form-control" value="{{ $usuario->rol->name }}" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="estado{{ $usuario->id }}" class="form-label">Estado</label>
+                        <select class="form-select" id="estado{{ $usuario->id }}" name="estado">
+                            <option value="1" {{ $usuario->estado ? 'selected' : '' }}>Activo</option>
+                            <option value="0" {{ !$usuario->estado ? 'selected' : '' }}>Desactivado</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone{{ $usuario->id }}" class="form-label">Número de Teléfono</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                            <input id="phone{{ $usuario->id }}" class="form-control" type="tel" name="phone"
+                                pattern="[0-9]{8,15}" value="{{ $usuario->phone }}" required>
                         </div>
+                    </div>
+                    
+                    {{-- Mostrar campos solo si el rol es estudiante --}}
+                    @if($usuario->rol->name == 'Estudiante')
+                        <div class="mb-3">
+                            <label for="carrera{{ $usuario->id }}" class="form-label">Carrera</label>
+                            <select class="form-select" id="carrera{{ $usuario->id }}" name="carrera" required>
+                                <option value="ingenieria_informatica"
+                                    {{ $usuario->carrera == 'ingenieria_informatica' ? 'selected' : '' }}>
+                                    Ingeniería Informática</option>
+                                <option value="ingenieria_en_sistemas"
+                                    {{ $usuario->carrera == 'ingenieria_en_sistemas' ? 'selected' : '' }}>
+                                    Ingeniería en Sistemas</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="codigo_sis{{ $usuario->id }}" class="form-label">Código SIS</label>
+                            <input type="text" class="form-control" id="codigoSIS{{ $usuario->id }}" name="codigoSIS"
+                                value="{{ $usuario->codigoSIS }}" required>
+                        </div>
+                    @endif
+
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
+
+    <script>
+        document.getElementById('role_id').addEventListener('change', function() {
+            var role_name = this.options[this.selectedIndex].text; 
+            var carreraGroup = document.getElementById('carrera-group');
+            var codigoSISGroup = document.getElementById('codigoSIS-group');
+
+            if (role_name === "Estudiante") {
+                carreraGroup.style.display = 'block';
+                codigoSISGroup.style.display = 'block';
+            } else {
+                carreraGroup.style.display = 'none';
+                codigoSISGroup.style.display = 'none';
+            }
+        });
+    </script>
 @endsection
