@@ -23,7 +23,7 @@ class Equipo extends Model
 
     public function grupo()
     {
-        return $this->belongsTo(Grupo::class);
+        return $this->belongsTo(Grupo::class, 'grupo_id'); // Asegurarse de que la relación esté bien definida
     }
 
     public function creador()
@@ -52,5 +52,10 @@ class Equipo extends Model
     public function historias()
     {
         return $this->hasMany(HistoriaUsuario::class);
+    }
+
+    public function proyectos()
+    {
+        return $this->hasMany(Proyecto::class);
     }
 }

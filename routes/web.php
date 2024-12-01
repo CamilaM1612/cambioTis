@@ -18,7 +18,7 @@ use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\misTareasController;
 use App\Http\Controllers\AutoEvaluacionController;
 use App\Http\Controllers\HistoriaUsuarioController;
-
+use App\Http\Controllers\ProyectosController;
 //-----------------------GENERAL---------------------------------------
 // Login y logout
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.form')->middleware('guest');
@@ -139,14 +139,29 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/equipos/{equipo}/asignar-rol', [EquipoController::class, 'asignarRol'])->name('equipos.asignarRol');
 
 
-//CRUD historias de usuario
-Route::get('/historias/{equipo_id}', [HistoriaUsuarioController::class, 'show'])->name('historias.show');
-Route::post('/historias/store/{equipo_id}', [HistoriaUsuarioController::class, 'store'])->name('historias.store');
-Route::delete('/historias/{id}', [HistoriaUsuarioController::class, 'destroy'])->name('historias.destroy');
-Route::put('historias/{id}', [HistoriaUsuarioController::class, 'update'])->name('historias.update');
+    //CRUD historias de usuario
+    Route::get('/historias/{equipo_id}', [HistoriaUsuarioController::class, 'show'])->name('historias.show');
+    Route::post('/historias/store/{equipo_id}', [HistoriaUsuarioController::class, 'store'])->name('historias.store');
+    Route::delete('/historias/{id}', [HistoriaUsuarioController::class, 'destroy'])->name('historias.destroy');
+    Route::put('historias/{id}', [HistoriaUsuarioController::class, 'update'])->name('historias.update');
+
+
+    //CRUD proyecto
+
+
+    Route::get('equipos/{equipo}/proyectos', [ProyectosController::class, 'mostrarProyectos'])->name('equipos.proyectos');
+
+
+Route::post('/proyectos', [ProyectosController::class, 'store'])->name('proyectos.store');
+Route::put('/proyectos/{id}', [ProyectosController::class, 'update'])->name('proyectos.update');
+Route::delete('/proyectos/{id}', [ProyectosController::class, 'destroy'])->name('proyectos.destroy');
+
+
+
+
+
 
     Route::get('/autoevaluaciones', [AutoEvaluacionController::class, 'index'])->name('autoevaluaciones.index');
-    
 });
 
 

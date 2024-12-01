@@ -59,7 +59,19 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h3 class="card-title text-center mb-0">{{ $equipo->nombre_empresa }}</h3>
+                        @if (Auth::id() === $equipo->creador_id)
+                        <h3 class="card-title text-center mb-0">
+                            <a href="{{ route('equipos.proyectos', $equipo->id) }}">
+                                {{ $equipo->nombre_empresa }}
+                            </a>
+                        </h3>
+                        @else
+                        <h3 class="card-title text-center mb-0">
+                           
+                                {{ $equipo->nombre_empresa }}
+                            
+                        </h3>
+                    @endif
                         @if (Auth::id() === $equipo->creador_id)
                             <div>
                                 <form action="{{ route('equipo.eliminar', $equipo->id) }}" method="POST"

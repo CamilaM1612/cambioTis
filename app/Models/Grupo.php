@@ -23,10 +23,9 @@ class Grupo extends Model
         return $this->belongsToMany(Usuario::class, 'grupo_usuario');
     }
 
-    //relacion con equipos
     public function equipos()
     {
-        return $this->hasMany(Equipo::class);
+        return $this->hasMany(Equipo::class, 'grupo_id'); // Indicar la clave foránea 'grupo_id'
     }
     
     //relacion con avisos

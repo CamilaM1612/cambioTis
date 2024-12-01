@@ -85,4 +85,9 @@ class Usuario extends Authenticatable
     {
         return $this->hasMany(Comentario::class, 'docente_id');
     }
+
+    public function proyectosCreados()
+    {
+        return $this->hasMany(Proyecto::class, 'creador_id');
+    }
 }

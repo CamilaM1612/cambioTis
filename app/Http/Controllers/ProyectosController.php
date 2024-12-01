@@ -1,0 +1,97 @@
+<?php
+
+namespace App\Http\Controllers;
+use App\Models\Proyecto;
+use App\Models\Equipo;
+use App\Models\Grupo;
+
+use Illuminate\Http\Request;
+
+class ProyectosController extends Controller
+{
+    
+    public function mostrarProyectos($equipoId)
+{
+    // Obtener el equipo con sus proyectos y su grupo asociado
+    $equipo = Equipo::with(['proyectos', 'grupo'])->findOrFail($equipoId);
+
+    // Pasar tanto el equipo como el grupo a la vista
+    return view('VistasEstudiantes.proyecto', compact('equipo'));
+}
+
+    
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string',
+            'objetivos' => 'required|string',
+            'duracion_inicio' => 'required|date',
+            'duracion_fin' => 'required|date',
+            'estado' => 'required|in:planeado,en progreso,finalizado',
+            'equipo_id' => 'required|exists:equipos,id',
+        ]);
+    
+        // Crear el proyecto con el equipo preseleccionado
+        Proyecto::create([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'objetivos' => $request->objetivos,
+            'duracion_inicio' => $request->duracion_inicio,
+            'duracion_fin' => $request->duracion_fin,
+            'estado' => $request->estado,
+            'equipo_id' => $request->equipo_id,
+            'creador_id' => auth()->user()->id, // Asumiendo que el creador es el usuario autenticado
+        ]);
+    
+        // Redirigir a la lista de proyectos del equipo recién creado
+        return redirect()->route('equipos.proyectos', ['equipo' => $request->equipo_id])->with('success', 'Proyecto creado exitosamente');
+    }
+    
+
+    public function update(Request $request, $id)
+    {
+        // Validar los datos del formulario
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string',
+            'objetivos' => 'required|string',
+            'duracion_inicio' => 'required|date',
+            'duracion_fin' => 'required|date',
+            'estado' => 'required|string|in:planeado,en progreso,finalizado',
+        ]);
+    
+        // Obtener el proyecto por su ID
+        $proyecto = Proyecto::findOrFail($id);
+    
+        // Actualizar el proyecto con los nuevos datos
+        $proyecto->update([
+            'nombre' => $validated['nombre'],
+            'descripcion' => $validated['descripcion'],
+            'objetivos' => $validated['objetivos'],
+            'duracion_inicio' => $validated['duracion_inicio'],
+            'duracion_fin' => $validated['duracion_fin'],
+            'estado' => $validated['estado'],
+        ]);
+    
+        // Redirigir a la lista de proyectos con un mensaje de éxito
+        return redirect()->route('equipos.proyectos', ['equipo' => $proyecto->equipo_id])->with('success', 'Proyecto actualizado exitosamente.');
+    }
+    public function destroy($id)
+    {
+        // Obtener el proyecto por su ID
+        $proyecto = Proyecto::findOrFail($id);
+    
+        // Obtener el ID del equipo para redirigir después de eliminar el proyecto
+        $equipoId = $proyecto->equipo_id;
+    
+        // Eliminar el proyecto
+        $proyecto->delete();
+    
+        // Redirigir a la lista de proyectos del equipo con un mensaje de éxito
+        return redirect()->route('equipos.proyectos', ['equipo' => $equipoId])->with('success', 'Proyecto eliminado exitosamente.');
+    }
+    
+
+}
