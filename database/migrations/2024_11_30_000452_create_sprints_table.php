@@ -19,12 +19,13 @@ class CreateSprintsTable extends Migration
             $table->text('objetivo')->nullable(); 
             $table->date('fecha_inicio');
             $table->date('fecha_fin'); 
-            $table->foreignId('equipo_id')
-                ->constrained('equipos')
+            $table->foreignId('proyecto_id')
+                ->constrained('proyectos') 
                 ->onDelete('cascade');
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.

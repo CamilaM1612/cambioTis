@@ -31,4 +31,10 @@ class Proyecto extends Model
     {
         return $this->belongsTo(Usuario::class, 'creador_id');
     }
+
+    public function sprints()
+{
+    return $this->hasMany(Sprint::class);
+}
+
 }

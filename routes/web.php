@@ -147,15 +147,15 @@ Route::middleware(['auth'])->group(function () {
 
 
     //CRUD proyecto
-
-
     Route::get('equipos/{equipo}/proyectos', [ProyectosController::class, 'mostrarProyectos'])->name('equipos.proyectos');
+    Route::post('/proyectos', [ProyectosController::class, 'store'])->name('proyectos.store');
+    Route::put('/proyectos/{id}', [ProyectosController::class, 'update'])->name('proyectos.update');
+    Route::delete('/proyectos/{id}', [ProyectosController::class, 'destroy'])->name('proyectos.destroy');
+
+    //planificacion
 
 
-Route::post('/proyectos', [ProyectosController::class, 'store'])->name('proyectos.store');
-Route::put('/proyectos/{id}', [ProyectosController::class, 'update'])->name('proyectos.update');
-Route::delete('/proyectos/{id}', [ProyectosController::class, 'destroy'])->name('proyectos.destroy');
-
+    Route::get('/proyectos/{proyecto}/planificacion', [ProyectosController::class, 'planificacion'])->name('proyectos.planificacion');
 
 
 
@@ -176,7 +176,8 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/mis-equipos', [EquipoController::class, 'misEquipos'])->name('usuario.equipos');
-    Route::post('/sprints', [SprintController::class, 'store'])->name('sprints.store');
+    Route::post('/sprints/store', [SprintController::class, 'store'])->name('sprints.store');
+
     Route::put('/sprints/{id}', [SprintController::class, 'update'])->name('sprints.update');
     Route::delete('/sprints/{id}', [SprintController::class, 'destroy'])->name('sprints.destroy');
     Route::get('/sprint/{id}', [SprintController::class, 'show'])->name('sprints.show');

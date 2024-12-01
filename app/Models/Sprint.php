@@ -9,20 +9,22 @@ class Sprint extends Model
 {
     use HasFactory;
 
+    
+    protected $table = 'sprints';
+
     protected $fillable = [
         'nombre',
         'objetivo',
         'fecha_inicio',
         'fecha_fin',
-        'equipo_id',
+        'proyecto_id', 
         'nota'
     ];
 
-    public function equipo()
+    public function proyecto()
     {
-        return $this->belongsTo(Equipo::class);
+        return $this->belongsTo(Proyecto::class); // Relación con el modelo Proyecto
     }
-
 
     public function tareas()
     {
@@ -33,4 +35,6 @@ class Sprint extends Model
     {
         return $this->hasMany(Comentario::class);
     }
+
+    
 }

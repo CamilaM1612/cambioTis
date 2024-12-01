@@ -99,11 +99,14 @@
             <td>{{ $proyecto->duracion_fin }}</td>
             <td>{{ $proyecto->estado }}</td>
             <td>
-                <!-- Botón para abrir el modal de edición -->
+                <a href="{{ route('proyectos.planificacion', $proyecto->id) }}" class="btn btn-success">
+                    Planificación
+                </a>
+
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editProjectModal{{ $proyecto->id }}">
                     Editar
                 </button>
-                <!-- Modal de edición -->
+        
                 <div class="modal fade" id="editProjectModal{{ $proyecto->id }}" tabindex="-1" aria-labelledby="editProjectModalLabel{{ $proyecto->id }}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -151,7 +154,6 @@
                     </div>
                 </div>
 
-                <!-- Botón para eliminar proyecto -->
                 <form action="{{ route('proyectos.destroy', $proyecto->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
