@@ -39,20 +39,8 @@ class Equipo extends Model
             ->withTimestamps();
     }
 
-    public function sprints()
-    {
-        return $this->hasMany(Sprint::class);
-    }
-    public function recalcularNota()
-    {
-        $notaPromedio = $this->sprints()->whereNotNull('nota')->avg('nota');
-        $this->nota = $notaPromedio;
-        $this->save();
-    }
-    public function historias()
-    {
-        return $this->hasMany(HistoriaUsuario::class);
-    }
+    
+   
 
     public function proyectos()
     {

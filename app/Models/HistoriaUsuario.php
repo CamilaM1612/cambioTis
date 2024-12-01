@@ -13,15 +13,14 @@ class HistoriaUsuario extends Model
     protected $fillable = [
         'titulo',
         'descripcion',
-        'equipo_id',
+        'sprint_id',
         'prioridad',
         'estado',
         'criterios_aceptacion'
     ];
 
-    // Relación con el equipo
-    public function equipo()
+    public function sprint()
     {
-        return $this->belongsTo(Equipo::class);
+        return $this->belongsTo(Sprint::class, 'sprint_id'); // Relación con la tabla sprints
     }
 }

@@ -5,75 +5,55 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Equipo;
 use App\Models\HistoriaUsuario;
+use App\Models\Sprint;
 
 class HistoriaUsuarioController extends Controller
 {
-    public function show($equipo_id)
+    public function store(Request $request)
     {
-        $equipo = Equipo::find($equipo_id);  // Obtienes el equipo
-        $historias = HistoriaUsuario::where('equipo_id', $equipo_id)->get();  // Obtienes las historias de usuario del equipo
-        return view('VistasEstudiantes.HistoriaUsuario', compact('equipo', 'historias'));  // Pasas todo a la vista
+        // Validar los datos del formulario
+        $validated = $request->validate([
+            'titulo' => 'required|string|max:255',
+            'descripcion' => 'required|string',
+            'prioridad' => 'required|in:Alta,Media,Baja',
+            'estado' => 'required|in:Pendiente,En progreso,Completada',
+            'criterios_aceptacion' => 'required|string',
+            'sprint_id' => 'required|exists:sprints,id', // Verifica que el sprint exista
+        ]);
+
+        // Crear la historia de usuario
+        HistoriaUsuario::create($validated);
+
+        // Redirigir al sprint con mensaje de éxito
+        return redirect()->route('sprints.show', $request->sprint_id)->with('success', 'Historia de usuario creada correctamente');
     }
 
-
-    public function store(Request $request, $equipo_id)
+    public function update(Request $request, $id)
 {
     $request->validate([
         'titulo' => 'required|string|max:255',
         'descripcion' => 'required|string',
-        'prioridad' => 'required|in:baja,media,alta',
-        'estado' => 'required|in:pendiente,en progreso,completada',
-        'criterios_aceptacion' => 'nullable|string', // Aseguramos que sea solo texto
+        'prioridad' => 'required|string',
+        'estado' => 'required|string',
+        'criterios_aceptacion' => 'required|string',
     ]);
 
-    // Guardamos la historia de usuario como texto simple en criterios_aceptacion
-    HistoriaUsuario::create([
+    $historia = HistoriaUsuario::findOrFail($id);
+    $historia->update([
         'titulo' => $request->titulo,
         'descripcion' => $request->descripcion,
-        'equipo_id' => $equipo_id,
         'prioridad' => $request->prioridad,
         'estado' => $request->estado,
-        'criterios_aceptacion' => $request->criterios_aceptacion, // Guardamos texto
+        'criterios_aceptacion' => $request->criterios_aceptacion,
     ]);
 
-    return redirect()->route('historias.show', $equipo_id)->with('success', 'Historia de usuario creada exitosamente.');
+    return redirect()->route('sprints.show', $historia->sprint_id)->with('success', 'Historia de usuario actualizada');
 }
-    public function update(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'criterios_aceptacion' => 'required|string', // Aseguramos que sea solo texto
-            'prioridad' => 'required|in:baja,media,alta',
-            'estado' => 'required|in:pendiente,en progreso,completada',
-        ]);
-    
-        $historia = HistoriaUsuario::find($id);
-    
-        if (!$historia) {
-            return redirect()->route('historias.index')->with('error', 'Historia de usuario no encontrada.');
-        }
-    
-        // Actualizamos los datos, asegurándonos de que criterios_aceptacion sea texto plano
-        $historia->titulo = $validatedData['titulo'];
-        $historia->descripcion = $validatedData['descripcion'];
-        $historia->criterios_aceptacion = $validatedData['criterios_aceptacion']; // Guardamos texto
-        $historia->prioridad = $validatedData['prioridad'];
-        $historia->estado = $validatedData['estado'];
-        $historia->save();
-    
-        return redirect()->route('historias.show', $historia->equipo_id)->with('success', 'Historia de usuario actualizada correctamente.');
-    }
 
     public function destroy($id)
     {
-        $historia = HistoriaUsuario::find($id);
-
-        if ($historia) {
-            $historia->delete();
-            return redirect()->back()->with('success', 'Historia de usuario eliminada correctamente.');
-        }
-
-        return redirect()->back()->with('error', 'Historia de usuario no encontrada.');
+        $historia = HistoriaUsuario::findOrFail($id);
+        $historia->delete();
+        return redirect()->route('sprints.show', $historia->sprint_id)->with('success', 'Historia de usuario eliminada');
     }
 }

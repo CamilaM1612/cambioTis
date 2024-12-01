@@ -15,10 +15,9 @@ class SprintController extends Controller
             'objetivo' => 'nullable|string',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date|after:fecha_inicio',
-            'proyecto_id' => 'required|exists:proyectos,id', // Asegúrate que el proyecto exista
+            'proyecto_id' => 'required|exists:proyectos,id', 
         ]);
 
-        // Crear el Sprint
         $sprint = Sprint::create([
             'nombre' => $validated['nombre'],
             'objetivo' => $validated['objetivo'],
@@ -66,14 +65,11 @@ class SprintController extends Controller
 
     public function show($id)
     {
-        $sprint = Sprint::with(['equipo.miembros', 'tareas.usuario'])->findOrFail($id);
-
-        $equipo = $sprint->equipo;
-        $miembros = $equipo->miembros;
-        $tareasSinAsignar = $sprint->tareas->whereNull('usuario_id')->sortBy('created_at');
-
-        $sprintFinalizado = now()->greaterThan($sprint->fecha_fin);
-
-        return view('VistasEstudiantes.sprint', compact('sprint', 'equipo', 'miembros', 'tareasSinAsignar', 'sprintFinalizado'));
+        $sprint = Sprint::findOrFail($id);
+        $historias = $sprint->historias;
+        return view('VistasEstudiantes.backlog', compact('sprint', 'historias'));
     }
+    
+    
+
 }

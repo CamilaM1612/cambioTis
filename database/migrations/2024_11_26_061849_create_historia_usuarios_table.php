@@ -17,8 +17,8 @@ class CreateHistoriaUsuariosTable extends Migration
             $table->id();  // id auto incremental
             $table->string('titulo');  // Título de la historia de usuario
             $table->text('descripcion');  // Descripción de la historia
-            $table->foreignId('equipo_id')->constrained('equipos')->onDelete('cascade');  // Relación con equipos
-            $table->enum('prioridad', ['baja', 'media', 'alta'])->default('media');  // Prioridad de la historia
+            $table->foreignId('sprints_id')->constrained('sprints')->onDelete('cascade');  
+            $table->enum('prioridad', ['baja', 'media', 'alta'])->default('media');  
             $table->enum('estado', ['pendiente', 'en progreso', 'completada'])->default('pendiente');  // Estado de la historia
             $table->text('criterios_aceptacion')->nullable();  // Criterios de aceptación de la historia
             $table->timestamps();  // created_at y updated_at

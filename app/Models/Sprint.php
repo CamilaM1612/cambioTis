@@ -35,6 +35,9 @@ class Sprint extends Model
     {
         return $this->hasMany(Comentario::class);
     }
-
+    public function historias()
+    {
+        return $this->hasMany(HistoriaUsuario::class, 'sprint_id');
+    }
     
 }

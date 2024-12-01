@@ -305,19 +305,6 @@
             </div>
             
             
-            <a href="{{ route('usuario.equipos') }}" class="selected">
-                <div class="option">
-                    <i class="bi bi-people-fill"></i>
-                    <h4>Mis Equipos</h4>
-                </div>
-            </a>
-            
-            <a href="{{ route('tareas.misTareasPorSprint') }}" class="selected">
-                <div class="option">
-                    <i class="bi bi-list-task"></i>
-                    <h4>Mis Tareas</h4>
-                </div>
-            </a>
             
             @endif
 

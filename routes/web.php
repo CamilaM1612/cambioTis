@@ -128,7 +128,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mis-tareas/sprints', [misTareasController::class, 'misTareasPorSprint'])->name('tareas.misTareasPorSprint');
     Route::put('/mis-tareas/{id}', [misTareasController::class, 'edit'])->name('tareas.edit');
 
-
     //Vista para crear equipo
     Route::get('/equipo/crear/{grupo}', [EquipoController::class, 'crear'])->name('equipo.crear');
     Route::post('/store/{grupo}', [EquipoController::class, 'store'])->name('equipos.store');
@@ -138,30 +137,25 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/equipos/{equipo}/eliminar-miembro', [EquipoController::class, 'eliminarMiembro'])->name('equipos.eliminarMiembro');
     Route::post('/equipos/{equipo}/asignar-rol', [EquipoController::class, 'asignarRol'])->name('equipos.asignarRol');
 
-
-    //CRUD historias de usuario
-    Route::get('/historias/{equipo_id}', [HistoriaUsuarioController::class, 'show'])->name('historias.show');
-    Route::post('/historias/store/{equipo_id}', [HistoriaUsuarioController::class, 'store'])->name('historias.store');
-    Route::delete('/historias/{id}', [HistoriaUsuarioController::class, 'destroy'])->name('historias.destroy');
-    Route::put('historias/{id}', [HistoriaUsuarioController::class, 'update'])->name('historias.update');
-
-
     //CRUD proyecto
     Route::get('equipos/{equipo}/proyectos', [ProyectosController::class, 'mostrarProyectos'])->name('equipos.proyectos');
     Route::post('/proyectos', [ProyectosController::class, 'store'])->name('proyectos.store');
     Route::put('/proyectos/{id}', [ProyectosController::class, 'update'])->name('proyectos.update');
     Route::delete('/proyectos/{id}', [ProyectosController::class, 'destroy'])->name('proyectos.destroy');
 
-    //planificacion
 
-
+    //Planificacion
     Route::get('/proyectos/{proyecto}/planificacion', [ProyectosController::class, 'planificacion'])->name('proyectos.planificacion');
+    Route::post('/sprints/store', [SprintController::class, 'store'])->name('sprints.store');
+    Route::put('/sprints/{id}', [SprintController::class, 'update'])->name('sprints.update');
+    Route::delete('/sprints/{id}', [SprintController::class, 'destroy'])->name('sprints.destroy');
 
 
-
-
-
-    Route::get('/autoevaluaciones', [AutoEvaluacionController::class, 'index'])->name('autoevaluaciones.index');
+    Route::get('/sprints/{id}', [SprintController::class, 'show'])->name('sprints.show');
+    // CRUD historias de usuario
+    Route::post('/historias', [HistoriaUsuarioController::class, 'store'])->name('historias.store');
+    Route::put('/historias/{id}', [HistoriaUsuarioController::class, 'update'])->name('historias.update');
+    Route::delete('/historias/{id}', [HistoriaUsuarioController::class, 'destroy'])->name('historias.destroy');
 });
 
 
@@ -172,23 +166,4 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/grupo/{id}', [MateriaController::class, 'mostrar'])->name('grupo.mostrar');
     Route::get('/grupo/menu/{id}', [MateriaController::class, 'materia'])->name('grupo.menu');
-
-
-
-    Route::get('/mis-equipos', [EquipoController::class, 'misEquipos'])->name('usuario.equipos');
-    Route::post('/sprints/store', [SprintController::class, 'store'])->name('sprints.store');
-
-    Route::put('/sprints/{id}', [SprintController::class, 'update'])->name('sprints.update');
-    Route::delete('/sprints/{id}', [SprintController::class, 'destroy'])->name('sprints.destroy');
-    Route::get('/sprint/{id}', [SprintController::class, 'show'])->name('sprints.show');
-
-    // para crear tarea
-    Route::post('/tareas', [TareaController::class, 'store'])->name('tareas.store');
-    Route::put('/tareas/{tarea}', [TareaController::class, 'update'])->name('tareas.update');
-    Route::delete('/tareas/{tarea}', [TareaController::class, 'destroy'])->name('tareas.destroy');
-
-    //lista para docentes
-
-
 });
-// Route::get('/grupos/lista', [GrupoController::class, 'getGruposWithEquiposAndSprints'])->name('grupos.lista');
