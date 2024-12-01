@@ -51,33 +51,30 @@ class ProyectosController extends Controller
     
 
     public function update(Request $request, $id)
-    {
-        // Validar los datos del formulario
-        $validated = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'objetivos' => 'required|string',
-            'duracion_inicio' => 'required|date',
-            'duracion_fin' => 'required|date',
-            'estado' => 'required|string|in:planeado,en progreso,finalizado',
-        ]);
-    
-        // Obtener el proyecto por su ID
-        $proyecto = Proyecto::findOrFail($id);
-    
-        // Actualizar el proyecto con los nuevos datos
-        $proyecto->update([
-            'nombre' => $validated['nombre'],
-            'descripcion' => $validated['descripcion'],
-            'objetivos' => $validated['objetivos'],
-            'duracion_inicio' => $validated['duracion_inicio'],
-            'duracion_fin' => $validated['duracion_fin'],
-            'estado' => $validated['estado'],
-        ]);
-    
-        // Redirigir a la lista de proyectos con un mensaje de éxito
-        return redirect()->route('equipos.proyectos', ['equipo' => $proyecto->equipo_id])->with('success', 'Proyecto actualizado exitosamente.');
-    }
+{
+    // Validar los datos del formulario
+    $validated = $request->validate([
+        'nombre' => 'required|string|max:255',
+        'descripcion' => 'required|string',
+        'objetivos' => 'required|string',
+        'estado' => 'required|string|in:planeado,en progreso,finalizado',
+    ]);
+
+    // Obtener el proyecto por su ID
+    $proyecto = Proyecto::findOrFail($id);
+
+    // Actualizar el proyecto con los nuevos datos (sin modificar las fechas de inicio y fin)
+    $proyecto->update([
+        'nombre' => $validated['nombre'],
+        'descripcion' => $validated['descripcion'],
+        'objetivos' => $validated['objetivos'],
+        'estado' => $validated['estado'],
+    ]);
+
+    // Redirigir a la lista de proyectos con un mensaje de éxito
+    return redirect()->route('equipos.proyectos', ['equipo' => $proyecto->equipo_id])->with('success', 'Proyecto actualizado exitosamente.');
+}
+
     public function destroy($id)
     {
         // Obtener el proyecto por su ID

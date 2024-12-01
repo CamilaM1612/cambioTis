@@ -129,11 +129,11 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="projectStart" class="form-label">Fecha de Inicio</label>
-                                        <input type="date" class="form-control" id="projectStart" name="duracion_inicio" value="{{ $proyecto->duracion_inicio }}" required>
+                                        <input type="date" class="form-control" id="projectStart" name="duracion_inicio" value="{{ $proyecto->duracion_inicio }}" required readonly>
                                     </div>
                                     <div class="mb-3">
                                         <label for="projectEnd" class="form-label">Fecha de Fin</label>
-                                        <input type="date" class="form-control" id="projectEnd" name="duracion_fin" value="{{ $proyecto->duracion_fin }}" required>
+                                        <input type="date" class="form-control" id="projectEnd" name="duracion_fin" value="{{ $proyecto->duracion_fin }}" required readonly>
                                     </div>
                                     <div class="mb-3">
                                         <label for="projectStatus" class="form-label">Estado</label>
@@ -146,6 +146,7 @@
                                     <button type="submit" class="btn btn-primary">Actualizar Proyecto</button>
                                 </form>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
