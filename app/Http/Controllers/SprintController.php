@@ -63,12 +63,28 @@ class SprintController extends Controller
 
 
 
-    public function show($id)
-    {
-        $sprint = Sprint::findOrFail($id);
-        $historias = $sprint->historias;
-        return view('VistasEstudiantes.backlog', compact('sprint', 'historias'));
-    }
+    public function show($sprintId)
+{
+    // Obtener el sprint
+    $sprint = Sprint::findOrFail($sprintId);
+
+    // Obtener el proyecto relacionado con el sprint
+    $proyecto = $sprint->proyecto;
+
+    // Obtener el equipo del proyecto
+    $equipo = $proyecto->equipo;
+
+    // Obtener los miembros del equipo
+    $miembros = $equipo->miembros;
+
+    // Obtener las historias de usuario asociadas al sprint
+    $historias = $sprint->historias;
+
+    // Pasar las variables a la vista
+    return view('VistasEstudiantes.backlog', compact('sprint', 'miembros', 'historias'));
+}
+
+    
     
     
 

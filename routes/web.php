@@ -19,6 +19,7 @@ use App\Http\Controllers\misTareasController;
 use App\Http\Controllers\AutoEvaluacionController;
 use App\Http\Controllers\HistoriaUsuarioController;
 use App\Http\Controllers\ProyectosController;
+use App\Http\Controllers\SubtareaController;
 //-----------------------GENERAL---------------------------------------
 // Login y logout
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.form')->middleware('guest');
@@ -151,11 +152,21 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/sprints/{id}', [SprintController::class, 'destroy'])->name('sprints.destroy');
 
 
-    Route::get('/sprints/{id}', [SprintController::class, 'show'])->name('sprints.show');
+    Route::get('/sprints/{sprintId}', [SprintController::class, 'show'])->name('sprints.show');
+
     // CRUD historias de usuario
     Route::post('/historias', [HistoriaUsuarioController::class, 'store'])->name('historias.store');
     Route::put('/historias/{id}', [HistoriaUsuarioController::class, 'update'])->name('historias.update');
     Route::delete('/historias/{id}', [HistoriaUsuarioController::class, 'destroy'])->name('historias.destroy');
+
+    //CRUD Subtarea
+
+
+    // Ruta para agregar subtarea
+    Route::post('historias/{historiaId}/subtareas', [SubtareaController::class, 'store'])->name('subtareas.store');
+    // Ruta para editar una subtarea
+    Route::put('/subtareas/{id}', [SubtareaController::class, 'update'])->name('subtareas.update');
+    Route::delete('/subtareas/{id}', [SubtareaController::class, 'destroy'])->name('subtareas.destroy');
 });
 
 

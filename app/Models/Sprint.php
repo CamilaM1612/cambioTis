@@ -26,11 +26,6 @@ class Sprint extends Model
         return $this->belongsTo(Proyecto::class); // Relación con el modelo Proyecto
     }
 
-    public function tareas()
-    {
-        return $this->hasMany(Tarea::class);
-    }
-
     public function comentarios()
     {
         return $this->hasMany(Comentario::class);

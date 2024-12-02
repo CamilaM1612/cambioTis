@@ -23,4 +23,10 @@ class HistoriaUsuario extends Model
     {
         return $this->belongsTo(Sprint::class, 'sprint_id'); // Relación con la tabla sprints
     }
+
+    public function subtareas()
+{
+    return $this->hasMany(Subtarea::class);
+}
+
 }
