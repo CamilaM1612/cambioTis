@@ -18,13 +18,13 @@ class CreateComentariosTable extends Migration
             $table->text('contenido'); // Contenido del comentario
             $table->unsignedBigInteger('docente_id'); // Docente que hizo el comentario
             $table->unsignedBigInteger('sprint_id')->nullable(); // Opcional, si el comentario está relacionado con un sprint
-            $table->unsignedBigInteger('tarea_id')->nullable(); // Opcional, si el comentario está relacionado con una tarea
+            $table->unsignedBigInteger('subtarea_id')->nullable(); // Opcional, si el comentario está relacionado con una tarea
             $table->timestamps();
         
             // Llaves foráneas
             $table->foreign('docente_id')->references('id')->on('usuarios')->onDelete('cascade');
             $table->foreign('sprint_id')->references('id')->on('sprints')->onDelete('cascade');
-            $table->foreign('tarea_id')->references('id')->on('tareas')->onDelete('cascade');
+            $table->foreign('subtarea_id')->references('id')->on('subtareas')->onDelete('cascade');
         });
     }
 
