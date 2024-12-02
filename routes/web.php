@@ -13,13 +13,16 @@ use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\SprintController;
 use App\Http\Controllers\ContenidoGrupoController;
 use App\Http\Controllers\ComentarioController;
-use App\Http\Controllers\EvaluacionController;
+
 use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\misTareasController;
-use App\Http\Controllers\AutoEvaluacionController;
+
 use App\Http\Controllers\HistoriaUsuarioController;
 use App\Http\Controllers\ProyectosController;
 use App\Http\Controllers\SubtareaController;
+use App\Http\Controllers\EvaluacionController;
+use App\Http\Controllers\PreguntaEvaluacionController;
+
 //-----------------------GENERAL---------------------------------------
 // Login y logout
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.form')->middleware('guest');
@@ -98,9 +101,17 @@ Route::middleware(['auth'])->group(function () {
 
 
     // CRUP autoevaluaciones
-    Route::post('/evaluacion/store', [EvaluacionController::class, 'store'])->name('evaluacion.store');
-    Route::put('/evaluacion/{id}', [EvaluacionController::class, 'update'])->name('evaluacion.update');
-    Route::delete('/evaluacion/{id}', [EvaluacionController::class, 'destroy'])->name('evaluacion.destroy');
+    Route::get('/evaluaciones', [EvaluacionController::class, 'index'])->name('evaluacion.index');
+    Route::post('/evaluaciones', [EvaluacionController::class, 'store'])->name('evaluaciones.store');
+
+    Route::get('/evaluaciones/{id}', [EvaluacionController::class, 'show'])->name('evaluaciones.show');
+
+    Route::post('/evaluacion/{evaluacion_id}/crear-pregunta', [EvaluacionController::class, 'storeQ'])->name('preguntas.store');
+
+
+    // Route::put('/evaluacion/{id}', [EvaluacionController::class, 'update'])->name('evaluacion.update');
+    // Route::delete('/evaluacion/{id}', [EvaluacionController::class, 'destroy'])->name('evaluacion.destroy');
+   
     //CRUD de preguntas
     Route::get('/evaluacion/{id}/preguntas', [PreguntaController::class, 'index'])->name('evaluacion.preguntas');
     Route::post('/preguntas/store', [PreguntaController::class, 'store'])->name('preguntas.store');

@@ -11,7 +11,7 @@ class Comentario extends Model
     
     protected $table = 'comentarios';
 
-    protected $fillable = ['contenido', 'docente_id', 'sprint_id', 'tarea_id'];
+    protected $fillable = ['contenido', 'docente_id', 'sprint_id', 'subtarea_id'];
 
     public function docente()
     {
@@ -23,9 +23,9 @@ class Comentario extends Model
         return $this->belongsTo(Sprint::class);
     }
 
-    public function tarea()
+    public function Subtarea()
     {
-        return $this->belongsTo(Tarea::class);
+        return $this->belongsTo(Subtarea::class);
     }
 
 

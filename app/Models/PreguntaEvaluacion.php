@@ -5,19 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pregunta extends Model
+class PreguntaEvaluacion extends Model
 {
     use HasFactory;
 
+    protected $table = 'preguntas_evaluacion';
+    
     protected $fillable = [
         'evaluacion_id',
         'pregunta',
-        'max_escala'
+        'tipo_respuesta'
     ];
 
-    // Relación con la tabla de evaluaciones
+    // Relación con Evaluación
     public function evaluacion()
     {
         return $this->belongsTo(Evaluacion::class);
+    }
+
+    // Relación con Respuestas de Evaluación
+    public function respuestas()
+    {
+        return $this->hasMany(RespuestaEvaluacion::class);
     }
 }

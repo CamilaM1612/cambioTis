@@ -261,13 +261,21 @@
                         <h4>Contenido subido</h4>
                     </div>
                 </a>
-                
+                <a href="{{ route('evaluacion.index') }}" class="selected">
+                    <div class="option">
+                        <i class="bi bi-bell"></i>
+                        <h4>Evaluaciones</h4>
+                    </div>
+                </a>
+
                 <a href="{{ route('avisos.create') }}" class="selected">
                     <div class="option">
                         <i class="bi bi-bell"></i>
                         <h4>Publicar Avisos</h4>
                     </div>
                 </a>
+
+
             @elseif(auth()->user()->rol->name === 'Estudiante')
 
             <a href="{{ route('estudiante.dashboard') }}" class="selected">
