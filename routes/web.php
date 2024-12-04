@@ -17,7 +17,7 @@ use App\Http\Controllers\misTareasController;
 use App\Http\Controllers\HistoriaUsuarioController;
 use App\Http\Controllers\ProyectosController;
 use App\Http\Controllers\SubtareaController;
-
+use App\Http\Controllers\SprintPlannerController;
 
 //-----------------------GENERAL---------------------------------------
 // Login y logout
@@ -114,12 +114,6 @@ Route::middleware(['auth'])->group(function () {
         return view('VistasEstudiantes.materia');
     })->name('estudiante.materia');
 
-
-
-    // Route::get('/estudiante/mis-tareas', function () {
-    //     return view('VistasEstudiantes.misTareas');
-    // })->name('estudiante.misTareas');
-
     Route::get('/mis-tareas/sprints', [misTareasController::class, 'misTareasPorSprint'])->name('tareas.misTareasPorSprint');
     Route::put('/mis-tareas/{id}', [misTareasController::class, 'edit'])->name('tareas.edit');
 
@@ -139,12 +133,17 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/proyectos/{id}', [ProyectosController::class, 'destroy'])->name('proyectos.destroy');
 
     //Planificacion
+    Route::get('/equipos', [SprintPlannerController::class, 'index'])->name('sprint.planner');
+    Route::get('/sprints/{proyectoId}', [SprintPlannerController::class, 'getSprints'])->name('equipos.sprints');
+    Route::post('/sprints', [SprintPlannerController::class, 'store'])->name('sprints.store');
+    Route::put('/sprints/{id}', [SprintPlannerController::class, 'update'])->name('sprints.update');
+    Route::delete('/sprints/{id}', [SprintPlannerController::class, 'destroy'])->name('sprints.destroy');
+    
     Route::get('/proyectos/{proyecto}/planificacion', [ProyectosController::class, 'planificacion'])->name('proyectos.planificacion');
-    Route::post('/sprints/store', [SprintController::class, 'store'])->name('sprints.store');
-    Route::put('/sprints/{id}', [SprintController::class, 'update'])->name('sprints.update');
-    Route::delete('/sprints/{id}', [SprintController::class, 'destroy'])->name('sprints.destroy');
 
+  
 
+   
     Route::get('/sprints/{sprintId}', [SprintController::class, 'show'])->name('sprints.show');
 
     Route::post('/historias', [HistoriaUsuarioController::class, 'store'])->name('historias.store');
