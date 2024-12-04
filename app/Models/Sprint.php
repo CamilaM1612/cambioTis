@@ -32,7 +32,7 @@ class Sprint extends Model
     }
     public function historias()
     {
-        return $this->hasMany(HistoriaUsuario::class, 'sprint_id');
+        return $this->hasMany(HistoriaUsuario::class, 'sprints_id');
     }
     
 }

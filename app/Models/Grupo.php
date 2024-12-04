@@ -25,18 +25,12 @@ class Grupo extends Model
 
     public function equipos()
     {
-        return $this->hasMany(Equipo::class, 'grupo_id'); // Indicar la clave foránea 'grupo_id'
+        return $this->hasMany(Equipo::class, 'grupo_id');
     }
-    
-    //relacion con avisos
+   
     public function avisos()
     {
         return $this->hasMany(Aviso::class);
-    }
-
-    public function evaluaciones()
-    {
-        return $this->hasMany(Evaluacion::class);
     }
     
 }

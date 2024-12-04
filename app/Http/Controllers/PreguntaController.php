@@ -3,53 +3,56 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Evaluacion;
 use App\Models\Pregunta;
 
 class PreguntaController extends Controller
 {
-    public function index($evaluacionId)
+    public function index()
     {
-        $evaluacion = Evaluacion::with(['grupo', 'preguntas'])->findOrFail($evaluacionId);
-        $grupo = $evaluacion->grupo; // Obtenemos el grupo al que pertenece la evaluación
-        $preguntas = $evaluacion->preguntas; // Obtenemos las preguntas relacionadas con la evaluación
-
-        return view('VistasDocentes.VistaGrupo.evaluaciones', compact('evaluacion', 'grupo', 'preguntas'));
+        $preguntas = Pregunta::all();
+        $preguntasAgrupadas = $preguntas->groupBy('evaluacion');
+        return view('VistasDocentes.preguntas', compact('preguntasAgrupadas'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'pregunta' => 'required|string',
-            'evaluacion_id' => 'required|exists:evaluaciones,id',
-            'max_escala' => 'required|integer', // Validación del máximo de la escala
+            'texto' => 'required|string|max:255',
+            'tipo' => 'required|in:f/v,escala_1_5,respuesta_corta,opcion_multiple',
+            'evaluacion' => 'required|in:autoevaluacion,cruzada,porpares',
+            'estado' => 'required|in:activo,inactivo',
         ]);
 
         Pregunta::create($request->all());
-
-        return redirect()->back()->with('success', 'Pregunta creada con éxito.');
+        return redirect()->route('preguntas.index')->with('success', 'Pregunta creada exitosamente.');
     }
+
     public function update(Request $request, $id)
     {
+        // Validar los datos del formulario
         $request->validate([
-            'pregunta' => 'required|string',
-            'max_escala' => 'required|integer|min:5|max:10', // Validación de escala entre 1 y 10
+            'texto' => 'required|string|max:255',
+            'tipo' => 'required|in:f/v,escala_1_5,respuesta_corta,opcion_multiple',
+            'evaluacion' => 'required|in:autoevaluacion,cruzada,porpares',
+            'estado' => 'required|in:activo,inactivo',
         ]);
 
+        // Buscar la pregunta a actualizar
         $pregunta = Pregunta::findOrFail($id);
-        $pregunta->update([
-            'pregunta' => $request->input('pregunta'),
-            'max_escala' => $request->input('max_escala'),
-        ]);
 
-        return redirect()->back()->with('success', 'Pregunta actualizada con éxito.');
+        // Actualizar los datos de la pregunta
+        $pregunta->update($request->all());
+
+        // Redirigir a la vista con un mensaje de éxito
+        return redirect()->route('preguntas.index')->with('success', 'Pregunta actualizada exitosamente.');
     }
+
 
     public function destroy($id)
     {
+
         $pregunta = Pregunta::findOrFail($id);
         $pregunta->delete();
-
-        return redirect()->back()->with('success', 'Pregunta eliminada con éxito.');
+        return redirect()->route('preguntas.index')->with('success', 'Pregunta eliminada exitosamente.');
     }
 }

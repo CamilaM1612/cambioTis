@@ -18,7 +18,7 @@ class HistoriaUsuarioController extends Controller
             'prioridad' => 'required|in:Alta,Media,Baja',
             'estado' => 'required|in:Pendiente,En progreso,Completada',
             'criterios_aceptacion' => 'required|string',
-            'sprint_id' => 'required|exists:sprints,id', // Verifica que el sprint exista
+            'sprints_id' => 'required|exists:sprints,id', // Verifica que el sprint exista
         ]);
 
         // Crear la historia de usuario

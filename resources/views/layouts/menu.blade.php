@@ -261,7 +261,7 @@
                         <h4>Contenido subido</h4>
                     </div>
                 </a>
-                <a href="{{ route('evaluacion.index') }}" class="selected">
+                <a href="{{ route('preguntas.index') }}" class="selected">
                     <div class="option">
                         <i class="bi bi-bell"></i>
                         <h4>Evaluaciones</h4>

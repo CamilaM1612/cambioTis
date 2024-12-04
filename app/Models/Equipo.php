@@ -31,16 +31,12 @@ class Equipo extends Model
         return $this->belongsTo(Usuario::class, 'creador_id');
     }
 
-
     public function miembros()
     {
         return $this->belongsToMany(Usuario::class, 'equipo_usuario', 'equipo_id', 'usuario_id')
             ->withPivot('rol')
             ->withTimestamps();
     }
-
-    
-   
 
     public function proyectos()
     {

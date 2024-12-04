@@ -5,7 +5,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\PasswordResetController;
-use App\Http\Controllers\TareaController;
+use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\AvisoController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\MateriaController;
@@ -13,15 +13,11 @@ use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\SprintController;
 use App\Http\Controllers\ContenidoGrupoController;
 use App\Http\Controllers\ComentarioController;
-
-use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\misTareasController;
-
 use App\Http\Controllers\HistoriaUsuarioController;
 use App\Http\Controllers\ProyectosController;
 use App\Http\Controllers\SubtareaController;
-use App\Http\Controllers\EvaluacionController;
-use App\Http\Controllers\PreguntaEvaluacionController;
+
 
 //-----------------------GENERAL---------------------------------------
 // Login y logout
@@ -99,24 +95,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/tarea/comentario/{comentarioId}', [ComentarioController::class, 'destroyTareaComentario'])->name('comentario.tarea.destroy');
     Route::patch('/sprint/{id}/nota', [SprintController::class, 'updateNota'])->name('sprint.nota.update');
 
+    Route::get('/preguntas', [PreguntaController::class, 'index'])->name('preguntas.index');
+    Route::post('/preguntas', [PreguntaController::class, 'store'])->name('preguntas.store');
+    Route::put('/pregunta/{id}', [PreguntaController::class, 'update'])->name('preguntas.update');
+    Route::delete('/pregunta/{id}', [PreguntaController::class, 'destroy'])->name('preguntas.destroy');
 
-    // CRUP autoevaluaciones
-    Route::get('/evaluaciones', [EvaluacionController::class, 'index'])->name('evaluacion.index');
-    Route::post('/evaluaciones', [EvaluacionController::class, 'store'])->name('evaluaciones.store');
-
-    Route::get('/evaluaciones/{id}', [EvaluacionController::class, 'show'])->name('evaluaciones.show');
-
-    Route::post('/evaluacion/{evaluacion_id}/crear-pregunta', [EvaluacionController::class, 'storeQ'])->name('preguntas.store');
-
-
-    // Route::put('/evaluacion/{id}', [EvaluacionController::class, 'update'])->name('evaluacion.update');
-    // Route::delete('/evaluacion/{id}', [EvaluacionController::class, 'destroy'])->name('evaluacion.destroy');
-   
-    //CRUD de preguntas
-    Route::get('/evaluacion/{id}/preguntas', [PreguntaController::class, 'index'])->name('evaluacion.preguntas');
-    Route::post('/preguntas/store', [PreguntaController::class, 'store'])->name('preguntas.store');
-    Route::patch('/preguntas/{id}', [PreguntaController::class, 'update'])->name('preguntas.update');
-    Route::delete('/preguntas/{id}', [PreguntaController::class, 'destroy'])->name('preguntas.destroy');
 
     //-----------------------VISTAS ESTUDIANTES---------------------------------------
     Route::get('/estudiante/dashboard', function () {
@@ -155,7 +138,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/proyectos/{id}', [ProyectosController::class, 'update'])->name('proyectos.update');
     Route::delete('/proyectos/{id}', [ProyectosController::class, 'destroy'])->name('proyectos.destroy');
 
-
     //Planificacion
     Route::get('/proyectos/{proyecto}/planificacion', [ProyectosController::class, 'planificacion'])->name('proyectos.planificacion');
     Route::post('/sprints/store', [SprintController::class, 'store'])->name('sprints.store');
@@ -165,7 +147,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/sprints/{sprintId}', [SprintController::class, 'show'])->name('sprints.show');
 
-    // CRUD historias de usuario
     Route::post('/historias', [HistoriaUsuarioController::class, 'store'])->name('historias.store');
     Route::put('/historias/{id}', [HistoriaUsuarioController::class, 'update'])->name('historias.update');
     Route::delete('/historias/{id}', [HistoriaUsuarioController::class, 'destroy'])->name('historias.destroy');
@@ -178,12 +159,6 @@ Route::middleware(['auth'])->group(function () {
     // Ruta para editar una subtarea
     Route::put('/subtareas/{id}', [SubtareaController::class, 'update'])->name('subtareas.update');
     Route::delete('/subtareas/{id}', [SubtareaController::class, 'destroy'])->name('subtareas.destroy');
-});
-
-
-// Route::post('/grupos/registrar', [InscripcionController::class, 'registrar'])->name('grupos.registrar');
-
-Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/grupo/{id}', [MateriaController::class, 'mostrar'])->name('grupo.mostrar');
