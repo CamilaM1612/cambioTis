@@ -61,22 +61,10 @@ class Usuario extends Authenticatable
                     ->withTimestamps();
     }
     
-
     public function avisosCreados()
     {
         return $this->hasMany(Aviso::class, 'docente_id');
     }
-
-    public function calcularProgresoPorSprint($sprintId)
-    {
-        $totalTareas = $this->tareas()->where('sprint_id', $sprintId)->count();
-        if ($totalTareas === 0) {
-            return 0; 
-        }
-        $tareasCompletadas = $this->tareas()->where('sprint_id', $sprintId)->where('estado', 'Completado')->count();
-        return ($tareasCompletadas / $totalTareas) * 100;
-    }
-
     public function comentarios()
     {
         return $this->hasMany(Comentario::class, 'docente_id');

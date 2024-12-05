@@ -317,7 +317,7 @@
                     <h4>Proyectos</h4>
                 </div>
             </a>
-            <a href="{{route('sprint.planner')}}" class="selected">
+            <a href="{{route('sprint-planner')}}" class="selected">
                 <div class="option">
                     <i class="bi bi-calendar-check-fill"></i> <!-- Icono de calendario para Sprint Planner -->
                     <h4>Sprint planner</h4>

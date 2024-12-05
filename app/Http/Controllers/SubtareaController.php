@@ -10,7 +10,6 @@ class SubtareaController extends Controller
 {
     public function store(Request $request, $historiaId)
     {
-        // Validación de los datos
         $validated = $request->validate([
             'titulo' => 'required|string|max:255',
             'descripcion' => 'required|string',
@@ -18,23 +17,15 @@ class SubtareaController extends Controller
             'miembro_asignado' => 'nullable|integer',
         ]);
 
-        // Buscar la historia de usuario
         $historia = HistoriaUsuario::findOrFail($historiaId);
-
-        // Obtener el equipo del sprint de esta historia (relación entre historia, sprint, y proyecto)
-        $equipo = $historia->sprint->proyecto->equipo;  // Asegúrate de tener estas relaciones definidas
-
-        // Obtener los miembros del equipo
-        $miembros = $equipo->usuarios; // Relación definida en el modelo EquipoUsuario
-
-        // Crear la subtarea
+        $equipo = $historia->sprint->proyecto->equipo;  
+        $miembros = $equipo->usuarios; 
         $subtarea = new Subtarea($validated);
         $subtarea->historia_usuario_id = $historia->id;
         $subtarea->miembro_asignado = $request->miembro_asignado;
         $subtarea->save();
+        return back()->with('success', 'Subtarea agregada exitosamente.');
 
-        // Redirigir al sprint de la historia con un mensaje de éxito
-        return redirect()->route('sprints.show', $historia->sprint_id)->with('success', 'Subtarea agregada exitosamente.');
     }
 
     public function update(Request $request, $id)
@@ -69,15 +60,15 @@ class SubtareaController extends Controller
     }
 
     public function destroy($id)
-    {
-        // Encontrar la subtarea
-        $subtarea = Subtarea::findOrFail($id);
+{
+    // Encontrar la subtarea
+    $subtarea = Subtarea::findOrFail($id);
 
-        // Eliminar la subtarea
-        $subtarea->delete();
+    // Eliminar la subtarea
+    $subtarea->delete();
 
-        // Redirigir al sprint de la historia con un mensaje de éxito
-        return redirect()->route('sprints.show', $subtarea->historia_usuario_id)
-                         ->with('success', 'Subtarea eliminada correctamente.');
-    }
+    // Redirigir a la página anterior con un mensaje de éxito
+    return back()->with('success', 'Subtarea eliminada correctamente.');
+}
+
 }

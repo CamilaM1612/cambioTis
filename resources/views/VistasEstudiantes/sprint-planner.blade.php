@@ -1,153 +1,174 @@
 @extends('layouts.menu')
 
 @section('content')
-<div class="container">
-    <h2>Proyectos y Sprints</h2>
 
-    <!-- Selector de proyectos -->
-    <div class="mb-3">
-        <label for="proyecto-select" class="form-label">Selecciona un proyecto:</label>
-        <select id="proyecto-select" class="form-control">
-            <option value="">-- Selecciona un proyecto --</option>
-            @foreach ($equipos as $equipo)
-                @foreach ($equipo->proyectos as $proyecto)
-                    <option value="{{ $proyecto->id }}">{{ $proyecto->nombre }}</option>
-                @endforeach
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/estudiante/dashboard">Página principal</a></li>
+        <li class="breadcrumb-item"><a href="/sprint-planner">Sprint Planner</a></li>
+    </ol>
+</nav>
+    <div class="container">
+        <h1>Mis Proyectos y Sprints</h1>
+
+        @if ($proyectos->isEmpty())
+            <p>No tienes proyectos asignados.</p>
+        @else
+            @foreach ($proyectos as $proyecto)
+                <div class="card my-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3>{{ $proyecto->nombre }}</h3>
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#crearSprintModal" onclick="setProyectoId({{ $proyecto->id }})">
+                            Crear Sprint
+                        </button>
+                    </div>
+                    <p>{{ $proyecto->descripcion }}</p>
+                </div>
+                    <div class="card-body">
+                        @if ($proyecto->sprints->isEmpty())
+                            <p>No hay sprints disponibles para este proyecto.</p>
+                        @else
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre</th>
+                                    <th>Objetivo</th>
+                                    <th>Fecha de Inicio</th>
+                                    <th>Fecha de Fin</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($proyecto->sprints as $index => $sprint)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td><a href="{{ route('historias.show', $sprint->id) }}" class="text-decoration-none">
+                                            {{ $sprint->nombre }}
+                                        </a></td>
+                                        
+                                        <td>{{ $sprint->objetivo }}</td>
+                                        <td>{{ $sprint->fecha_inicio }}</td>
+                                        <td>{{ $sprint->fecha_fin }}</td>
+                                        <td>
+                                            <!-- Botón de eliminar -->
+                                            <form action="{{ route('sprints.destroy', $sprint->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" 
+                                                    onclick="return confirm('¿Estás seguro de que deseas eliminar este sprint?');">
+                                                    <i class="bi bi-trash3"></i> Eliminar
+                                                </button>
+                                            </form>
+                        
+                                            <!-- Botón de editar -->
+                                            <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarSprintModal-{{ $sprint->id }}">
+                                                <i class="bi bi-pencil"></i> Editar
+                                            </button>
+                        
+                                            <!-- Modal de editar sprint -->
+                                            <div class="modal fade" id="editarSprintModal-{{ $sprint->id }}" tabindex="-1" aria-labelledby="editarSprintModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editarSprintModalLabel">Editar Sprint</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="{{ route('sprints.update', $sprint->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('PUT')
+                        
+                                                                <div class="mb-3">
+                                                                    <label for="nombre" class="form-label">Nombre del Sprint</label>
+                                                                    <input type="text" class="form-control" name="nombre" value="{{ $sprint->nombre }}" required>
+                                                                </div>
+                        
+                                                                <div class="mb-3">
+                                                                    <label for="objetivo" class="form-label">Objetivo del Sprint</label>
+                                                                    <textarea class="form-control" name="objetivo" required>{{ $sprint->objetivo }}</textarea>
+                                                                </div>
+                        
+                                                                <div class="mb-3">
+                                                                    <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
+                                                                    <input type="date" class="form-control" name="fecha_inicio" value="{{ $sprint->fecha_inicio }}" required>
+                                                                </div>
+                        
+                                                                <div class="mb-3">
+                                                                    <label for="fecha_fin" class="form-label">Fecha de Fin</label>
+                                                                    <input type="date" class="form-control" name="fecha_fin" value="{{ $sprint->fecha_fin }}" required>
+                                                                </div>
+                        
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        
+                        @endif
+                    </div>
+                </div>
             @endforeach
-        </select>
-    </div>
+            <div class="modal fade" id="crearSprintModal" tabindex="-1" aria-labelledby="crearSprintModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="crearSprintModalLabel">Crear Sprint</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('sprints.store') }}" method="POST">
+                                @csrf
+                                <!-- Campo oculto para pasar el proyecto_id -->
+                                <input type="hidden" id="proyecto-id-input" name="proyecto_id">
 
-    <!-- Botón para crear un sprint, inicialmente oculto -->
-    <div id="crear-sprint-container" style="display: none;">
-        <button type="button" id="crear-sprint-btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearSprintModal">
-            <i class="bi bi-plus-circle"></i> Crear Sprint
-        </button>
-    </div>
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre del Sprint</label>
+                                    <input type="text" class="form-control" name="nombre" required>
+                                </div>
 
-    <!-- Tabla de sprints -->
-    <div id="sprints-container" class="mt-4">
-        <h4>Sprints del proyecto</h4>
-        <table class="table" id="sprints-table" style="display: none;">
-            <thead>
-                <tr>
-                    <th scope="col">Sprint</th>
-                    <th scope="col">Fecha de Inicio</th>
-                    <th scope="col">Fecha de Entrega</th>
-                    <th scope="col">Duración (días)</th>
-                    <th scope="col">Objetivos</th>
-                    <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-</div>
+                                <div class="mb-3">
+                                    <label for="objetivo" class="form-label">Objetivo del Sprint</label>
+                                    <textarea class="form-control" name="objetivo"></textarea>
+                                </div>
 
-<!-- Modal para crear un sprint -->
-<div class="modal fade" id="crearSprintModal" tabindex="-1" aria-labelledby="crearSprintModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="crearSprintModalLabel">Crear Sprint</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <div class="mb-3">
+                                    <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
+                                    <input type="date" class="form-control" name="fecha_inicio" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="fecha_fin" class="form-label">Fecha de Fin</label>
+                                    <input type="date" class="form-control" name="fecha_fin" required>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Crear Sprint</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <form action="{{ route('sprints.store') }}" method="POST">
-                    @csrf
-
-                    <!-- Campo oculto para pasar el proyecto_id -->
-                    <input type="hidden" id="proyecto-id-input" name="proyecto_id">
-
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre del Sprint</label>
-                        <input type="text" class="form-control" name="nombre" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="objetivo" class="form-label">Objetivo del Sprint</label>
-                        <textarea class="form-control" name="objetivo"></textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
-                        <input type="date" class="form-control" name="fecha_inicio" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="fecha_fin" class="form-label">Fecha de Fin</label>
-                        <input type="date" class="form-control" name="fecha_fin" required>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Crear Sprint</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        @endif
     </div>
-</div>
 
-<script>
-    const proyectoSelect = document.getElementById('proyecto-select');
-    const crearSprintContainer = document.getElementById('crear-sprint-container');
-    const proyectoIdInput = document.getElementById('proyecto-id-input');
-    const sprintsTable = document.getElementById('sprints-table');
-    const sprintsTableBody = sprintsTable.querySelector('tbody');
-
-    proyectoSelect.addEventListener('change', function () {
-        const proyectoId = this.value;
-
-        if (proyectoId) {
-            // Mostrar el botón para crear sprint
-            crearSprintContainer.style.display = 'block';
-            proyectoIdInput.value = proyectoId;
-
-            // Fetch para obtener los sprints
-            fetch(`/sprints/${proyectoId}`)
-                .then(response => response.json())
-                .then(sprints => {
-                    sprintsTableBody.innerHTML = ''; // Limpiar la tabla
-                    sprintsTable.style.display = 'table'; // Mostrar la tabla
-
-                    sprints.forEach(sprint => {
-                        // Calcular la duración del sprint
-                        const inicio = new Date(sprint.fecha_inicio);
-                        const fin = new Date(sprint.fecha_fin);
-                        const duracion = Math.ceil((fin - inicio) / (1000 * 60 * 60 * 24));
-
-                        // Crear fila
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td><a href="/sprints/${sprint.id}">${sprint.nombre}</a></td>
-                            <td>${new Date(sprint.fecha_inicio).toLocaleDateString()}</td>
-                            <td>${new Date(sprint.fecha_fin).toLocaleDateString()}</td>
-                            <td>${duracion} días</td>
-                            <td>${sprint.objetivo || 'N/A'}</td>
-                            <td>
-                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editarSprintModal-${sprint.id}">
-                                    <i class="bi bi-pencil"></i> Editar
-                                </button>
-                                <form action="/sprints/${sprint.id}" method="POST" class="d-inline">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este sprint?');">
-                                        <i class="bi bi-trash3"></i> Eliminar
-                                    </button>
-                                </form>
-                            </td>
-                        `;
-                        sprintsTableBody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Error:', error));
-        } else {
-            // Ocultar el botón y limpiar la tabla
-            crearSprintContainer.style.display = 'none';
-            proyectoIdInput.value = '';
-            sprintsTable.style.display = 'none';
-            sprintsTableBody.innerHTML = '';
+    <script>
+        function setProyectoId(proyectoId) {
+            document.getElementById('proyecto-id-input').value = proyectoId;
         }
-    });
-</script>
+    </script>
+    
 @endsection

@@ -9,6 +9,22 @@ use App\Models\Sprint;
 
 class HistoriaUsuarioController extends Controller
 {
+
+    public function show($id)
+    {
+        // Encuentra el sprint con las relaciones necesarias
+        $sprint = Sprint::with([
+            'proyecto.equipo.miembros', // Asegúrate de que las relaciones están correctamente definidas
+            'historias.subtareas',
+        ])->findOrFail($id);
+
+        // Obtén los miembros del equipo asociado al proyecto del sprint
+        $miembros = $sprint->proyecto->equipo->miembros;
+
+        // Pasa los datos a la vista
+        return view('VistasEstudiantes.sprint-detalle', compact('sprint', 'miembros'));
+    }
+
     public function store(Request $request)
     {
         // Validar los datos del formulario
@@ -25,35 +41,31 @@ class HistoriaUsuarioController extends Controller
         HistoriaUsuario::create($validated);
 
         // Redirigir al sprint con mensaje de éxito
-        return redirect()->route('sprints.show', $request->sprint_id)->with('success', 'Historia de usuario creada correctamente');
+        return redirect()->route('historias.show', $request->sprints_id)->with('success', 'Historia de usuario creada correctamente');
     }
 
     public function update(Request $request, $id)
 {
-    $request->validate([
+    $validated = $request->validate([
         'titulo' => 'required|string|max:255',
         'descripcion' => 'required|string',
-        'prioridad' => 'required|string',
-        'estado' => 'required|string',
-        'criterios_aceptacion' => 'required|string',
+        'prioridad' => 'required|string|in:Alta,Media,Baja',
+        'estado' => 'required|string|in:pendiente,en progreso,completado',
     ]);
 
     $historia = HistoriaUsuario::findOrFail($id);
-    $historia->update([
-        'titulo' => $request->titulo,
-        'descripcion' => $request->descripcion,
-        'prioridad' => $request->prioridad,
-        'estado' => $request->estado,
-        'criterios_aceptacion' => $request->criterios_aceptacion,
-    ]);
+    $historia->update($validated);
 
-    return redirect()->route('sprints.show', $historia->sprint_id)->with('success', 'Historia de usuario actualizada');
+    return back()->with('success', 'Historia actualizada exitosamente.');
 }
 
-    public function destroy($id)
-    {
-        $historia = HistoriaUsuario::findOrFail($id);
-        $historia->delete();
-        return redirect()->route('sprints.show', $historia->sprint_id)->with('success', 'Historia de usuario eliminada');
-    }
+
+public function destroy($id)
+{
+    $historia = HistoriaUsuario::findOrFail($id);
+    $historia->delete();
+
+    return back()->with('success', 'Historia eliminada correctamente.');
+}
+
 }
