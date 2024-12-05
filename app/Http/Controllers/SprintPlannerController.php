@@ -40,24 +40,26 @@ class SprintPlannerController extends Controller
 
 
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'objetivo' => 'required|string',
-            'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|date',
-        ]);
+{
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'objetivo' => 'required|string',
+        'fecha_inicio' => 'required|date',
+        'fecha_fin' => 'required|date',
+        'estado' => 'required|string|in:Pendiente,En Proceso,Completado', // Validación para el estado
+    ]);
 
-        $sprint = Sprint::findOrFail($id);
-        $sprint->update([
-            'nombre' => $request->nombre,
-            'objetivo' => $request->objetivo,
-            'fecha_inicio' => $request->fecha_inicio,
-            'fecha_fin' => $request->fecha_fin,
-        ]);
+    $sprint = Sprint::findOrFail($id);
+    $sprint->update([
+        'nombre' => $request->nombre,
+        'objetivo' => $request->objetivo,
+        'fecha_inicio' => $request->fecha_inicio,
+        'fecha_fin' => $request->fecha_fin,
+        'estado' => $request->estado, // Actualización del estado
+    ]);
 
-        return redirect()->back()->with('success', 'Sprint actualizado correctamente.');
-    }
+    return redirect()->back()->with('success', 'Sprint actualizado correctamente.');
+}
 
     public function destroy($id)
     {

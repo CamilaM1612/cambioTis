@@ -18,7 +18,7 @@ class Sprint extends Model
         'fecha_inicio',
         'fecha_fin',
         'proyecto_id', 
-        'nota'
+        'estado'
     ];
 
     public function proyecto()

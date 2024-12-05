@@ -22,8 +22,10 @@ class CreateSprintsTable extends Migration
             $table->foreignId('proyecto_id')
                 ->constrained('proyectos') 
                 ->onDelete('cascade');
+            $table->enum('estado', ['Pendiente', 'En Proceso', 'Completado'])->default('Pendiente'); // Agregar el estado
             $table->timestamps();
         });
+        
     }
     
 
