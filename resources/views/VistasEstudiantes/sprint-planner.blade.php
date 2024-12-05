@@ -56,7 +56,9 @@
                                                 <span class="badge text-bg-secondary">{{ $sprint->estado }}</span>
                                             @elseif($sprint->estado == 'Completado')
                                                 <span class="badge text-bg-success">{{ $sprint->estado }}</span>
-                                                <button type="button" class="btn btn-success"><i class="bi bi-file-earmark-text"></i></button>
+                                                <a href="{{ route('autoevaluacion.formulario', $sprint->id) }}" class="btn btn-success">
+                                                    <i class="bi bi-file-earmark-text"></i>
+                                                </a>
                                             @endif
                                         </div>
                                         <div><strong>Objetivo:</strong> {{ $sprint->objetivo }}</div>

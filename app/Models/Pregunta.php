@@ -17,4 +17,9 @@ class Pregunta extends Model
         'evaluacion', 
         'estado'
     ];
+
+    public function respuestas()
+    {
+        return $this->hasMany(Respuesta::class);
+    }
 }

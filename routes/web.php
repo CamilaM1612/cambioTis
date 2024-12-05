@@ -17,7 +17,8 @@ use App\Http\Controllers\HistoriaUsuarioController;
 use App\Http\Controllers\ProyectosController;
 use App\Http\Controllers\SubtareaController;
 use App\Http\Controllers\SprintPlannerController;
-use App\Http\Controllers\SprintDetalleController;
+
+use App\Http\Controllers\RespuestaController;
 
 //-----------------------GENERAL---------------------------------------
 // Login y logout
@@ -150,6 +151,11 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/subtareas/{id}', [SubtareaController::class, 'update'])->name('subtareas.update');
     Route::delete('/subtareas/{id}', [SubtareaController::class, 'destroy'])->name('subtareas.destroy');
 
+
+
+    // Ruta para mostrar el formulario de autoevaluación
+    Route::get('/sprints/{sprint}/autoevaluacion', [RespuestaController::class, 'mostrarFormulario'])->name('autoevaluacion.formulario');
+    Route::post('/sprints/{sprint}/guardar-respuestas', [RespuestaController::class, 'guardarRespuestas'])->name('guardar_respuestas');
 
 
 
