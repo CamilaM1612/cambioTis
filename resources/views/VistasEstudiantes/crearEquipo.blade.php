@@ -5,7 +5,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/estudiante/dashboard">Página principal</a></li>
             <li class="breadcrumb-item">Mis materias</li>
-            <li class="breadcrumb-item"><a href="{{ route('grupo.mostrar', $grupo->id) }}">{{ $grupo->nombre }}</a></li>
+            {{-- <li class="breadcrumb-item"><a href="{{ route('grupo.mostrar', $grupo->id) }}">{{ $grupo->nombre }}</a></li> --}}
             <li class="breadcrumb-item">Crear empresa</li>
         </ol>
     </nav>

@@ -291,32 +291,7 @@
                     <h4>Inscripción</h4>
                 </div>
             </a>
-            <a href="#" class="selected" data-bs-toggle="collapse" data-bs-target="#collapseMaterias" aria-expanded="false" aria-controls="collapseMaterias">
-                <div class="option">
-                    <i class="bi bi-book-fill"></i> <!-- Icono de libro -->
-                    <h4>Mis Materias</h4>
-                </div>
-            </a>
-            
-            <div class="collapse" id="collapseMaterias">
-                <div class="card-body custom-card-body">
-                    @if ($gruposInscritos->isEmpty())
-                        <p class="empty-message">No estás inscrito en ningún grupo.</p>
-                    @else
-                        @foreach ($gruposInscritos as $grupo)
-                            <a href="{{ route('grupo.mostrar', $grupo->id) }}" class="group-link">
-                                <i class="bi bi-bookmark-fill"></i> {{ $grupo->nombre }}
-                            </a>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
-            <a href="" class="selected">
-                <div class="option">
-                    <i class="bi bi-folder-fill"></i> <!-- Icono de carpeta para Proyectos -->
-                    <h4>Proyectos</h4>
-                </div>
-            </a>
+           
             <a href="{{route('sprint-planner')}}" class="selected">
                 <div class="option">
                     <i class="bi bi-calendar-check-fill"></i> <!-- Icono de calendario para Sprint Planner -->

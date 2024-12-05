@@ -11,10 +11,23 @@ class InscripcionController extends Controller
 {
     public function inscripcion()
     {
-        $grupos = Grupo::all(); // Obtener todos los grupos
+        // Obtener todos los grupos
+        $grupos = Grupo::all();
+        
+        // Obtener todos los usuarios sin equipo
+        $usuariosSinEquipo = collect();
+        foreach ($grupos as $grupo) {
+            foreach ($grupo->usuarios as $usuario) {
+                if ($usuario->equipos->isEmpty()) {
+                    $usuariosSinEquipo->push($usuario); // Agregar solo los usuarios sin equipo
+                }
+            }
+        }
+    
         $usuario = Auth::user(); // Obtener el usuario autenticado
-        return view('VistasEstudiantes.inscripcion', compact('grupos', 'usuario')); // Pasar los datos a la vista
+        return view('VistasEstudiantes.inscripcion', compact('grupos', 'usuario', 'usuariosSinEquipo')); // Pasar los datos a la vista
     }
+    
 
     public function registrar(Request $request)
     {
