@@ -12,16 +12,6 @@ use Illuminate\Validation\Rule;
 class EquipoController extends Controller
 {
 
-    public function crear($grupoId)
-    {
-        $grupo = Grupo::find($grupoId);
-        $usuariosEstudiantes = $grupo->usuarios;
-        $usuariosSinEquipo = $usuariosEstudiantes->filter(function ($usuario) {
-            return !$usuario->equipos->count(); // Verifica que el usuario no tenga equipos
-        });
-
-        return view('VistasEstudiantes.crearEquipo', compact('grupo', 'usuariosSinEquipo'));
-    }
     public function store(Request $request, $grupoId)
     {
         $request->validate([
@@ -49,7 +39,7 @@ class EquipoController extends Controller
         ]);
         $equipo->miembros()->attach(Auth::id(), ['rol' => 'scrum_master']);
 
-        return redirect()->route('equipo.crear', $grupoId)->with('success', 'Equipo creado exitosamente.');
+        return redirect()->route('estudiante.inscripcion', $grupoId)->with('success', 'Equipo creado exitosamente.');
     }
 
     public function update(Request $request, $id)
@@ -75,7 +65,7 @@ class EquipoController extends Controller
         $equipo->link_drive = $request->link_drive;
         $equipo->save();
 
-        return redirect()->route('equipo.crear', $equipo->grupo_id)->with('success', 'Equipo actualizado exitosamente.');
+        return redirect()->route('estudiante.inscripcion', $equipo->grupo_id)->with('success', 'Equipo actualizado exitosamente.');
     }
 
 
@@ -84,7 +74,7 @@ class EquipoController extends Controller
         $equipo = Equipo::findOrFail($id);
         $equipo->delete();
 
-        return redirect()->route('equipo.crear', $equipo->grupo_id)->with('success', 'Equipo eliminado exitosamente.');
+        return redirect()->route('estudiante.inscripcion', $equipo->grupo_id)->with('success', 'Equipo eliminado exitosamente.');
     }
 
     public function agregarMiembro(Request $request, $equipoId)
